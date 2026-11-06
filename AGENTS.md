@@ -76,6 +76,11 @@ Question schema (must stay stable):
 - **Storage key `bbTPAT3_v1`** holds mute, focus mode, language, per-subject `{c,n,best}`,
   totals, best combo/score and day streak. Bump the key for breaking shape changes.
 - **3D is CSS transforms + a 2D canvas**, not Three.js. This keeps the file under 100 KB and offline.
+- **Audio is fully synthesised.** `SFX` handles one-shots; `MUS` is a 100 BPM synthwave loop scheduled
+  with a 25 ms lookahead (kick, snare, hat, bass, pad, arp). It starts only after a user gesture and
+  obeys the separate `store.music` toggle plus the global mute. Keep node counts per step low.
+- **Boss forms:** each `SUB` has `forms:{mix,core,hard,rage}`; `formFor()` picks by `TIER` and
+  `checkRage()` swaps to the rage form. Add forms when adding a subject.
 - **Navigation is tab-based**: bottom bar (Play / Stats / Settings), subject carousel on Play, boss dossier sheet with tier chips, and a one-tap 🏠 in battle. Do not reintroduce the old chip row or a separate back button on Stats — the tab bar is the home affordance.
 - **Content scale**: 500 questions inline (~140 KB). Up to ~800 is fine inline; beyond that, move `BANK` to a separate classic `<script src="bank.js">` (not `fetch`, so `file://` still works) and load it before the app script.
 - **Skill rules:** Shield 2 uses / 5 s CD, Freeze 2 / 6 s, 50/50 3 / 8 s. Weak-point rematches get
