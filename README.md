@@ -7,8 +7,9 @@ Answer correctly to damage the boss, chain combos, spend three tactical skills, 
 
 ## What is in it
 
-- **180 original practice questions** — physics 37, engineering 36, logic 36, math 35, English 36 — each with an explanation.
+- **500 original practice questions** — physics 101, engineering 100, logic 100, math 99, English 100 — each with an explanation.
 - **5 bosses + Boss Rush** (all subjects, 18 questions).
+- **Modern navigation**: a subject carousel on the home screen, a boss dossier with accuracy/best/bank size, three difficulty tiers (mixed · core · hard), and a persistent bottom tab bar (Play / Stats / Settings) plus a one-tap Home button in battle.
 - **3 skills**: Shield (blocks one hit), Time Freeze (+10 s), 50/50 (removes two wrong options) — limited uses plus cooldowns.
 - **Rage phase** below 50% boss HP: red aura, faster clock.
 - **Bilingual UI — Thai by default**, English toggle in the top-left. Question content stays in the language it is taught in (Thai for TPAT3 subjects, English for the English set) and is labelled `TH` / `EN` on the card.
@@ -21,7 +22,8 @@ Answer correctly to damage the boss, chain combos, spend three tactical skills, 
 | Answer | `1` `2` `3` `4` |
 | Shield / Freeze / 50-50 | `Q` `W` `E` |
 | Next question | `Enter` or `Space` |
-| Quit battle | `Esc` |
+| Quit battle | `Esc` or the 🏠 button |
+| Move between tabs | `Esc` closes sheets; tabs are tap/click |
 
 Everything also works by touch/mouse.
 

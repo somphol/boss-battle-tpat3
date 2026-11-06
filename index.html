@@ -416,6 +416,19 @@ body.inBattle .brand{display:none}
   .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .card:nth-child(5){grid-column:auto}
 }
+@media (max-height:720px){
+  .hero{padding:13px;gap:9px}
+  .hero p{display:none}
+  .hero h2{font-size:18px}
+  .heroTag{font-size:9.5px;padding:5px 8px}
+  .rushBtn{padding:10px 12px}
+  .rushBtn .ri{font-size:23px}
+  .brand h1{font-size:23px}
+  .brand .sub{font-size:9.5px;letter-spacing:.2em}
+  .scard{padding:11px}
+  .cRing{width:54px;height:54px}
+  .cRing .ci{font-size:22px}
+}
 @media (max-height:730px){
   body.inBattle{padding-top:6px;gap:7px}
   .arena{gap:8px}
@@ -434,6 +447,132 @@ body.inBattle .brand{display:none}
   .qTop{margin-bottom:9px}
   .hint{display:none}
 }
+main{width:100%;display:flex;flex-direction:column;align-items:center}
+
+/* ================= NAVIGATION v2 ================= */
+.secHead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:2px 2px 0}
+.secHead h2{font-size:17px;font-weight:800;letter-spacing:.01em}
+.secHead span{font:700 10.5px/1.2 ui-monospace,monospace;color:var(--dim);letter-spacing:.04em;text-align:right}
+
+.carousel{
+  display:flex;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;width:100%;min-width:0;
+  scroll-snap-type:x mandatory;padding:2px 2px 10px;margin:0;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.carousel::-webkit-scrollbar{display:none}
+.scard{
+  --c:var(--cya);position:relative;flex:0 0 45%;scroll-snap-align:start;cursor:pointer;text-align:left;
+  color:var(--text);padding:13px 12px 12px;border-radius:18px;
+  border:2px solid color-mix(in srgb,var(--c) 38%,transparent);
+  background:linear-gradient(165deg,color-mix(in srgb,var(--c) 13%,var(--panel)),var(--panel));
+  box-shadow:0 0 14px color-mix(in srgb,var(--c) 16%,transparent),inset 0 0 22px rgba(0,0,0,.38);
+  display:grid;gap:2px;transition:transform .18s,box-shadow .2s,border-color .2s;
+}
+.scard:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:0 8px 24px color-mix(in srgb,var(--c) 38%,transparent)}
+.scard:active{transform:scale(.98)}
+.cbest{position:absolute;top:10px;right:10px;font:800 9.5px/1 ui-monospace,monospace;color:var(--c);letter-spacing:.04em;opacity:.9}
+.cRing{position:relative;width:62px;height:62px;display:grid;place-items:center;margin-bottom:6px}
+.cRing svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.cRing .bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:7}
+.cRing .fg{fill:none;stroke:var(--c);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s}
+.cRing .ci{font-size:25px;line-height:1;filter:drop-shadow(0 0 9px var(--c))}
+.cth{font-weight:800;font-size:16px;line-height:1.25}
+.cboss{font:700 9px/1.2 ui-monospace,monospace;letter-spacing:.08em;color:color-mix(in srgb,var(--c) 85%,#fff);opacity:.85}
+.cmeta{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.35}
+.swipeHint{text-align:center;font:600 10px/1.3 ui-monospace,monospace;letter-spacing:.08em;color:#6e6494}
+
+@media (min-width:700px){
+  .carousel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;margin:0;padding:0;gap:11px}
+  .scard{flex:none}
+  .swipeHint{display:none}
+}
+
+/* home button in the top bar (battle only) */
+.homeBtn{
+  display:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--mag);
+  background:rgba(19,10,40,.9);color:#fff;font-size:18px;cursor:pointer;
+  box-shadow:0 0 14px rgba(255,43,214,.4);place-items:center;
+}
+body.inBattle .homeBtn{display:grid}
+body.inBattle .langSwitch{display:none}
+body.inBattle .homeBtn:active{transform:scale(.94)}
+
+/* bottom tabs */
+.tabbar{
+  position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:58;
+  display:none;width:100%;max-width:640px;gap:6px;
+  padding:7px 12px calc(7px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(180deg,rgba(7,4,15,.35),rgba(7,4,15,.97) 45%);
+  backdrop-filter:blur(14px);border-top:1px solid rgba(139,92,246,.25);
+}
+body.tabbarOn .tabbar{display:flex}
+body.tabbarOn{padding-bottom:100px}
+.tabbar button{
+  flex:1;cursor:pointer;background:transparent;border:0;color:#8c82b5;
+  display:grid;place-items:center;gap:2px;padding:7px 4px;border-radius:12px;transition:.16s;
+}
+.tabbar button span{font-size:18px;line-height:1}
+.tabbar button b{font:800 9.5px/1 ui-monospace,monospace;letter-spacing:.09em}
+.tabbar button.on{color:var(--text);background:rgba(25,246,255,.1);box-shadow:inset 0 0 0 1px rgba(25,246,255,.3)}
+.tabbar button.on b{color:var(--cya)}
+.tabbar button:hover{color:var(--text)}
+
+/* bottom sheet (settings) */
+.sheet{position:fixed;inset:0;z-index:66;display:none;align-items:flex-end;justify-content:center;background:rgba(7,4,15,.72);backdrop-filter:blur(7px)}
+.sheet.on{display:flex}
+.sheetCard{
+  width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(165deg,#1b0f38,#0d0620);border:1px solid rgba(139,92,246,.5);border-bottom:0;
+  display:grid;gap:8px;animation:sheetUp .26s ease-out;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+@keyframes sheetUp{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+.sheetHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.sheetHead h2{font-size:17px}
+.sheetHead button{background:transparent;border:0;color:var(--dim);font-size:19px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.sheetHead button:hover{color:#fff}
+.setRow{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;cursor:pointer;text-align:left;
+  background:rgba(255,255,255,.04);border:1px solid #34285f;border-radius:12px;padding:12px 14px;
+  color:var(--text);font:600 14px var(--body);
+}
+.setRow:hover{border-color:#5a4a9e}
+.setRow b{color:var(--cya);font-family:ui-monospace,monospace;font-size:11.5px;letter-spacing:.04em}
+.setRow.danger b{color:var(--red)}
+.ver{text-align:center;font:600 9.5px/1.5 ui-monospace,monospace;color:#5f5588;letter-spacing:.09em;margin-top:4px}
+@media (min-width:720px){
+  .sheet{align-items:center;padding:20px}
+  .sheetCard{border-radius:20px;border-bottom:1px solid rgba(139,92,246,.5)}
+}
+
+/* dossier overlay = bottom sheet */
+.ov{align-items:flex-end;padding:0}
+.ovBox{
+  width:100%;max-width:520px;text-align:center;justify-items:stretch;gap:10px;
+  padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px));
+  border-radius:22px 22px 0 0;border:1px solid rgba(139,92,246,.55);border-bottom:0;
+  background:linear-gradient(165deg,#1b0f38,#0d0620);box-shadow:0 -10px 40px rgba(0,0,0,.55);
+  animation:sheetUp .28s ease-out;
+  max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.ov .bigBtn{width:100%}
+.ovStats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:100%;margin:2px 0}
+.ovStat{background:rgba(255,255,255,.045);border:1px solid #34285f;border-radius:10px;padding:8px 3px}
+.ovStat small{display:block;font-size:9px;color:var(--dim);letter-spacing:.03em;margin-bottom:2px}
+.ovStat b{font-family:var(--disp);font-size:16px;color:var(--cya)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;margin:0 0 2px}
+.tiers button{
+  cursor:pointer;border-radius:9px;border:1px solid #4a3a85;background:rgba(255,255,255,.03);
+  color:var(--dim);font:700 11px/1 var(--body);padding:9px 4px;transition:.15s;
+}
+.tiers button.on{border-color:var(--cya);color:#07040f;background:var(--cya);box-shadow:0 0 12px rgba(25,246,255,.4)}
+.bossPick{justify-self:center}
+.ovTitle{justify-self:center}
+.ovKicker{justify-self:center}
+@media (min-width:720px){
+  .ov{align-items:center;padding:20px}
+  .ovBox{max-width:420px;border-radius:20px;border-bottom:1px solid rgba(139,92,246,.55)}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important}
   .face,.ring::before,.ring::after{animation:none!important}
@@ -443,6 +582,7 @@ body.inBattle .brand{display:none}
 <body>
 
 <div class="topBar">
+  <button class="homeBtn" id="homeBtn" type="button" data-i18n-aria="homeAria">🏠</button>
   <div class="langSwitch" id="langSwitch" role="group" aria-label="Language / ภาษา">
     <button type="button" data-lang="th" class="on" aria-pressed="true">TH</button>
     <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -476,13 +616,12 @@ body.inBattle .brand{display:none}
       </button>
     </div>
 
-    <div class="grid" id="grid"></div>
-
-    <div class="menuFoot">
-      <button class="chip" id="statsBtn" type="button" data-i18n="statsBtn">📊 สถิติ</button>
-      <button class="chip" id="timerBtn" type="button" aria-pressed="true"><span class="dot"></span><span data-i18n="timerOn">จับเวลา</span></button>
-      <button class="chip" id="resetBtn" type="button" data-i18n="resetBtn">🗑️ ล้างข้อมูล</button>
+    <div class="secHead">
+      <h2 data-i18n="chooseSubject">เลือกวิชา</h2>
+      <span id="bankMeta">500 ข้อ · 5 บอส</span>
     </div>
+    <div class="carousel" id="grid"></div>
+    <p class="swipeHint" data-i18n="swipe">ปัดเพื่อเลือกวิชา · แตะเพื่อดูบอส</p>
   </section>
 
   <!-- ===== BATTLE ===== -->
@@ -531,7 +670,6 @@ body.inBattle .brand{display:none}
       </div>
       <div class="footRow">
         <p class="hint" id="hint" data-i18n="hint">กด 1–4 เพื่อตอบ · Q / W / E ใช้สกิล</p>
-        <button class="quit" id="quitBtn" type="button" data-i18n="quit">ออก</button>
       </div>
     </div>
   </section>
@@ -557,10 +695,28 @@ body.inBattle .brand{display:none}
       <h2 class="endTitle" style="font-size:clamp(22px,6vw,30px);color:var(--cya);text-shadow:0 0 18px rgba(25,246,255,.6)">STATS</h2>
       <div class="stats" id="statsTop"></div>
       <div class="review" id="statsBody"></div>
-      <button class="bigBtn ghost" id="backBtn" type="button" data-i18n="back">← กลับเมนู</button>
     </div>
   </section>
 </main>
+
+<nav class="tabbar" id="tabbar" data-i18n-aria="navAria">
+  <button type="button" data-tab="home" class="on"><span>⚔️</span><b data-i18n="tabPlay">เล่น</b></button>
+  <button type="button" data-tab="stats"><span>📊</span><b data-i18n="tabStats">สถิติ</b></button>
+  <button type="button" data-tab="settings"><span>⚙️</span><b data-i18n="tabSettings">ตั้งค่า</b></button>
+</nav>
+
+<div class="sheet" id="setSheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+  <div class="sheetCard">
+    <div class="sheetHead">
+      <h2 id="setTitle" data-i18n="settingsTitle">ตั้งค่า</h2>
+      <button type="button" id="setClose" data-i18n-aria="closeAria">✕</button>
+    </div>
+    <button class="setRow" type="button" id="setSound"><span data-i18n="sound">เสียง</span><b id="setSoundVal">เปิด</b></button>
+    <button class="setRow" type="button" id="setTimer"><span data-i18n="timer">จับเวลา</span><b id="setTimerVal">เปิด</b></button>
+    <button class="setRow danger" type="button" id="setReset"><span data-i18n="resetData">ล้างข้อมูล</span><b>›</b></button>
+    <p class="ver" id="setVer">BOSS BATTLE · v2 · 500 ข้อ</p>
+  </div>
+</div>
 
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ovTitle">
   <div class="ovBox">
@@ -568,6 +724,12 @@ body.inBattle .brand{display:none}
     <div class="bossPick" id="ovPick">⚡</div>
     <h2 class="ovTitle" id="ovTitle">VOLT REAPER</h2>
     <p class="ovSub" id="ovSub"></p>
+    <div class="ovStats" id="ovStats"></div>
+    <div class="tiers" id="tiers">
+      <button type="button" data-tier="mix" class="on" data-i18n="tierMix">ผสม</button>
+      <button type="button" data-tier="core" data-i18n="tierCore">พื้นฐาน</button>
+      <button type="button" data-tier="hard" data-i18n="tierHard">เข้มข้น</button>
+    </div>
     <button class="bigBtn" id="ovBtn" type="button" data-i18n="startBattle">เริ่มการต่อสู้</button>
     <button class="bigBtn ghost" id="ovCancel" type="button" data-i18n="cancel">ยกเลิก</button>
   </div>
@@ -700,6 +862,29 @@ const M = {
     heroTag:'◈ ARCADE STUDY MODE',
     heroTitle:'เลือกบอสที่อยากล้ม',
     heroP:'ตอบถูก = ดาเมจ · ตอบผิด = บอสฟื้น\nคอมโบสูง = ดาเมจหนัก · ใช้สกิลให้คุ้ม\nปิดเกมก่อนบอสคลั่ง',
+    chooseSubject:'เลือกวิชา',
+    bankMeta:(n,b)=>n + ' ข้อ · ' + b + ' บอส',
+    cardMeta:(n,p)=>p < 0 ? (n + ' ข้อ · ยังไม่เคยสู้') : (n + ' ข้อ · แม่น ' + p + '%'),
+    swipe:'ปัดเพื่อเลือกวิชา · แตะเพื่อดูบอส',
+    tabPlay:'เล่น',
+    tabStats:'สถิติ',
+    tabSettings:'ตั้งค่า',
+    settingsTitle:'ตั้งค่า',
+    sound:'เสียง',
+    timer:'จับเวลา',
+    on:'เปิด',
+    off:'ปิด',
+    resetData:'ล้างข้อมูล',
+    closeAria:'ปิด',
+    navAria:'นำทางหลัก',
+    homeAria:'กลับหน้าแรก',
+    version:(n)=>'BOSS BATTLE · v2 · ' + n + ' ข้อ',
+    ovMastery:'ความแม่น',
+    ovBest:'สถิติสูงสุด',
+    ovBank:'ข้อในคลัง',
+    tierMix:'ผสม',
+    tierCore:'พื้นฐาน',
+    tierHard:'เข้มข้น',
     rushSub:'รวมทุกวิชา · 18 ข้อ · ดาเมจคูณพิเศษ',
     rushAria:'โหมดบอสรวมทุกวิชา',
     statsBtn:'📊 สถิติ',
@@ -774,6 +959,29 @@ const M = {
     heroTag:'◈ ARCADE STUDY MODE',
     heroTitle:'Choose your boss',
     heroP:'Right answer = damage · Wrong = boss heals\nHigher combo = heavier hits\nFinish the boss before it enrages',
+    chooseSubject:'Choose a subject',
+    bankMeta:(n,b)=>n + ' questions · ' + b + ' bosses',
+    cardMeta:(n,p)=>p < 0 ? (n + ' questions · not played yet') : (n + ' questions · ' + p + '% accuracy'),
+    swipe:'Swipe to browse · tap for the boss',
+    tabPlay:'Play',
+    tabStats:'Stats',
+    tabSettings:'Settings',
+    settingsTitle:'Settings',
+    sound:'Sound',
+    timer:'Timer',
+    on:'On',
+    off:'Off',
+    resetData:'Reset data',
+    closeAria:'Close',
+    navAria:'Main navigation',
+    homeAria:'Back to home',
+    version:(n)=>'BOSS BATTLE · v2 · ' + n + ' questions',
+    ovMastery:'Accuracy',
+    ovBest:'Best score',
+    ovBank:'In bank',
+    tierMix:'Mixed',
+    tierCore:'Core',
+    tierHard:'Hard',
     rushSub:'All subjects · 18 questions',
     rushAria:'Boss rush mode across every subject',
     statsBtn:'📊 Stats',
@@ -1067,7 +1275,368 @@ const BANK = [
 {id:"eng33",s:"english",d:2,q:"She is used to ___ up early for the morning shift.",o:["wake","woke","waking","be woken"],a:2,w:"be used to + V-ing = เคยชินกับ"},
 {id:"eng34",s:"english",d:1,q:"Choose the antonym of “scarce”.",o:["rare","abundant","limited","expensive"],a:1,w:"scarce = ขาดแคลน; ตรงข้ามคือ abundant = มีมาก"},
 {id:"eng35",s:"english",d:2,q:"Unless you study, you ___ fail the exam.",o:["won't","will","would","did"],a:1,w:"unless = if not → เหตุการณ์ที่จะเกิดตามมาจึงใช้ will"},
-{id:"eng36",s:"english",d:2,q:"Choose the correct collocation: ___ a conclusion.",o:["do","draw","build","take"],a:1,w:"draw a conclusion = สรุปข้อสรุป"}
+{id:"eng36",s:"english",d:2,q:"Choose the correct collocation: ___ a conclusion.",o:["do","draw","build","take"],a:1,w:"draw a conclusion = สรุปข้อสรุป"},
+
+/* ---------- BATCH A · physics ---------- */
+{id:"ph38",s:"physics",d:1,q:"รถวิ่งได้ระยะทาง 120 m ในเวลา 20 s ความเร็วเฉลี่ยเป็นเท่าใด",o:["4 m/s","6 m/s","12 m/s","2,400 m/s"],a:1,w:"v = s/t = 120/20 = 6 m/s"},
+{id:"ph39",s:"physics",d:1,q:"รถกำลังเคลื่อนที่ 20 m/s แล้วเบรกจนหยุดใน 4 วินาที ความหน่วงเฉลี่ยเป็นเท่าใด",o:["0.2 m/s²","4 m/s²","5 m/s²","80 m/s²"],a:2,w:"a = Δv/t = (0−20)/4 = −5 m/s² ขนาด 5 m/s²"},
+{id:"ph40",s:"physics",d:1,q:"กฎข้อที่ 3 ของนิวตันกล่าวถึงสิ่งใด",o:["วัตถุหยุดนิ่งจะคงหยุดนิ่ง","แรงกริยาและแรงปฏิกิริยามีขนาดเท่ากันแต่ทิศตรงข้าม","F = ma","แรงเสียดทานขึ้นกับพื้นที่สัมผัส"],a:1,w:"ทุกแรงกริยามีแรงปฏิกิริยาขนาดเท่ากัน ทิศตรงข้าม กระทำต่อวัตถุคนละก้อน"},
+{id:"ph41",s:"physics",d:2,q:"วัตถุหนัก 100 N วางบนพื้น สัมประสิทธิ์ความเสียดทานสถิต 0.2 แรงเสียดทานสูงสุดเป็นเท่าใด",o:["5 N","20 N","50 N","200 N"],a:1,w:"f = μN = (0.2)(100) = 20 N"},
+{id:"ph42",s:"physics",d:2,q:"ปล่อยวัตถุมวล 2 kg ตกลงมา 5 m (g = 10 m/s²) แรงโน้มถ่วงทำงานเท่าใด",o:["10 J","50 J","100 J","200 J"],a:2,w:"W = mgh = (2)(10)(5) = 100 J"},
+{id:"ph43",s:"physics",d:2,q:"มอเตอร์ยกของมวล 20 kg ขึ้นด้วยความเร็วคงที่ 2 m/s (g = 10 m/s²) กำลังที่ใช้เป็นเท่าใด",o:["40 W","200 W","400 W","4,000 W"],a:2,w:"P = Fv = mgv = (20)(10)(2) = 400 W"},
+{id:"ph44",s:"physics",d:2,q:"ออกแรง 10 N กระทำต่อวัตถุนาน 2 วินาที การดล (impulse) ที่ได้รับเป็นเท่าใด",o:["5 N·s","10 N·s","20 N·s","40 N·s"],a:2,w:"I = FΔt = (10)(2) = 20 N·s"},
+{id:"ph45",s:"physics",d:1,q:"แรงสู่ศูนย์กลาง (centripetal force) มีทิศทางอย่างไร",o:["ชี้ออกจากศูนย์กลาง","ชี้เข้าหาศูนย์กลางวงกลม","ตั้งฉากกับระนาบวงกลม","ตามแนวสัมผัสวงกลม"],a:1,w:"แรงสู่ศูนย์กลางต้องชี้เข้าหาศูนย์กลางเพื่อเปลี่ยนทิศความเร็ว"},
+{id:"ph46",s:"physics",d:2,q:"สปริงค่าคงที่ 200 N/m ถูกยืดออก 0.1 m แรงดึงในสปริงเป็นเท่าใด",o:["2 N","20 N","200 N","2,000 N"],a:1,w:"F = kx = (200)(0.1) = 20 N"},
+{id:"ph47",s:"physics",d:2,q:"ตามหลักของแบร์นูลี เมื่อของไหลเคลื่อนที่เร็วขึ้นในท่อ ความดันจะเป็นอย่างไร",o:["เพิ่มขึ้น","ลดลง","เท่าเดิม","เป็นศูนย์"],a:1,w:"ของไหลเร็วขึ้น ความดันลดลง (หลักการแบร์นูลี)"},
+{id:"ph48",s:"physics",d:2,q:"วัตถุลอยน้ำได้เพราะข้อใดเป็นจริง",o:["น้ำหนักวัตถุมากกว่าน้ำหนักน้ำที่ถูกแทนที่","น้ำหนักวัตถุเท่ากับน้ำหนักน้ำที่ถูกแทนที่","น้ำหนักวัตถุเป็นศูนย์","ไม่เกี่ยวข้องกับน้ำหนัก"],a:1,w:"แรงลอยตัวเท่ากับน้ำหนักของของเหลวที่ถูกแทนที่ (หลักของอาร์คีมีดีส)"},
+{id:"ph49",s:"physics",d:2,q:"ขณะน้ำแข็งที่ 0 °C กำลังหลอมเหลว อุณหภูมิของน้ำแข็งและน้ำเป็นอย่างไร",o:["เพิ่มขึ้นเรื่อย ๆ","คงที่ที่ 0 °C","ลดลงต่ำกว่า 0 °C","สลับขึ้นลงตลอด"],a:1,w:"ความร้อนแฝงใช้เปลี่ยนสถานะ โดยอุณหภูมิคงที่จนกว่าจะหลอมหมด"},
+{id:"ph50",s:"physics",d:3,q:"แก๊สในภาชนะปิดปริมาตรคงที่ ถ้าเพิ่มอุณหภูมิสัมบูรณ์เป็น 2 เท่า ความดันจะเป็นอย่างไร",o:["ลดลงครึ่งหนึ่ง","เท่าเดิม","เพิ่มเป็น 2 เท่า","เพิ่มเป็น 4 เท่า"],a:2,w:"P ∝ T เมื่อ V คงที่ (กฎของเกย์-ลูสแซก)"},
+{id:"ph51",s:"physics",d:1,q:"เสียงเดินทางผ่านตัวกลางใดไม่ได้",o:["อากาศ","น้ำ","เหล็ก","สุญญากาศ"],a:3,w:"เสียงเป็นคลื่นกล ต้องอาศัยตัวกลาง จึงเดินทางในสุญญากาศไม่ได้"},
+{id:"ph52",s:"physics",d:2,q:"วัตถุอยู่หน้ากระจกเรียบ 2 m ภาพที่เห็นอยู่ห่างจากวัตถุเท่าใด",o:["1 m","2 m","4 m","ไม่เกิดภาพ"],a:2,w:"ภาพเสมือนอยู่หลังกระจกเป็นระยะเท่าวัตถุ → ห่างกัน 2 + 2 = 4 m"},
+{id:"ph53",s:"physics",d:2,q:"หลอดไฟสองหลอดต่ออนุกรมกัน กระแสที่ไหลผ่านแต่ละหลอดเป็นอย่างไร",o:["เท่ากัน","หลอดแรกมากกว่า","ลดหลั่นตามลำดับ","เป็นศูนย์"],a:0,w:"วงจรอนุกรมมีเส้นทางเดียว กระแสจึงเท่ากันทุกจุด"},
+
+/* ---------- BATCH A · engineering ---------- */
+{id:"en37",s:"engineering",d:2,q:"ความชันของกราฟความเค้น–ความเครียดในช่วงยืดหยุ่นเรียกว่าอะไร",o:["ความเหนียว","มอดุลัสของยัง","ความแข็งผิว","ความหนาแน่น"],a:1,w:"E = σ/ε คือมอดุลัสของยัง บอกความแข็งเกร็งของวัสดุ"},
+{id:"en38",s:"engineering",d:3,q:"ค่าความปลอดภัย (factor of safety) คำนวณจากข้อใด",o:["ความเค้นใช้งาน ÷ ความเค้นวิบัติ","ความเค้นวิบัติ ÷ ความเค้นใช้งาน","แรง ÷ พื้นที่","โมเมนต์ ÷ ระยะ"],a:1,w:"FoS = ความเค้นที่วัสดุรับได้ ÷ ความเค้นที่เกิดขึ้นจริง"},
+{id:"en39",s:"engineering",d:1,q:"แรง 50 N กระทำที่ระยะตั้งฉาก 0.4 m จากจุดหมุน เกิดโมเมนต์เท่าใด",o:["12.5 N·m","20 N·m","54 N·m","200 N·m"],a:1,w:"M = Fd = (50)(0.4) = 20 N·m"},
+{id:"en40",s:"engineering",d:3,q:"คานรับน้ำหนักวางของไว้ใกล้จุดรองรับ A มากกว่า B แรงปฏิกิริยาที่ A เป็นอย่างไรเมื่อเทียบกับ B",o:["น้อยกว่า","เท่ากัน","มากกว่า","เป็นศูนย์"],a:2,w:"จุดรองรับที่อยู่ใกล้โหลดมากกว่าจะรับแรงปฏิกิริยามากกว่า"},
+{id:"en41",s:"engineering",d:2,q:"โครงถักรูปสามเหลี่ยมให้ข้อดีอะไร",o:["ยืดหยุ่นมากขึ้น","แข็งแรงขึ้นโดยใช้วัสดุน้อย","สวยงามกว่า","ลดแรงลม"],a:1,w:"รูปสามเหลี่ยมเป็นรูปที่เสียรูปได้ยาก จึงรับแรงได้ดีด้วยวัสดุน้อย"},
+{id:"en42",s:"engineering",d:2,q:"อัตราทดรวมของชุดเฟืองหลายชั้นหาได้อย่างไร",o:["นำอัตราทดแต่ละชั้นมาบวกกัน","นำอัตราทดแต่ละชั้นมาคูณกัน","หาค่าเฉลี่ย","นำมาลบกัน"],a:1,w:"อัตราทดรวม = ผลคูณของอัตราทดทุกชั้น"},
+{id:"en43",s:"engineering",d:2,q:"ข้อเสียหลักของระบบส่งกำลังด้วยสายพานคืออะไร",o:["ส่งกำลังได้มากกว่าเฟือง","อาจลื่นและสูญเสียกำลัง","ไม่ต้องบำรุงรักษา","ทนความร้อนได้สูงกว่า"],a:1,w:"สายพานอาจลื่นเมื่อโหลดมาก ทำให้สูญเสียกำลังและตำแหน่งไม่แม่นยำ"},
+{id:"en44",s:"engineering",d:2,q:"คลัตช์ (clutch) ในรถยนต์มีหน้าที่ใด",o:["เพิ่มแรงดันน้ำมัน","ตัดและต่อกำลังระหว่างเครื่องยนต์กับชุดเกียร์","ลดอุณหภูมิเครื่องยนต์","กรองอากาศ"],a:1,w:"คลัตช์ใช้ตัด/ต่อกำลังเพื่อเปลี่ยนเกียร์ได้โดยไม่ต้องดับเครื่อง"},
+{id:"en45",s:"engineering",d:2,q:"แม่แรงสกรู (screw jack) ให้ผลอย่างไร",o:["เพิ่มแรงได้มากแต่เคลื่อนที่ช้า","เพิ่มความเร็วและลดแรง","ไม่เปลี่ยนแรง","ใช้ได้กับงานไฟฟ้าเท่านั้น"],a:0,w:"สกรูให้ได้เปรียบเชิงกลสูง แลกกับระยะเคลื่อนที่ที่ช้ามาก"},
+{id:"en46",s:"engineering",d:2,q:"รถเข็นล้อเดียวจัดเป็นคานอันดับใด",o:["อันดับ 1","อันดับ 2","อันดับ 3","ไม่ใช่คาน"],a:1,w:"คานอันดับ 2 มีจุดหมุนที่ปลายข้างหนึ่ง โหลดอยู่ตรงกลาง และแรงอยู่ปลายอีกข้าง"},
+{id:"en47",s:"engineering",d:2,q:"ระบบรอกที่มีเชือกพยุงน้ำหนัก 4 เส้น มีความได้เปรียบเชิงกลเท่าใด (ไม่คิดแรงเสียดทาน)",o:["2","3","4","8"],a:2,w:"MA เท่ากับจำนวนเส้นเชือกที่พยุงโหลด = 4"},
+{id:"en48",s:"engineering",d:2,q:"เครื่องอัดไฮดรอลิกได้เปรียบเชิงกลเพราะเหตุใด",o:["แรงดันสองฝั่งต่างกัน","พื้นที่ลูกสูบสองฝั่งต่างกัน","ปริมาตรสองฝั่งเท่ากัน","อุณหภูมิสองฝั่งต่างกัน"],a:1,w:"กฎพาสคาลส่งความดันเท่ากัน แรงจึงเพิ่มตามอัตราส่วนพื้นที่"},
+{id:"en49",s:"engineering",d:2,q:"เหตุใดโลหะจึงนำความร้อนได้ดี",o:["โมเลกุลอยู่กับที่","มีอิเล็กตรอนอิสระถ่ายเทพลังงานได้ดี","มีความหนาแน่นต่ำ","มีผิวมันวาว"],a:1,w:"อิเล็กตรอนอิสระในโลหะพาพลังงานความร้อนได้รวดเร็ว"},
+{id:"en50",s:"engineering",d:2,q:"วัสดุฉนวนกันความร้อนที่ดีมักมีลักษณะใด",o:["มีโพรงอากาศเล็ก ๆ กักไว้","อัดแน่นด้วยน้ำ","ทำจากโลหะ","มีสีดำด้าน"],a:0,w:"อากาศที่ถูกกักไว้เป็นตัวนำความร้อนต่ำ จึงใช้ในฉนวนและโฟม"},
+{id:"en51",s:"engineering",d:2,q:"กราฟความสัมพันธ์ระหว่างกระแสกับแรงดันของตัวต้านทานคงที่มีลักษณะอย่างไร",o:["เส้นโค้ง","เส้นตรงผ่านจุดกำเนิด","เส้นนอน","เส้นตั้ง"],a:1,w:"กฎของโอห์ม V = IR ให้ความสัมพันธ์เชิงเส้นผ่านจุดกำเนิด"},
+{id:"en52",s:"engineering",d:1,q:"ไดโอดมีสมบัติเด่นอย่างไร",o:["ยอมให้กระแสไหลได้สองทาง","ยอมให้กระแสไหลทางเดียว","ไม่นำไฟฟ้าเลย","นำไฟฟ้าเมื่อร้อนเท่านั้น"],a:1,w:"ไดโอดเป็นอุปกรณ์สารกึ่งตัวนำที่ยอมให้กระแสไหลทางเดียว"},
+
+/* ---------- BATCH A · logic ---------- */
+{id:"lo37",s:"logic",d:3,q:"“วิศวกรทุกคนเป็นคนมีเหตุผล” และ “คนมีเหตุผลบางคนเป็นศิลปิน” ข้อใดสรุปได้แน่นอน",o:["วิศวกรทุกคนเป็นศิลปิน","วิศวกรบางคนเป็นศิลปิน","ไม่มีวิศวกรคนใดเป็นศิลปิน","สรุปเกี่ยวกับวิศวกรกับศิลปินไม่ได้"],a:3,w:"“บางคน” ของกลุ่มคนมีเหตุผลไม่ได้ครอบคลุมวิศวกร จึงสรุปไม่ได้"},
+{id:"lo38",s:"logic",d:3,q:"ข้อความ “เฉพาะ A เท่านั้นที่เป็น B” ตรงกับรูปสัญลักษณ์ใด",o:["A → B","B → A","A ↔ B","¬A → B"],a:1,w:"“เฉพาะ A เท่านั้นที่เป็น B” หมายความว่าถ้าเป็น B ต้องเป็น A (B→A)"},
+{id:"lo39",s:"logic",d:3,q:"นิเสธของ p → q คือข้อใด",o:["¬p ∨ q","p ∧ ¬q","¬p ∧ q","q → p"],a:1,w:"¬(p→q) ≡ p∧¬q (กรณีเดียวที่ implication เป็นเท็จ)"},
+{id:"lo40",s:"logic",d:2,q:"ประพจน์ p ∨ ¬p มีค่าความจริงอย่างไร",o:["จริงเสมอ (สัจนิรันดร์)","เท็จเสมอ","ขึ้นกับค่าของ p","ไม่ใช่ประพจน์"],a:0,w:"ไม่ว่า p จะจริงหรือเท็จ p∨¬p เป็นจริงเสมอ (law of excluded middle)"},
+{id:"lo41",s:"logic",d:2,q:"ประพจน์ p ∧ ¬p มีค่าความจริงอย่างไร",o:["จริงเสมอ","เท็จเสมอ","ขึ้นกับค่าของ p","ไม่ใช่ประพจน์"],a:1,w:"เป็นข้อขัดแย้ง (contradiction) จึงเป็นเท็จเสมอ"},
+{id:"lo42",s:"logic",d:2,q:"ข้อความตรงข้าม (contrapositive) ของ “ถ้าเรียนเก่งแล้วสอบผ่าน” คือข้อใด",o:["ถ้าสอบผ่านแล้วเรียนเก่ง","ถ้าสอบไม่ผ่านแล้วเรียนไม่เก่ง","ถ้าเรียนไม่เก่งแล้วสอบไม่ผ่าน","เรียนเก่งหรือสอบผ่าน"],a:1,w:"p→q สมมูลกับ ¬q→¬p"},
+{id:"lo43",s:"logic",d:2,q:"บทกลับ (converse) ของ p → q คือข้อใด",o:["¬q → ¬p","q → p","¬p → ¬q","p → ¬q"],a:1,w:"converse คือการสลับที่เหตุและผล โดยไม่คงความสมมูล"},
+{id:"lo44",s:"logic",d:1,q:"อนุกรม 1, 3, 6, 10, 15, ? ควรเป็นจำนวนใด",o:["18","20","21","25"],a:2,w:"ผลต่าง +2, +3, +4, +5, +6 → 15+6 = 21 (จำนวนสามเหลี่ยม)"},
+{id:"lo45",s:"logic",d:1,q:"อนุกรม 2, 3, 5, 8, 12, ? ควรเป็นจำนวนใด",o:["15","16","17","20"],a:2,w:"ผลต่าง +1, +2, +3, +4, +5 → 12+5 = 17"},
+{id:"lo46",s:"logic",d:1,q:"อนุกรม 81, 27, 9, 3, ? ควรเป็นจำนวนใด",o:["0","1","1.5","2"],a:1,w:"แต่ละพจน์หารด้วย 3 → 3/3 = 1"},
+{id:"lo47",s:"logic",d:2,q:"อนุกรม 1, 2, 6, 24, 120, ? ควรเป็นจำนวนใด",o:["240","360","600","720"],a:3,w:"คูณด้วย 2, 3, 4, 5, 6 → 120×6 = 720 (แฟกทอเรียล)"},
+{id:"lo48",s:"logic",d:1,q:"อนุกรมตัวอักษร A, C, E, G, ? ควรเป็นตัวใด",o:["H","I","J","K"],a:1,w:"เพิ่มทีละ 2 ตัวอักษร → G(7)+2 = 9 = I"},
+{id:"lo49",s:"logic",d:2,q:"อนุกรมตัวอักษร Z, X, V, T, ? ควรเป็นตัวใด",o:["S","R","Q","P"],a:1,w:"ลดลงทีละ 2 ตัวอักษร → T(20)−2 = 18 = R"},
+{id:"lo50",s:"logic",d:2,q:"จำนวนใดไม่เข้าพวก: 8, 27, 64, 100",o:["8","27","64","100"],a:3,w:"8=2³, 27=3³, 64=4³ แต่ 100 ไม่ใช่กำลังสาม"},
+{id:"lo51",s:"logic",d:1,q:"A สูงกว่า B และ C เตี้ยกว่า B ใครสูงที่สุด",o:["A","B","C","สรุปไม่ได้"],a:0,w:"เรียงส่วนสูงได้ A > B > C"},
+{id:"lo52",s:"logic",d:2,q:"“นักเรียนทุกคนต้องสอบ” และ “สมชายไม่ต้องสอบ” สรุปได้ว่าอะไร",o:["สมชายเป็นนักเรียน","สมชายไม่ใช่นักเรียน","สมชายสอบไม่ผ่าน","สรุปไม่ได้"],a:1,w:"ใช้ contrapositive: ไม่ต้องสอบ → ไม่ใช่นักเรียน"},
+
+/* ---------- BATCH A · math ---------- */
+{id:"ma36",s:"math",d:1,q:"30% ของ 250 เท่ากับเท่าใด",o:["25","50","75","100"],a:2,w:"0.30 × 250 = 75"},
+{id:"ma37",s:"math",d:1,q:"แก้สมการ 3x + 7 = 22 แล้ว x มีค่าเท่าใด",o:["3","5","7","15"],a:1,w:"3x = 15 → x = 5"},
+{id:"ma38",s:"math",d:1,q:"ถ้า x/4 = 12 แล้ว x มีค่าเท่าใด",o:["3","8","16","48"],a:3,w:"x = 12 × 4 = 48"},
+{id:"ma39",s:"math",d:2,q:"สี่เหลี่ยมคางหมูมีด้านคู่ขนาน 6 cm และ 10 cm สูง 4 cm มีพื้นที่เท่าใด",o:["24 cm²","32 cm²","40 cm²","64 cm²"],a:1,w:"A = ½(a+b)h = ½(16)(4) = 32 cm²"},
+{id:"ma40",s:"math",d:1,q:"สี่เหลี่ยมผืนผ้ากว้าง 8 cm ยาว 5 cm มีเส้นรอบรูปเท่าใด",o:["13 cm","26 cm","40 cm","80 cm"],a:1,w:"P = 2(8+5) = 26 cm"},
+{id:"ma41",s:"math",d:2,q:"ทรงกระบอกรัศมี 2 cm สูง 5 cm มีปริมาตรเท่าใด (ในรูป π)",o:["10π cm³","20π cm³","40π cm³","50π cm³"],a:1,w:"V = πr²h = π(4)(5) = 20π cm³"},
+{id:"ma42",s:"math",d:1,q:"เลข 0.75 เขียนเป็นเศษส่วนอย่างต่ำได้เท่าใด",o:["1/4","2/3","3/4","7/5"],a:2,w:"0.75 = 75/100 = 3/4"},
+{id:"ma43",s:"math",d:2,q:"ระหว่าง 2/3 กับ 3/5 ค่าใดมากกว่า",o:["2/3","3/5","เท่ากัน","เปรียบเทียบไม่ได้"],a:0,w:"2/3 = 10/15, 3/5 = 9/15 → 2/3 มากกว่า"},
+{id:"ma44",s:"math",d:2,q:"ฝากเงิน 2,000 บาท ดอกเบี้ยง่าย 4% ต่อปี นาน 3 ปี ได้ดอกเบี้ยเท่าใด",o:["80 บาท","160 บาท","240 บาท","260 บาท"],a:2,w:"I = Prt = 2000 × 0.04 × 3 = 240 บาท"},
+{id:"ma45",s:"math",d:2,q:"ข้อมูล 6 จำนวนมีค่าเฉลี่ย 15 ผลรวมของข้อมูลทั้งหมดเป็นเท่าใด",o:["75","80","90","96"],a:2,w:"ผลรวม = ค่าเฉลี่ย × จำนวน = 15 × 6 = 90"},
+{id:"ma46",s:"math",d:1,q:"พิสัยของข้อมูล 3, 9, 4, 7 เท่ากับเท่าใด",o:["4","6","7","9"],a:1,w:"พิสัย = ค่าสูงสุด − ค่าต่ำสุด = 9 − 3 = 6"},
+{id:"ma47",s:"math",d:1,q:"ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะได้เลขคู่เป็นเท่าใด",o:["1/6","1/3","1/2","2/3"],a:2,w:"เลขคู่ 2, 4, 6 มี 3 จาก 6 หน้า → 3/6 = 1/2"},
+{id:"ma48",s:"math",d:2,q:"โยนเหรียญ 2 เหรียญ ความน่าจะเป็นที่จะออกหัวอย่างน้อย 1 เหรียญเป็นเท่าใด",o:["1/4","1/2","2/3","3/4"],a:3,w:"มี 4 ผลลัพธ์ เหลือเพียง TT ที่ไม่มีหัว → 3/4"},
+{id:"ma49",s:"math",d:2,q:"แบ่งเงิน 55 บาท ในอัตราส่วน 4 : 7 ส่วนที่น้อยกว่าคือเท่าใด",o:["15 บาท","20 บาท","28 บาท","35 บาท"],a:1,w:"รวม 11 ส่วน → 55/11 = 5 → 4×5 = 20 บาท"},
+{id:"ma50",s:"math",d:2,q:"ราคาสินค้าลดจาก 80 บาท เหลือ 60 บาท ลดลงกี่เปอร์เซ็นต์",o:["15%","20%","25%","33.3%"],a:2,w:"ลด 20 จาก 80 = 20/80 = 25%"},
+{id:"ma51",s:"math",d:2,q:"(x + 3)(x − 3) เท่ากับข้อใด",o:["x² + 9","x² − 9","x² − 6x + 9","x² + 6x + 9"],a:1,w:"ผลต่างกำลังสอง: (a+b)(a−b) = a² − b²"},
+
+/* ---------- BATCH A · english ---------- */
+{id:"eng37",s:"english",d:2,q:"He ___ in Bangkok since 2015.",o:["live","lived","has lived","is living"],a:2,w:"since + จุดเวลา ใช้ present perfect"},
+{id:"eng38",s:"english",d:1,q:"If it rains tomorrow, we ___ at home.",o:["stay","stayed","will stay","would stay"],a:2,w:"first conditional: if + present simple, will + V1"},
+{id:"eng39",s:"english",d:2,q:"She is the woman ___ helped me with the report.",o:["which","whose","who","whom"],a:2,w:"who ใช้แทนบุคคลในฐานะประธานของอนุประโยค"},
+{id:"eng40",s:"english",d:2,q:"The bridge ___ in 1990.",o:["built","was built","is built","has built"],a:1,w:"passive voice อดีต: was/were + V3"},
+{id:"eng41",s:"english",d:2,q:"There ___ a lot of traffic on the road today.",o:["are","were","is","have"],a:2,w:"traffic เป็นคำนามนับไม่ได้ ใช้กริยาเอกพจน์"},
+{id:"eng42",s:"english",d:2,q:"Each of the students ___ a textbook.",o:["have","has","are","having"],a:1,w:"each of + พหูพจน์ ใช้กริยาเอกพจน์"},
+{id:"eng43",s:"english",d:2,q:"I look forward to ___ you at the conference.",o:["see","saw","seeing","seen"],a:2,w:"look forward to + V-ing"},
+{id:"eng44",s:"english",d:3,q:"The manager suggested that she ___ early.",o:["leaves","left","leave","leaving"],a:2,w:"suggest that + subjunctive (V1 ไม่เติม s)"},
+{id:"eng45",s:"english",d:1,q:"The word “sufficient” is closest in meaning to…",o:["too much","enough","too little","unnecessary"],a:1,w:"sufficient = เพียงพอ"},
+{id:"eng46",s:"english",d:2,q:"The word “reluctant” is closest in meaning to…",o:["eager","unwilling","ready","certain"],a:1,w:"reluctant = ไม่เต็มใจ"},
+{id:"eng47",s:"english",d:1,q:"The word “transparent” means…",o:["opaque","see-through","fragile","heavy"],a:1,w:"transparent = โปร่งใส มองทะลุได้"},
+{id:"eng48",s:"english",d:1,q:"Choose the antonym of “expand”.",o:["extend","contract","enlarge","spread"],a:1,w:"expand = ขยาย; ตรงข้ามคือ contract = หดตัว"},
+{id:"eng49",s:"english",d:2,q:"Despite ___ tired, she finished the report.",o:["be","been","being","was"],a:2,w:"despite + noun/V-ing"},
+{id:"eng50",s:"english",d:1,q:"The exam was ___ than we expected.",o:["difficult","more difficult","most difficult","the most difficult"],a:1,w:"ขั้นกว่าของคำคุณศัพท์หลายพยางค์ใช้ more + adj"},
+{id:"eng51",s:"english",d:3,q:"Not until midnight ___ the results.",o:["we got","did we get","we did get","got we"],a:1,w:"Not until ขึ้นต้นประโยคต้องสลับกริยาช่วย: did we get"},
+{id:"eng52",s:"english",d:2,q:"The phrasal verb “rule out” means…",o:["include","exclude","repeat","approve"],a:1,w:"rule out = ตัดความเป็นไปได้ออกไป"},
+
+/* ---------- BATCH B · physics ---------- */
+{id:"ph54",s:"physics",d:2,q:"การเคลื่อนที่แบบโพรเจกไทล์ องค์ประกอบความเร็วแนวราบและแนวดิ่งมีผลต่อกันอย่างไร",o:["ขึ้นต่อกันตลอดเวลา","เป็นอิสระต่อกัน","แนวดิ่งขึ้นกับแนวราบ","แนวราบขึ้นกับแนวดิ่ง"],a:1,w:"แนวราบเคลื่อนที่สม่ำเสมอ แนวดิ่งมีความเร่ง g จึงวิเคราะห์แยกกันได้"},
+{id:"ph55",s:"physics",d:2,q:"รถสองคันวิ่งสวนทางกันด้วยความเร็ว 60 km/h และ 40 km/h ความเร็วสัมพัทธ์ระหว่างกันเป็นเท่าใด",o:["20 km/h","50 km/h","100 km/h","240 km/h"],a:2,w:"วิ่งสวนทางกันจึงนำความเร็วมาบวก: 60 + 40 = 100 km/h"},
+{id:"ph56",s:"physics",d:1,q:"วัตถุอยู่ในสมดุลหมายความว่าอย่างไร",o:["แรงลัพธ์เป็นศูนย์","ความเร็วเป็นศูนย์เท่านั้น","มวลเป็นศูนย์","ไม่มีแรงใดกระทำเลย"],a:0,w:"สมดุลคือแรงลัพธ์เป็นศูนย์ วัตถุอาจหยุดนิ่งหรือเคลื่อนที่ด้วยความเร็วคงที่"},
+{id:"ph57",s:"physics",d:2,q:"ยกวัตถุมวล 5 kg ขึ้นด้วยความเร็วคงที่ (g = 10 m/s²) แรงตึงเชือกเป็นเท่าใด",o:["5 N","50 N","500 N","0 N"],a:1,w:"ความเร็วคงที่ → ความเร่งเป็นศูนย์ → T = mg = 50 N"},
+{id:"ph58",s:"physics",d:1,q:"ออกแรง 15 N ดันกล่องให้เคลื่อนที่ 4 m ในแนวเดียวกับแรง งานที่ทำเป็นเท่าใด",o:["11 J","19 J","60 J","240 J"],a:2,w:"W = Fs = (15)(4) = 60 J"},
+{id:"ph59",s:"physics",d:2,q:"วัตถุมวล 2 kg อยู่สูงจากพื้น 10 m (g = 10 m/s²) มีพลังงานศักย์โน้มถ่วงเท่าใด",o:["20 J","100 J","200 J","2,000 J"],a:2,w:"Ep = mgh = (2)(10)(10) = 200 J"},
+{id:"ph60",s:"physics",d:3,q:"สปริงค่าคงที่ 100 N/m ถูกกดให้หด 0.2 m มีพลังงานศักย์ยืดหยุ่นเท่าใด",o:["1 J","2 J","10 J","20 J"],a:1,w:"Ep = ½kx² = ½(100)(0.04) = 2 J"},
+{id:"ph61",s:"physics",d:2,q:"น้ำเดือดที่ความดันบรรยากาศต่ำบนภูเขาสูง จะมีจุดเดือดเป็นอย่างไรเมื่อเทียบกับระดับน้ำทะเล",o:["สูงขึ้น","ต่ำลง","เท่าเดิม","เดือดไม่ได้"],a:1,w:"ความดันต่ำทำให้น้ำเดือดที่อุณหภูมิต่ำลง"},
+{id:"ph62",s:"physics",d:2,q:"การพาความร้อน (convection) เกิดขึ้นได้ดีในตัวกลางใด",o:["ของแข็ง","ของไหล (ของเหลวและแก๊ส)","สุญญากาศ","โลหะเท่านั้น"],a:1,w:"การพาต้องอาศัยการเคลื่อนที่ของของไหล จึงเกิดในของเหลวและแก๊ส"},
+{id:"ph63",s:"physics",d:2,q:"พลังงานความร้อนจากดวงอาทิตย์เดินทางมายังโลกได้อย่างไร",o:["การนำผ่านอากาศ","การพาผ่านลม","การแผ่รังสี","การระเหย"],a:2,w:"การแผ่รังสีเป็นคลื่นแม่เหล็กไฟฟ้า ไม่ต้องอาศัยตัวกลาง"},
+{id:"ph64",s:"physics",d:1,q:"ความต้านทานไฟฟ้ามีหน่วย SI ใด",o:["โวลต์ (V)","แอมแปร์ (A)","โอห์ม (Ω)","วัตต์ (W)"],a:2,w:"R = V/I มีหน่วยเป็นโอห์ม (Ω)"},
+{id:"ph65",s:"physics",d:3,q:"เมื่อต่อตัวต้านทานหลายตัวแบบขนาน ความต้านทานรวมเป็นอย่างไร",o:["มากกว่าตัวที่มากที่สุด","เท่ากับตัวที่มากที่สุด","น้อยกว่าตัวที่น้อยที่สุด","เท่ากับผลบวกของทุกตัว"],a:2,w:"วงจรขนานมีความต้านทานรวมน้อยกว่าตัวต้านทานที่น้อยที่สุดเสมอ"},
+{id:"ph66",s:"physics",d:2,q:"เครื่องใช้ไฟฟ้า 1,000 W เปิดใช้งาน 2 ชั่วโมง ใช้พลังงานไฟฟ้ากี่หน่วย (kWh)",o:["0.5 kWh","2 kWh","20 kWh","2,000 kWh"],a:1,w:"E = Pt = (1 kW)(2 h) = 2 kWh"},
+{id:"ph67",s:"physics",d:2,q:"เส้นสนามแม่เหล็กรอบลวดตัวนำตรงที่มีกระแสไหลมีลักษณะอย่างไร",o:["เส้นตรงขนานลวด","วงกลมล้อมรอบลวด","พุ่งออกจากปลายลวด","ไม่มีสนามแม่เหล็ก"],a:1,w:"สนามแม่เหล็กล้อมรอบตัวนำเป็นวงกลม ตามกฎมือขวา"},
+{id:"ph68",s:"physics",d:1,q:"เมื่อความถี่ของเสียงสูงขึ้น เสียงที่ได้ยินจะเป็นอย่างไร",o:["ระดับเสียงสูงขึ้น","ระดับเสียงต่ำลง","ดังขึ้นเท่านั้น","ทุ้มลง"],a:0,w:"ความถี่สูง → ระดับเสียง (pitch) สูง"},
+{id:"ph69",s:"physics",d:3,q:"ตะโกนใส่หน้าผาแล้วได้ยินเสียงสะท้อนกลับใน 2 วินาที (v = 340 m/s) หน้าผาอยู่ห่างเท่าใด",o:["170 m","340 m","680 m","1,360 m"],a:1,w:"เสียงไป-กลับ 2 เท่าของระยะ: d = vt/2 = (340)(2)/2 = 340 m"},
+
+/* ---------- BATCH B · engineering ---------- */
+{id:"en53",s:"engineering",d:2,q:"เฟืองขับ 30 ฟัน หมุนเฟืองตาม 60 ฟัน ความเร็วรอบของเฟืองตามเป็นอย่างไร",o:["เร็วขึ้น 2 เท่า","ช้าลงครึ่งหนึ่ง","เท่าเดิม","ช้าลง 4 เท่า"],a:1,w:"อัตราทด 30/60 = 1/2 → หมุนช้าลงครึ่งหนึ่ง"},
+{id:"en54",s:"engineering",d:2,q:"ระบบส่งกำลังด้วยโซ่เหนือกว่าสายพานในข้อใด",o:["ไม่มีการลื่นและส่งกำลังได้แม่นยำ","เบากว่า","เงียบกว่า","ไม่ต้องหล่อลื่น"],a:0,w:"โซ่กับเฟืองยึดกันแบบบังคับ จึงไม่ลื่นเหมือนสายพาน"},
+{id:"en55",s:"engineering",d:2,q:"ลูกเบี้ยว (cam) มีหน้าที่เปลี่ยนการเคลื่อนที่อย่างไร",o:["จากการหมุนเป็นการเคลื่อนที่กลับไปกลับมา","จากการเลื่อนเป็นการหมุน","จากความร้อนเป็นงาน","จากไฟฟ้าเป็นแสง"],a:0,w:"cam เปลี่ยนการหมุนต่อเนื่องให้เป็นลูกสูบ/ก้านกระทุ้งแบบกลับไปกลับมา"},
+{id:"en56",s:"engineering",d:3,q:"กลไกสี่ก้าน (four-bar linkage) นิยมใช้ทำอะไร",o:["เปลี่ยนทิศและลักษณะการเคลื่อนที่","ผลิตกระแสไฟฟ้า","ลดแรงดันของไหล","วัดอุณหภูมิ"],a:0,w:"กลไกสี่ก้านใช้แปลงการหมุนเป็นการโยกหรือการเคลื่อนที่ตามรูปแบบที่ต้องการ"},
+{id:"en57",s:"engineering",d:1,q:"หมุดย้ำ (rivet) แตกต่างจากสลักเกลียวอย่างไร",o:["หมุดย้ำถอดประกอบได้ง่ายกว่า","หมุดย้ำเป็นการยึดถาวร","สลักเกลียวเชื่อมติดถาวร","ไม่ต่างกัน"],a:1,w:"หมุดย้ำถูกย้ำจนยึดแน่นถาวร ถอดได้เฉพาะโดยทำลายชิ้นงาน"},
+{id:"en58",s:"engineering",d:1,q:"การทดสอบกำลังอัดของคอนกรีตนิยมใช้ชิ้นงานรูปใด",o:["แท่งกลม","ลูกบาศก์","แผ่นบาง","ท่อกลวง"],a:1,w:"ใช้ตัวอย่างลูกบาศก์ (หรือทรงกระบอก) บดอัดจนแตกเพื่อหากำลังอัด"},
+{id:"en59",s:"engineering",d:3,q:"เหตุใดคอนกรีตเสริมเหล็กจึงต้องมีระยะหุ้มเหล็ก (concrete cover) เพียงพอ",o:["เพื่อความสวยงาม","เพื่อป้องกันเหล็กจากการกัดกร่อนและไฟ","เพื่อลดน้ำหนัก","เพื่อให้เทได้ง่าย"],a:1,w:"คอนกรีตหุ้มช่วยกันน้ำและออกซิเจนไม่ให้เหล็กเป็นสนิม รวมถึงป้องกันไฟ"},
+{id:"en60",s:"engineering",d:3,q:"โลหะใดมีสัมประสิทธิ์การขยายตัวจากความร้อนสูงกว่าเมื่อเทียบกับอีกชนิด",o:["อะลูมิเนียมสูงกว่าเหล็ก","เหล็กสูงกว่าอะลูมิเนียม","เท่ากันทุกโลหะ","ไม่มีการขยายตัว"],a:0,w:"อะลูมิเนียมขยายตัวมากกว่าเหล็ก จึงต้องเผื่อระยะในการออกแบบ"},
+{id:"en61",s:"engineering",d:2,q:"เหตุใดน้ำจึงนิยมใช้เป็นสารหล่อเย็นในเครื่องยนต์",o:["มีความจุความร้อนจำเพาะสูง","มีจุดเยือกแข็งสูงมาก","นำไฟฟ้าได้ดี","ระเหยง่ายมาก"],a:0,w:"น้ำดูดซับความร้อนได้มากต่อองศา จึงระบายความร้อนได้ดี"},
+{id:"en62",s:"engineering",d:3,q:"เมื่อของไหลไหลผ่านหัวฉีดที่พื้นที่หน้าตัดเล็กลง ความเร็วและความดันจะเป็นอย่างไร",o:["เร็วขึ้น ความดันลดลง","เร็วขึ้น ความดันเพิ่มขึ้น","ช้าลง ความดันลดลง","เท่าเดิม"],a:0,w:"สมการความต่อเนื่องทำให้เร็วขึ้น และแบร์นูลีทำให้ความดันลดลง"},
+{id:"en63",s:"engineering",d:2,q:"“Head” ของปั๊มมีหน่วยเป็นอะไร",o:["เมตร (ความสูงของของเหลว)","ลิตรต่อวินาที","วัตต์","นิวตัน"],a:0,w:"head คือพลังงานต่อน้ำหนักของของไหล มีหน่วยเป็นความสูง (m)"},
+{id:"en64",s:"engineering",d:2,q:"ตัวต้านทานสองตัวค่าเท่ากันต่ออนุกรมกันแล้วต่อกับแบตเตอรี่ แรงดันตกคร่อมแต่ละตัวเป็นเท่าใด",o:["เท่าแรงดันแบตเตอรี่","ครึ่งหนึ่งของแรงดันแบตเตอรี่","สองเท่าของแรงดัน","เป็นศูนย์"],a:1,w:"ตัวต้านทานเท่ากันแบ่งแรงดันเท่ากัน คนละครึ่ง"},
+{id:"en65",s:"engineering",d:2,q:"เมื่อนำถ่านไฟฉายต่ออนุกรมกัน แรงดันรวมเป็นอย่างไร",o:["เท่ากับถ่านลูกเดียว","บวกกันตามจำนวนลูก","ลดลงครึ่งหนึ่ง","เป็นศูนย์"],a:1,w:"การต่ออนุกรมเพิ่มแรงดัน ส่วนกระแสที่จ่ายได้ยังจำกัดตามถ่านแต่ละลูก"},
+{id:"en66",s:"engineering",d:2,q:"ตัวเก็บประจุ (capacitor) ทำหน้าที่หลักอะไร",o:["เก็บประจุและพลังงานไฟฟ้า","เพิ่มความต้านทาน","แปลงไฟฟ้าเป็นแสง","วัดกระแส"],a:0,w:"capacitor เก็บประจุไฟฟ้าและคายพลังงานได้ในวงจร"},
+{id:"en67",s:"engineering",d:3,q:"การเลือกพิกัดฟิวส์ที่เหมาะสมควรเป็นอย่างไร",o:["สูงกว่ากระแสใช้งานเล็กน้อย","ต่ำกว่ากระแสใช้งาน","สูงกว่ามากเพื่อกันขาดบ่อย","ไม่มีผล"],a:0,w:"ต้องสูงพอให้ใช้งานปกติได้ แต่ต่ำพอจะขาดเมื่อเกิดกระแสเกิน"},
+{id:"en68",s:"engineering",d:2,q:"การบัดกรี (soldering) ต่างจากการเชื่อม (welding) อย่างไร",o:["บัดกรีใช้ความร้อนต่ำกว่าและเติมโลหะประสาน","บัดกรีใช้ความร้อนสูงกว่า","ทั้งสองเหมือนกัน","บัดกรีใช้ได้กับเหล็กหนาเท่านั้น"],a:0,w:"บัดกรีหลอมโลหะประสานที่อุณหภูมิต่ำ เหมาะกับงานไฟฟ้า/อิเล็กทรอนิกส์"},
+
+/* ---------- BATCH B · logic ---------- */
+{id:"lo53",s:"logic",d:2,q:"กำหนด “บาง A เป็น B” และ “ทุก B เป็น C” ข้อใดสรุปได้แน่นอน",o:["บาง A เป็น C","ทุก A เป็น C","ไม่มี A ใดเป็น C","ทุก C เป็น A"],a:0,w:"A บางตัวอยู่ใน B และ B ทั้งหมดอยู่ใน C → A บางตัวอยู่ใน C"},
+{id:"lo54",s:"logic",d:2,q:"กำหนด “ไม่มี A ใดเป็น B” และ “ทุก C เป็น A” ข้อใดสรุปได้แน่นอน",o:["บาง C เป็น B","ไม่มี C ใดเป็น B","ทุก B เป็น C","สรุปไม่ได้"],a:1,w:"C อยู่ใน A และ A ไม่มีสมาชิกร่วมกับ B → C ไม่มีสมาชิกร่วมกับ B"},
+{id:"lo55",s:"logic",d:2,q:"กำหนด p ∨ q เป็นจริง และ ¬p เป็นจริง ข้อใดสรุปได้ (disjunctive syllogism)",o:["q เป็นจริง","q เป็นเท็จ","p เป็นจริง","สรุปไม่ได้"],a:0,w:"เมื่อตัวหนึ่งเป็นเท็จ อีกตัวต้องเป็นจริงเพื่อให้ “หรือ” เป็นจริง"},
+{id:"lo56",s:"logic",d:2,q:"นิเสธของ p ∨ q คือข้อใด",o:["¬p ∨ ¬q","¬p ∧ ¬q","p ∧ q","p → q"],a:1,w:"เดอมอร์แกน: ¬(p∨q) ≡ ¬p∧¬q"},
+{id:"lo57",s:"logic",d:3,q:"p ↔ q สมมูลกับข้อใด",o:["(p → q) ∧ (q → p)","(p → q) ∨ (q → p)","p ∧ q","¬p ∧ ¬q"],a:0,w:"biconditional คือการเป็นจริงพร้อมกันทั้งสองทิศ"},
+{id:"lo58",s:"logic",d:2,q:"อนุกรม 4, 7, 12, 19, ? ควรเป็นจำนวนใด",o:["24","26","28","32"],a:2,w:"ผลต่าง +3, +5, +7, +9 → 19+9 = 28"},
+{id:"lo59",s:"logic",d:2,q:"อนุกรม 2, 5, 11, 23, ? ควรเป็นจำนวนใด",o:["35","41","47","53"],a:2,w:"สูตร ×2 + 1 → 23×2+1 = 47"},
+{id:"lo60",s:"logic",d:1,q:"อนุกรม 1, 8, 27, 64, ? ควรเป็นจำนวนใด",o:["81","100","125","216"],a:2,w:"เป็นกำลังสาม 1³, 2³, 3³, 4³ → 5³ = 125"},
+{id:"lo61",s:"logic",d:1,q:"อนุกรม 7, 14, 28, 56, ? ควรเป็นจำนวนใด",o:["84","98","112","128"],a:2,w:"แต่ละพจน์คูณ 2 → 56×2 = 112"},
+{id:"lo62",s:"logic",d:1,q:"อนุกรมตัวอักษร C, F, I, L, ? ควรเป็นตัวใด",o:["M","N","O","P"],a:2,w:"เพิ่มทีละ 3 ตัวอักษร → L(12)+3 = 15 = O"},
+{id:"lo63",s:"logic",d:3,q:"อนุกรมตัวอักษร A, D, I, P, ? ควรเป็นตัวใด",o:["W","X","Y","Z"],a:2,w:"เว้นเพิ่ม +3, +5, +7, +9 → P(16)+9 = 25 = Y"},
+{id:"lo64",s:"logic",d:2,q:"P สูงกว่า Q, R สูงกว่า P และ S เตี้ยกว่า Q ใครสูงที่สุด",o:["P","Q","R","S"],a:2,w:"เรียงได้ R > P > Q > S"},
+{id:"lo65",s:"logic",d:3,q:"A เป็นพ่อของ B และ B เป็นน้องสาวของ C ข้อใดถูกต้อง",o:["A เป็นพ่อของ C","A เป็นลุงของ C","C เป็นพ่อของ A","สรุปไม่ได้"],a:0,w:"B กับ C เป็นพี่น้องกัน จึงมีพ่อคนเดียวกัน"},
+{id:"lo66",s:"logic",d:1,q:"จำนวนใดไม่เข้าพวก: 3, 5, 7, 9, 11",o:["3","5","9","11"],a:2,w:"ตัวอื่นเป็นจำนวนเฉพาะ ส่วน 9 = 3×3"},
+{id:"lo67",s:"logic",d:2,q:"ข้อใดเป็นตัวอย่างของ “เงื่อนไขจำเป็น”",o:["ออกซิเจนเป็นเงื่อนไขจำเป็นของการเผาไหม้","การมีร่มเป็นเงื่อนไขจำเป็นของฝน","การนอนเป็นเงื่อนไขจำเป็นของการกิน","สีแดงเป็นเงื่อนไขจำเป็นของรถ"],a:0,w:"ไม่มีออกซิเจนก็เผาไหม้ไม่ได้ → ออกซิเจนจำเป็น"},
+{id:"lo68",s:"logic",d:3,q:"สำนวน “All that glitters is not gold” สื่อความหมายเชิงตรรกะว่าอะไร",o:["ทุกสิ่งที่เป็นทองต้องเปล่งประกาย","ของที่เปล่งประกายทั้งหมดไม่ใช่ทอง","ไม่ใช่ทุกสิ่งที่เปล่งประกายที่เป็นทอง","ไม่มีอะไรเปล่งประกายเลย"],a:2,w:"รูปประโยคนี้หมายถึง “ไม่ใช่ทั้งหมด” ไม่ใช่ “ทั้งหมดไม่ใช่”"},
+
+/* ---------- BATCH B · math ---------- */
+{id:"ma52",s:"math",d:1,q:"15% ของ 300 เท่ากับเท่าใด",o:["30","40","45","60"],a:2,w:"0.15 × 300 = 45"},
+{id:"ma53",s:"math",d:1,q:"แก้สมการ 4x − 8 = 0 แล้ว x มีค่าเท่าใด",o:["−2","1","2","4"],a:2,w:"4x = 8 → x = 2"},
+{id:"ma54",s:"math",d:1,q:"ถ้า 2x/3 = 8 แล้ว x มีค่าเท่าใด",o:["6","8","12","16"],a:2,w:"2x = 24 → x = 12"},
+{id:"ma55",s:"math",d:2,q:"วงกลมรัศมี 10 cm มีพื้นที่ประมาณเท่าใด (π ≈ 3.14)",o:["31.4 cm²","62.8 cm²","314 cm²","628 cm²"],a:2,w:"A = πr² = 3.14 × 100 = 314 cm²"},
+{id:"ma56",s:"math",d:1,q:"กล่องขนาด 3 × 4 × 5 cm มีปริมาตรเท่าใด",o:["12 cm³","47 cm³","60 cm³","94 cm³"],a:2,w:"V = 3 × 4 × 5 = 60 cm³"},
+{id:"ma57",s:"math",d:2,q:"ลูกบาศก์ยาวด้านละ 3 cm มีพื้นที่ผิวเท่าใด",o:["9 cm²","27 cm²","36 cm²","54 cm²"],a:3,w:"พื้นที่ผิว = 6s² = 6 × 9 = 54 cm²"},
+{id:"ma58",s:"math",d:1,q:"1/2 ÷ 1/4 เท่ากับเท่าใด",o:["1/8","1/2","2","4"],a:2,w:"หารด้วยเศษส่วนคือคูณด้วยส่วนกลับ: ½ × 4 = 2"},
+{id:"ma59",s:"math",d:1,q:"0.2 × 0.3 เท่ากับเท่าใด",o:["0.006","0.06","0.6","6"],a:1,w:"2 × 3 = 6 และมีทศนิยม 2 ตำแหน่ง → 0.06"},
+{id:"ma60",s:"math",d:2,q:"แบ่งเงิน 39 บาท ในอัตราส่วน 5 : 8 ส่วนที่น้อยกว่าคือเท่าใด",o:["15 บาท","20 บาท","24 บาท","25 บาท"],a:0,w:"รวม 13 ส่วน → 39/13 = 3 → 5×3 = 15 บาท"},
+{id:"ma61",s:"math",d:1,q:"ค่าเฉลี่ยของ 7, 9, 11, 13 เท่ากับเท่าใด",o:["9","10","11","12"],a:1,w:"ผลรวม 40 ÷ 4 = 10"},
+{id:"ma62",s:"math",d:2,q:"มัธยฐานของ 1, 3, 3, 6, 7, 9 เท่ากับเท่าใด",o:["3","4","4.5","6"],a:2,w:"ข้อมูล 6 ตัว ค่ากลางคือ (3+6)/2 = 4.5"},
+{id:"ma63",s:"math",d:2,q:"หยิบไพ่ 1 ใบจากสำรับ 52 ใบ ความน่าจะเป็นที่จะได้ไพ่คิงเป็นเท่าใด",o:["1/52","1/13","4/13","1/4"],a:1,w:"มีคิง 4 ใบ → 4/52 = 1/13"},
+{id:"ma64",s:"math",d:1,q:"ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะไม่ได้เลข 6 เป็นเท่าใด",o:["1/6","2/3","5/6","1/2"],a:2,w:"ไม่ใช่ 6 มี 5 หน้า จาก 6 → 5/6"},
+{id:"ma65",s:"math",d:2,q:"ฝากเงิน 5,000 บาท ดอกเบี้ยง่าย 2% ต่อปี นาน 1 ปี ได้ดอกเบี้ยเท่าใด",o:["50 บาท","100 บาท","200 บาท","500 บาท"],a:1,w:"I = 5000 × 0.02 × 1 = 100 บาท"},
+{id:"ma66",s:"math",d:3,q:"25% ของ 25% ของ 400 เท่ากับเท่าใด",o:["10","20","25","50"],a:2,w:"25% ของ 400 = 100; 25% ของ 100 = 25"},
+{id:"ma67",s:"math",d:2,q:"เส้นตรง y = 3x + 2 มีความชันเท่าใด",o:["1","2","3","5"],a:2,w:"รูป y = mx + c มี m = 3"},
+
+/* ---------- BATCH B · english ---------- */
+{id:"eng53",s:"english",d:1,q:"He is very good ___ mathematics.",o:["in","at","on","for"],a:1,w:"good at + วิชา/ทักษะ"},
+{id:"eng54",s:"english",d:1,q:"She has been waiting ___ two hours.",o:["since","for","from","during"],a:1,w:"for + ระยะเวลา"},
+{id:"eng55",s:"english",d:2,q:"The meeting was postponed ___ the heavy storm.",o:["because","because of","although","so"],a:1,w:"because of + คำนาม; because + ประโยค"},
+{id:"eng56",s:"english",d:2,q:"I'd rather ___ at home tonight.",o:["stay","to stay","staying","stayed"],a:0,w:"would rather + V1 (ไม่เติม to)"},
+{id:"eng57",s:"english",d:2,q:"She is the same age ___ her cousin.",o:["like","as","than","with"],a:1,w:"the same … as เป็นโครงสร้างเปรียบเทียบ"},
+{id:"eng58",s:"english",d:3,q:"Hardly had he arrived ___ it started raining.",o:["than","when","that","while"],a:1,w:"Hardly … when เป็นคู่เชื่อมที่ใช้ด้วยกัน"},
+{id:"eng59",s:"english",d:3,q:"No sooner ___ than the phone rang.",o:["I sat down","had I sat down","I had sat down","did I sit"],a:1,w:"No sooner ขึ้นต้นประโยคต้องสลับกริยาช่วย: had I sat down"},
+{id:"eng60",s:"english",d:3,q:"It is essential that he ___ on time.",o:["is","was","be","being"],a:2,w:"essential that + subjunctive (be)"},
+{id:"eng61",s:"english",d:2,q:"The word “diligent” is closest in meaning to…",o:["lazy","hardworking","careless","slow"],a:1,w:"diligent = ขยันหมั่นเพียร"},
+{id:"eng62",s:"english",d:2,q:"The word “vital” is closest in meaning to…",o:["optional","essential","minor","temporary"],a:1,w:"vital = สำคัญมาก จำเป็น"},
+{id:"eng63",s:"english",d:2,q:"The word “obsolete” is closest in meaning to…",o:["modern","outdated","popular","expensive"],a:1,w:"obsolete = ล้าสมัย เลิกใช้"},
+{id:"eng64",s:"english",d:2,q:"The word “concise” is closest in meaning to…",o:["lengthy","brief","confusing","repetitive"],a:1,w:"concise = กระชับ ไม่เยิ่นเย้อ"},
+{id:"eng65",s:"english",d:2,q:"Choose the correct collocation: ___ progress.",o:["make","do","build","take"],a:0,w:"make progress = มีความก้าวหน้า"},
+{id:"eng66",s:"english",d:2,q:"The phrasal verb “put off” means…",o:["postpone","cancel","begin","repeat"],a:0,w:"put off = เลื่อนออกไป"},
+{id:"eng67",s:"english",d:2,q:"The news ___ surprising to everyone.",o:["are","is","were","have"],a:1,w:"news เป็นคำนามเอกพจน์แม้ลงท้ายด้วย s"},
+{id:"eng68",s:"english",d:3,q:"Neither he nor his friends ___ coming to the party.",o:["is","are","was","has"],a:1,w:"neither…nor ใช้กริยาตามประธานตัวใกล้สุด (friends) → are"},
+
+/* ---------- BATCH C · physics ---------- */
+{id:"ph70",s:"physics",d:1,q:"ปริมาณใดเป็นปริมาณเวกเตอร์",o:["ระยะทาง","ความเร็ว","มวล","เวลา"],a:1,w:"ความวามีทั้งขนาดและทิศทาง จึงเป็นเวกเตอร์"},
+{id:"ph71",s:"physics",d:2,q:"เดินรอบสนามเป็นระยะทาง 400 m แล้วกลับมาจุดเริ่มต้น การกระจัดเป็นเท่าใด",o:["0 m","200 m","400 m","800 m"],a:0,w:"จุดเริ่มต้นและจุดสิ้นสุดเป็นจุดเดียวกัน การกระจัดจึงเป็นศูนย์"},
+{id:"ph72",s:"physics",d:2,q:"ความเร่งของวัตถุหาได้จากอะไรบนกราฟความเร็ว–เวลา",o:["พื้นที่ใต้กราฟ","ความชันของกราฟ","จุดตัดแกนนอน","ความยาวของกราฟ"],a:1,w:"ความชันของกราฟ v–t คือความเร่ง ส่วนพื้นที่ใต้กราฟคือการกระจัด"},
+{id:"ph73",s:"physics",d:2,q:"พื้นที่ใต้กราฟความเร็ว–เวลาหมายถึงปริมาณใด",o:["ความเร่ง","การกระจัด","แรง","กำลัง"],a:1,w:"พื้นที่ใต้กราฟ v–t = ∫v dt = การกระจัด"},
+{id:"ph74",s:"physics",d:1,q:"กฎข้อที่ 1 ของนิวตันอธิบายเรื่องใด",o:["ความเฉื่อย","แรงกริยา-ปฏิกิริยา","แรงโน้มถ่วง","ความดัน"],a:0,w:"วัตถุจะรักษาสภาพการเคลื่อนที่เดิมเมื่อแรงลัพธ์เป็นศูนย์ (ความเฉื่อย)"},
+{id:"ph75",s:"physics",d:1,q:"น้ำหนักของวัตถุมวล 5 kg บนโลก (g = 10 m/s²) เป็นเท่าใด",o:["0.5 N","5 N","50 N","500 N"],a:2,w:"W = mg = (5)(10) = 50 N"},
+{id:"ph76",s:"physics",d:2,q:"แรงเสียดทานระหว่างผิวสองชนิดขึ้นกับสิ่งใดเป็นหลัก",o:["พื้นที่สัมผัส","แรงกดปกติและลักษณะผิว","ปริมาตรวัตถุ","สีของผิว"],a:1,w:"f = μN ขึ้นกับแรงกดปกติและสัมประสิทธิ์ความเสียดทาน ไม่ขึ้นกับพื้นที่สัมผัส"},
+{id:"ph77",s:"physics",d:3,q:"วัตถุตกด้วยความเร็วปลาย (terminal velocity) มีแรงลัพธ์เป็นอย่างไร",o:["เพิ่มขึ้นเรื่อย ๆ","เป็นศูนย์","ลดลงเรื่อย ๆ","สลับทิศ"],a:1,w:"เมื่อแรงต้านเท่ากับน้ำหนัก แรงลัพธ์เป็นศูนย์ ความเร็วจึงคงที่"},
+{id:"ph78",s:"physics",d:2,q:"แรงเสียดทานที่ต้านการเคลื่อนที่มีลักษณะงานเป็นอย่างไร",o:["งานบวก","งานลบ","งานเป็นศูนย์","งานไม่ขึ้นกับทิศ"],a:1,w:"แรงต้านทิศตรงข้ามกับการเคลื่อนที่ งานจึงเป็นลบ"},
+{id:"ph79",s:"physics",d:2,q:"ปล่อยวัตถุให้ตกลงมา พลังงานศักย์เปลี่ยนเป็นพลังงานใด",o:["พลังงานความร้อนเท่านั้น","พลังงานจลน์","พลังงานเคมี","พลังงานนิวเคลียร์"],a:1,w:"พลังงานศักย์โน้มถ่วงลดลงและเปลี่ยนเป็นพลังงานจลน์"},
+{id:"ph80",s:"physics",d:1,q:"1 กิโลวัตต์เท่ากับกี่วัตต์",o:["10 W","100 W","1,000 W","10,000 W"],a:2,w:"1 kW = 1,000 W"},
+{id:"ph81",s:"physics",d:2,q:"ผิวสีใดดูดกลืนความร้อนจากรังสีได้ดีที่สุด",o:["สีขาวมันวาว","สีดำด้าน","สีเงิน","สีใส"],a:1,w:"ผิวสีดำด้านดูดกลืนรังสีได้ดี แต่ก็แผ่รังสีได้ดีเช่นกัน"},
+{id:"ph82",s:"physics",d:2,q:"เหตุใดน้ำจึงร้อนช้ากว่าทรายเมื่อได้รับความร้อนเท่ากัน",o:["น้ำมีความจุความร้อนจำเพาะสูงกว่า","น้ำหนักมากกว่าเสมอ","น้ำนำความร้อนได้ดีกว่า","น้ำมีอุณหภูมิเริ่มต้นต่ำกว่า"],a:0,w:"c ของน้ำสูง จึงต้องใช้ความร้อนมากกว่าเพื่อเพิ่มอุณหภูมิเท่ากัน"},
+{id:"ph83",s:"physics",d:2,q:"คลื่นที่มีความถี่ 0.5 Hz มีคาบเท่าใด",o:["0.5 s","1 s","2 s","5 s"],a:2,w:"T = 1/f = 1/0.5 = 2 วินาที"},
+{id:"ph84",s:"physics",d:3,q:"การสะท้อนกลับหมดภายใน (total internal reflection) เกิดเมื่อใด",o:["แสงจากตัวกลางหนาแน่นไปบางและมุมตกกระทบเกินมุมวิกฤต","แสงจากอากาศเข้าสู่น้ำ","แสงตกกระทบตั้งฉาก","แสงผ่านเลนส์นูน"],a:0,w:"ต้องเดินจากตัวกลางที่หนาแน่นกว่าไปน้อยกว่า และมุมตกกระทบเกินมุมวิกฤต"},
+{id:"ph85",s:"physics",d:1,q:"เลนส์นูนมีสมบัติอย่างไร",o:["รวมแสง (converging)","กระจายแสง (diverging)","ดูดแสง","สะท้อนแสงทั้งหมด"],a:0,w:"เลนส์นูนเป็นเลนส์รวมแสง มีความยาวโฟกัสเป็นบวก"},
+
+/* ---------- BATCH C · engineering ---------- */
+{id:"en69",s:"engineering",d:3,q:"จุดคราก (yield point) บนกราฟความเค้น–ความเครียดหมายถึงอะไร",o:["วัสดุเริ่มเสียรูปถาวร","วัสดุแตกหัก","วัสดุกลับรูปได้สมบูรณ์","วัสดุหลอมเหลว"],a:0,w:"เมื่อเกินจุดคราก วัสดุจะเสียรูปอย่างถาวรแม้ปลดแรงแล้ว"},
+{id:"en70",s:"engineering",d:2,q:"ความเหนียว (ductility) ของวัสดุหมายถึงอะไร",o:["ความสามารถในการยืดตัวก่อนแตกหัก","ความสามารถในการนำไฟฟ้า","ความต้านทานการขีดข่วน","ความหนาแน่น"],a:0,w:"วัสดุเหนียวสามารถดึงยืดได้มากก่อนแตกหัก"},
+{id:"en71",s:"engineering",d:2,q:"การทดสอบความแข็ง (hardness) นิยมวัดอะไร",o:["ความต้านทานต่อการกดหรือขีดข่วน","ความสามารถในการยืด","จุดหลอมเหลว","ค่าการนำความร้อน"],a:0,w:"ความแข็งคือความต้านทานต่อการเปลี่ยนรูปถาวรบริเวณผิว เช่น วิธีร็อกเวลล์"},
+{id:"en72",s:"engineering",d:3,q:"ความล้า (fatigue) ของวัสดุเกิดจากสาเหตุใด",o:["แรงกระทำซ้ำ ๆ หลายรอบ","ความร้อนสูงครั้งเดียว","การกัดกร่อนเท่านั้น","แรงดึงคงที่ต่ำมาก"],a:0,w:"แรงcyclicทำให้เกิดรอยแตกสะสมจนวัสดุวิบัติแม้แรงต่ำกว่าความแข็งแรงสูงสุด"},
+{id:"en73",s:"engineering",d:3,q:"การโก่งเดาะ (buckling) มักเกิดกับชิ้นส่วนลักษณะใด",o:["เสายาวเรียวที่รับแรงอัด","แท่งสั้นที่รับแรงดึง","แผ่นหนารับแรงเฉือน","สลักเกลียวรับแรงดึง"],a:0,w:"เสายาวผอมรับแรงอัดจะโก่งงอก่อนวัสดุจะคราก"},
+{id:"en74",s:"engineering",d:2,q:"แรงเฉือน (shear force) ในข้อต่อสลักเกลียวเกิดจากอะไร",o:["แรงที่พยายามทำให้แผ่นเลื่อนผ่านกัน","แรงดึงตามแนวแกน","แรงบิด","แรงกดตั้งฉาก"],a:0,w:"แรงเฉือนพยายามตัดหรือทำให้ชิ้นส่วนเลื่อนผ่านกัน"},
+{id:"en75",s:"engineering",d:3,q:"โมเมนต์ดัดที่จุดรองรับแบบง่าย (simple support) มีค่าเท่าใด",o:["เป็นศูนย์","มากที่สุด","เท่ากับแรงปฏิกิริยา","ขึ้นกับความยาว"],a:0,w:"จุดรองรับแบบง่ายไม่ต้านการหมุน โมเมนต์ดัดจึงเป็นศูนย์ที่ตำแหน่งนั้น"},
+{id:"en76",s:"engineering",d:2,q:"กลไกแร็คแอนด์พิเนียน (rack and pinion) ใช้ทำอะไร",o:["เปลี่ยนการหมุนเป็นการเคลื่อนที่เชิงเส้น","เปลี่ยนไฟฟ้าเป็นกล","เพิ่มแรงดันของไหล","ลดอุณหภูมิ"],a:0,w:"เฟืองตรง (pinion) ขับแท่งฟัน (rack) ให้เคลื่อนที่แนวตรง เช่น พวงมาลัยรถ"},
+{id:"en77",s:"engineering",d:3,q:"ชุดเฟืองหนอน (worm gear) มีสมบัติเด่นข้อใด",o:["มักล็อกตัวเอง ไม่ให้หมุนกลับ","หมุนกลับได้อิสระ","ส่งกำลังได้เร็วกว่าเฟืองตรง","ไม่ต้องการการหล่อลื่น"],a:0,w:"มุมเอียงสูงทำให้แรงบิดด้านออกไม่สามารถขับกลับได้ (self-locking)"},
+{id:"en78",s:"engineering",d:2,q:"ตลับลูกปืนแบบลูกกลิ้ง (roller bearing) เหมาะกับภาระแบบใด",o:["รับแรงตามแนวรัศมีได้มาก","รับแรงตามแนวแกนเท่านั้น","รับแรงได้น้อยมาก","ใช้กับงานความเร็วต่ำเท่านั้น"],a:0,w:"ลูกกลิ้งรับ нагруз radial ได้สูงกว่าลูกบอล"},
+{id:"en79",s:"engineering",d:3,q:"เมื่อนำสปริงสองตัวมาต่อขนานกัน ความแข็งของระบบเป็นอย่างไร",o:["เพิ่มขึ้น (ผลบวก)","ลดลงครึ่งหนึ่ง","เท่าเดิม","เป็นศูนย์"],a:0,w:"สปริงขนานรับแรงร่วมกัน ค่า k รวมเท่ากับผลบวกของแต่ละตัว"},
+{id:"en80",s:"engineering",d:2,q:"สายดิน (ground wire) ในเครื่องใช้ไฟฟ้ามีไว้เพื่ออะไร",o:["ระบายกระแสไฟรั่วลงดินเพื่อความปลอดภัย","เพิ่มแรงดันไฟฟ้า","ลดการใช้พลังงาน","ทำให้ไฟสว่างขึ้น"],a:0,w:"หากเกิดไฟรั่ว กระแสจะไหลลงดินแทนผ่านร่างกายผู้ใช้"},
+{id:"en81",s:"engineering",d:2,q:"หม้อแปลงไฟฟ้าทำงานได้กับไฟประเภทใด",o:["ไฟกระแสสลับ (AC)","ไฟกระแสตรง (DC)","ทั้ง AC และ DC","เฉพาะไฟความถี่ศูนย์"],a:0,w:"หม้อแปลงอาศัยการเปลี่ยนแปลงฟลักซ์ จึงต้องใช้ไฟ AC"},
+{id:"en82",s:"engineering",d:2,q:"เทอร์โมคัปเปิล (thermocouple) ใช้วัดอะไร",o:["อุณหภูมิ","ความดัน","ความชื้น","ความเร็วลม"],a:0,w:"เทอร์โมคัปเปิลอาศัยแรงเคลื่อนไฟฟ้าจากความต่างอุณหภูมิของโลหะสองชนิด"},
+{id:"en83",s:"engineering",d:3,q:"สเตรนเกจ (strain gauge) ใช้วัดอะไร",o:["ความเครียด/การยืดตัวของชิ้นงาน","แรงดันไฟฟ้า","อัตราการไหล","ความแข็งผิว"],a:0,w:"สเตรนเกจเปลี่ยนการยืดตัวเป็นความต้านทานไฟฟ้าที่วัดได้"},
+{id:"en84",s:"engineering",d:2,q:"ข้อใดเป็นหน่วยของกำลังไฟฟ้า",o:["วัตต์ (W)","จูล (J)","คูลอมบ์ (C)","โอห์ม (Ω)"],a:0,w:"กำลังไฟฟ้ามีหน่วยวัตต์ (W) = J/s"},
+
+/* ---------- BATCH C · logic ---------- */
+{id:"lo69",s:"logic",d:2,q:"กำหนด p → q เป็นจริง และ ¬p เป็นจริง ข้อใดสรุปได้",o:["q เป็นจริง","q เป็นเท็จ","สรุป q ไม่ได้","p เป็นจริง"],a:2,w:"การที่เหตุเป็นเท็จไม่ได้บอกผลลัพธ์ (denying the antecedent)"},
+{id:"lo70",s:"logic",d:2,q:"กำหนด p → q เป็นจริง และ q เป็นจริง ข้อใดสรุปได้",o:["p เป็นจริงแน่นอน","p เป็นเท็จแน่นอน","สรุป p ไม่ได้","¬q เป็นจริง"],a:2,w:"การยืนยันผล (affirming the consequent) สรุปเหตุไม่ได้"},
+{id:"lo71",s:"logic",d:2,q:"กำหนด “ทุก A เป็น B” และ “x ไม่เป็น B” ข้อใดสรุปได้",o:["x เป็น A","x ไม่เป็น A","x อาจเป็น A","สรุปไม่ได้"],a:1,w:"ถ้า x เป็น A ก็ต้องเป็น B แต่ x ไม่เป็น B → x ไม่เป็น A"},
+{id:"lo72",s:"logic",d:2,q:"นิเสธของ “A บางตัวไม่เป็น B” คือข้อใด",o:["A ทุกตัวเป็น B","A ทุกตัวไม่เป็น B","A บางตัวเป็น B","ไม่มี A ใดเป็น B"],a:0,w:"¬(∃x(Ax∧¬Bx)) ≡ ∀x(Ax→Bx)"},
+{id:"lo73",s:"logic",d:2,q:"“ไม่มี A ใดเป็น B” สมมูลกับข้อใด",o:["ไม่มี B ใดเป็น A","มี A บางตัวเป็น B","A ทุกตัวเป็น B","B ทุกตัวเป็น A"],a:0,w:"ความสัมพันธ์ “ไม่มีร่วม” สมมาตรกันทั้งสองทิศ"},
+{id:"lo74",s:"logic",d:2,q:"อนุกรม 3, 4, 6, 9, 13, ? ควรเป็นจำนวนใด",o:["16","17","18","19"],a:2,w:"ผลต่าง +1, +2, +3, +4, +5 → 13+5 = 18"},
+{id:"lo75",s:"logic",d:3,q:"อนุกรม 1, 4, 2, 5, 3, 6, ? ควรเป็นจำนวนใด",o:["4","5","6","7"],a:0,w:"สลับสองชุด: 1,2,3,4 และ 4,5,6 → ตัวถัดไปคือ 4"},
+{id:"lo76",s:"logic",d:2,q:"อนุกรม 2, 4, 12, 48, ? ควรเป็นจำนวนใด",o:["96","144","192","240"],a:3,w:"คูณด้วย 2, 3, 4, 5 → 48×5 = 240"},
+{id:"lo77",s:"logic",d:3,q:"อนุกรม 1, 3, 7, 15, 31, ? ควรเป็นจำนวนใด",o:["47","55","63","64"],a:2,w:"สูตร ×2 + 1 → 31×2+1 = 63"},
+{id:"lo78",s:"logic",d:1,q:"อนุกรมตัวอักษร M, K, I, G, ? ควรเป็นตัวใด",o:["E","F","D","H"],a:0,w:"ลดลงทีละ 2 → G(7)−2 = 5 = E"},
+{id:"lo79",s:"logic",d:2,q:"อนุกรมตัวอักษร A, B, D, G, K, ? ควรเป็นตัวใด",o:["N","O","P","Q"],a:2,w:"เว้นเพิ่ม +1,+2,+3,+4,+5 → K(11)+5 = 16 = P"},
+{id:"lo80",s:"logic",d:1,q:"จำนวนใดไม่เข้าพวก: 16, 25, 36, 50",o:["16","25","36","50"],a:3,w:"16, 25, 36 เป็นกำลังสองสมบูรณ์ แต่ 50 ไม่ใช่"},
+{id:"lo81",s:"logic",d:3,q:"นักวิ่ง 4 คน: ก เร็วกว่า ข, ค เร็วกว่า ก, ง ช้ากว่า ข ใครเร็วที่สุด",o:["ก","ข","ค","ง"],a:2,w:"เรียงได้ ค > ก > ข > ง"},
+{id:"lo82",s:"logic",d:2,q:"การนั่งเก้าอี้ 3 ตัวเรียงกัน: A ต้องนั่งกลางเสมอ ข้อใดถูกต้อง",o:["B กับ C นั่งหัวท้ายสลับกันได้","B ต้องนั่งซ้าย","C ต้องนั่งขวา","จัดไม่ได้"],a:0,w:"เมื่อ A ตรึงกลาง เหลือ B และ C สลับที่หัวท้ายได้ 2 แบบ"},
+{id:"lo83",s:"logic",d:3,q:"“ถ้าไม่จ่ายเงิน แล้วจะไม่ได้ของ” สมมูลกับข้อใด",o:["ถ้าได้ของ แล้วจ่ายเงิน","ถ้าจ่ายเงิน แล้วได้ของ","ถ้าไม่ได้ของ แล้วไม่จ่ายเงิน","จ่ายเงินหรือได้ของ"],a:0,w:"contrapositive ของ ¬P→¬Q คือ Q→P"},
+{id:"lo84",s:"logic",d:2,q:"ข้อใดเป็นตัวอย่างของ “เงื่อนไขจำเป็น” ที่ถูกต้อง",o:["การมีล้อเป็นเงื่อนไขจำเป็นของรถ","การมีสีแดงเป็นเงื่อนไขจำเป็นของรถ","การมีวิทยุเป็นเงื่อนไขจำเป็นของรถ","การมีหลังคาเป็นเงื่อนไขจำเป็นของรถ"],a:0,w:"รถไม่มีล้อไม่ได้ จึงเป็นเงื่อนไขจำเป็น ส่วนสีหรือวิทยุไม่จำเป็น"},
+
+/* ---------- BATCH C · math ---------- */
+{id:"ma68",s:"math",d:2,q:"12.5% ของ 400 เท่ากับเท่าใด",o:["25","40","50","80"],a:2,w:"0.125 × 400 = 50"},
+{id:"ma69",s:"math",d:2,q:"แก้สมการ 7x + 2 = 5x + 12 แล้ว x มีค่าเท่าใด",o:["3","4","5","6"],a:2,w:"2x = 10 → x = 5"},
+{id:"ma70",s:"math",d:2,q:"แก้สมการ 3(x − 4) = 9 แล้ว x มีค่าเท่าใด",o:["5","6","7","8"],a:2,w:"x − 4 = 3 → x = 7"},
+{id:"ma71",s:"math",d:1,q:"สี่เหลี่ยมด้านขนานฐาน 9 cm สูง 4 cm มีพื้นที่เท่าใด",o:["13 cm²","18 cm²","36 cm²","72 cm²"],a:2,w:"A = ฐาน × สูง = 9 × 4 = 36 cm²"},
+{id:"ma72",s:"math",d:1,q:"สามเหลี่ยมมีด้านยาว 5, 7 และ 9 cm มีเส้นรอบรูปเท่าใด",o:["16 cm","21 cm","24 cm","35 cm"],a:1,w:"P = 5 + 7 + 9 = 21 cm"},
+{id:"ma73",s:"math",d:2,q:"ถังน้ำขนาด 2 × 3 × 1.5 m มีปริมาตรเท่าใด",o:["6.5 m³","9 m³","10.5 m³","12 m³"],a:1,w:"V = 2 × 3 × 1.5 = 9 m³"},
+{id:"ma74",s:"math",d:1,q:"1/3 ของ 1/4 เท่ากับเท่าใด",o:["1/7","1/12","1/3","3/4"],a:1,w:"คูณเศษส่วน: 1/3 × 1/4 = 1/12"},
+{id:"ma75",s:"math",d:1,q:"0.5 ÷ 0.25 เท่ากับเท่าใด",o:["0.25","1","2","4"],a:2,w:"0.5/0.25 = 2"},
+{id:"ma76",s:"math",d:2,q:"แบ่งเงิน 72 บาท ในอัตราส่วน 3 : 4 : 5 ส่วนที่มากที่สุดคือเท่าใด",o:["18 บาท","24 บาท","30 บาท","36 บาท"],a:2,w:"รวม 12 ส่วน → 72/12 = 6 → 5×6 = 30 บาท"},
+{id:"ma77",s:"math",d:1,q:"ค่าเฉลี่ยของ 5, 8, 11, 14, 17 เท่ากับเท่าใด",o:["9","10","11","12"],a:2,w:"ผลรวม 55 ÷ 5 = 11"},
+{id:"ma78",s:"math",d:2,q:"มัธยฐานของ 2, 5, 5, 8, 9, 10 เท่ากับเท่าใด",o:["5","6","6.5","8"],a:2,w:"ค่ากลางสองตัวคือ 5 และ 8 → (5+8)/2 = 6.5"},
+{id:"ma79",s:"math",d:2,q:"ถุงมีลูกบอลแดง 3 ลูก น้ำเงิน 2 ลูก เขียว 5 ลูก ความน่าจะเป็นที่จะหยิบได้แดงหรือน้ำเงินเป็นเท่าใด",o:["1/5","1/2","3/10","7/10"],a:1,w:"(3+2)/10 = 5/10 = 1/2"},
+{id:"ma80",s:"math",d:3,q:"ทอยลูกเต๋า 2 ลูก ความน่าจะเป็นที่ผลรวมเป็น 12 เป็นเท่าใด",o:["1/36","1/18","1/12","1/6"],a:0,w:"มีเพียง (6,6) จาก 36 ผลลัพธ์ → 1/36"},
+{id:"ma81",s:"math",d:3,q:"ฝากเงิน 2,000 บาท ดอกเบี้ยทบต้น 5% ต่อปี นาน 2 ปี ได้เงินรวมเท่าใด",o:["2,100 บาท","2,200 บาท","2,205 บาท","2,210 บาท"],a:2,w:"2,000 × 1.05² = 2,205 บาท"},
+{id:"ma82",s:"math",d:2,q:"60 คิดเป็นกี่เปอร์เซ็นต์ของ 240",o:["20%","25%","30%","40%"],a:1,w:"60/240 = 0.25 = 25%"},
+{id:"ma83",s:"math",d:2,q:"x² − 9 แยกตัวประกอบได้ตามข้อใด",o:["(x−3)(x−3)","(x+3)(x+3)","(x−3)(x+3)","(x−9)(x+1)"],a:2,w:"ผลต่างกำลังสอง: a²−b² = (a−b)(a+b)"},
+
+/* ---------- BATCH C · english ---------- */
+{id:"eng69",s:"english",d:2,q:"He denied ___ the window.",o:["break","to break","breaking","broke"],a:2,w:"deny + V-ing"},
+{id:"eng70",s:"english",d:3,q:"The police ___ investigating the accident.",o:["is","are","was","has"],a:1,w:"police เป็นคำนามพหูพจน์ใช้กริยาพหูพจน์"},
+{id:"eng71",s:"english",d:3,q:"It's high time we ___ home.",o:["go","went","will go","going"],a:1,w:"It's high time + past simple (สมมติว่าควรทำนานแล้ว)"},
+{id:"eng72",s:"english",d:3,q:"___ hard he tried, he could not solve the problem.",o:["However","Whatever","Whenever","Wherever"],a:0,w:"However + adj/adv = ไม่ว่าจะ…เพียงใด"},
+{id:"eng73",s:"english",d:2,q:"The reason ___ he left the company is still unknown.",o:["which","why","who","what"],a:1,w:"the reason why + ประโยค"},
+{id:"eng74",s:"english",d:2,q:"I wish he ___ here right now.",o:["is","was","were","will be"],a:2,w:"wish + were สำหรับความปรารถนาในปัจจุบัน"},
+{id:"eng75",s:"english",d:3,q:"She had her car ___ yesterday.",o:["repair","repairing","repaired","to repair"],a:2,w:"have something done = ให้คนอื่นทำให้ (causative)"},
+{id:"eng76",s:"english",d:2,q:"The more you practice, ___ you will become.",o:["the better","better","the best","best"],a:0,w:"the more … the more … เป็นโครงสร้างเปรียบเทียบคู่"},
+{id:"eng77",s:"english",d:1,q:"The word “generate” is closest in meaning to…",o:["produce","destroy","reduce","measure"],a:0,w:"generate = ก่อให้เกิด ผลิต"},
+{id:"eng78",s:"english",d:1,q:"The word “maintain” is closest in meaning to…",o:["keep","break","lose","change"],a:0,w:"maintain = รักษาไว้"},
+{id:"eng79",s:"english",d:1,q:"The word “approximately” is closest in meaning to…",o:["exactly","about","never","always"],a:1,w:"approximately = ประมาณ"},
+{id:"eng80",s:"english",d:2,q:"Choose the antonym of “artificial”.",o:["synthetic","natural","plastic","modern"],a:1,w:"artificial = สังเคราะห์; ตรงข้ามคือ natural = ธรรมชาติ"},
+{id:"eng81",s:"english",d:2,q:"Which sentence is correct?",o:["Although it was raining, we went out.","Although it was raining, but we went out.","Despite it was raining, we went out.","Although the rain, we went out."],a:0,w:"although + ประโยค และไม่ใช้ but ซ้ำ"},
+{id:"eng82",s:"english",d:2,q:"___ the heavy traffic, we arrived on time.",o:["Although","In spite of","Because","However"],a:1,w:"in spite of + คำนาม"},
+{id:"eng83",s:"english",d:2,q:"The safety system prevents workers ___ entering the area.",o:["to","from","of","for"],a:1,w:"prevent someone from doing"},
+{id:"eng84",s:"english",d:3,q:"It is no use ___ over spilt milk.",o:["cry","to cry","crying","cried"],a:2,w:"it is no use + V-ing"},
+
+/* ---------- BATCH D · physics ---------- */
+{id:"ph86",s:"physics",d:1,q:"ความหนาแน่นของน้ำบริสุทธิ์เท่ากับเท่าใด",o:["100 kg/m³","1,000 kg/m³","10,000 kg/m³","100,000 kg/m³"],a:1,w:"น้ำมีความหนาแน่น 1,000 kg/m³ หรือ 1 g/cm³"},
+{id:"ph87",s:"physics",d:2,q:"ที่ความลึก 10 m ใต้น้ำ (ρ = 1,000 kg/m³, g = 10 m/s²) ความดันเกจเป็นเท่าใด",o:["1,000 Pa","10,000 Pa","100,000 Pa","1,000,000 Pa"],a:2,w:"P = ρgh = (1000)(10)(10) = 100,000 Pa"},
+{id:"ph88",s:"physics",d:3,q:"วัตถุปริมาตร 2 m³ จมน้ำหมด (ρ = 1,000 kg/m³, g = 10 m/s²) แรงลอยตัวเป็นเท่าใด",o:["2,000 N","10,000 N","20,000 N","200,000 N"],a:2,w:"F = ρgV = (1000)(10)(2) = 20,000 N"},
+{id:"ph89",s:"physics",d:3,q:"ท่อน้ำที่มีพื้นที่หน้าตัดลดลงครึ่งหนึ่ง ความเร็วการไหลจะเป็นอย่างไร (ของไหลไม่compressible)",o:["ลดครึ่งหนึ่ง","เท่าเดิม","เพิ่มเป็น 2 เท่า","เพิ่มเป็น 4 เท่า"],a:2,w:"A₁v₁ = A₂v₂ เมื่อพื้นที่ครึ่งหนึ่ง ความเร็วจึงสองเท่า"},
+{id:"ph90",s:"physics",d:2,q:"ทำน้ำมวล 2 kg (c = 4,200 J/kg·°C) ให้ร้อนขึ้น 5 °C ต้องใช้ความร้อนเท่าใด",o:["4,200 J","21,000 J","42,000 J","84,000 J"],a:2,w:"Q = mcΔT = (2)(4200)(5) = 42,000 J"},
+{id:"ph91",s:"physics",d:2,q:"ช่วงความถี่เสียงที่มนุษย์ทั่วไปได้ยินอยู่ในช่วงใด",o:["2–20 Hz","20–20,000 Hz","20,000–200,000 Hz","0–2 Hz"],a:1,w:"หูมนุษย์ได้ยินประมาณ 20 Hz ถึง 20 kHz"},
+{id:"ph92",s:"physics",d:1,q:"ความเร็วแสงในสุญญากาศมีค่าประมาณเท่าใด",o:["3×10⁶ m/s","3×10⁸ m/s","3×10¹⁰ m/s","340 m/s"],a:1,w:"c ≈ 3×10⁸ m/s"},
+{id:"ph93",s:"physics",d:2,q:"เหตุใดกระจกนูนจึงนิยมใช้เป็นกระจกมองข้างรถยนต์",o:["ให้ภาพใหญ่กว่าวัตถุ","ให้มุมมองกว้างขึ้น","ให้ภาพจริงหัวตั้ง","สะท้อนแสงได้มากกว่า"],a:1,w:"กระจกนูนมองเห็นมุมกว้างกว่า แม้ภาพจะเล็กกว่า"},
+{id:"ph94",s:"physics",d:3,q:"นำตัวต้านทาน 2 Ω สามตัวมาต่อขนานกัน ความต้านทานรวมเป็นเท่าใด",o:["0.67 Ω","2 Ω","3 Ω","6 Ω"],a:0,w:"1/R = 3/2 → R = 2/3 ≈ 0.67 Ω"},
+{id:"ph95",s:"physics",d:2,q:"หลอดไฟ 100 W เปิด 10 ชั่วโมง ใช้พลังงานกี่หน่วย (kWh)",o:["0.1 kWh","1 kWh","10 kWh","1,000 kWh"],a:1,w:"E = (0.1 kW)(10 h) = 1 kWh"},
+{id:"ph96",s:"physics",d:1,q:"ฟิวส์ทำหน้าที่อะไร",o:["เพิ่มแรงดันไฟฟ้า","ตัดวงจรเมื่อกระแสเกิน","เก็บประจุไฟฟ้า","ลดความต้านทาน"],a:1,w:"ฟิวส์หลอมขาดเมื่อกระแสเกินเพื่อป้องกันอันตราย"},
+{id:"ph97",s:"physics",d:2,q:"เครื่องกำเนิดไฟฟ้าเปลี่ยนรูปพลังงานอย่างไร",o:["ไฟฟ้าเป็นกล","กลเป็นไฟฟ้า","ความร้อนเป็นแสง","เคมีเป็นกล"],a:1,w:"เครื่องกำเนิดไฟฟ้าเปลี่ยนพลังงานกลเป็นพลังงานไฟฟ้า"},
+{id:"ph98",s:"physics",d:2,q:"หม้อแปลงไฟฟ้าอาศัยหลักการใด",o:["การเหนี่ยวนำแม่เหล็กไฟฟ้า","การนำความร้อน","แรงโน้มถ่วง","การสะท้อนแสง"],a:0,w:"การเปลี่ยนแปลงฟลักซ์แม่เหล็กในขดลวดทำให้เกิดแรงดันเหนี่ยวนำ"},
+{id:"ph99",s:"physics",d:3,q:"สารกัมมันตรังสีมีครึ่งชีวิต 5 วัน เริ่มต้น 80 g อีก 10 วันเหลือเท่าใด",o:["40 g","20 g","10 g","5 g"],a:1,w:"10 วัน = 2 ครึ่งชีวิต → 80 → 40 → 20 g"},
+{id:"ph100",s:"physics",d:2,q:"ปฏิกิริยานิวเคลียร์ฟิชชันคืออะไร",o:["การหลอมนิวเคลียสเบาเข้าด้วยกัน","การแตกตัวของนิวเคลียสหนักพร้อมปล่อยพลังงาน","การรวมอะตอมเป็นโมเลกุล","การแผ่รังสีความร้อน"],a:1,w:"ฟิชชันคือการแตกตัวของนิวเคลียสหนัก เช่น ยูเรเนียม-235"},
+{id:"ph101",s:"physics",d:2,q:"การวัดที่ “แม่นยำแต่ไม่เที่ยงตรง” หมายถึงอะไร",o:["วัดได้ใกล้ค่าจริงแต่กระจาย","วัดได้ซ้ำ ๆ ใกล้กันแต่คลาดจากค่าจริง","วัดได้ไม่ซ้ำและไม่ตรง","วัดได้ตรงและซ้ำทุกครั้ง"],a:1,w:"ความเที่ยงตรง (accuracy) คือ closeness to true value; ความแม่นยำ (precision) คือการวัดซ้ำได้ใกล้กัน"},
+
+/* ---------- BATCH D · engineering ---------- */
+{id:"en85",s:"engineering",d:3,q:"การขันสลักเกลียวให้ได้แรงดึงเบื้องต้น (preload) มีประโยชน์อย่างไร",o:["ทำให้ข้อต่อแน่นและลดการคลายตัวจากแรงสั่น","เพิ่มน้ำหนักชิ้นงาน","ทำให้เกลียวสึกเร็ว","ลดความแข็งแรงของข้อต่อ"],a:0,w:"preload ทำให้ชิ้นส่วนยึดแน่นและแรงภายนอกไม่ทำให้ข้อต่อหลวม"},
+{id:"en86",s:"engineering",d:3,q:"รอยporosity ในงานเชื่อมเกิดจากสาเหตุใด",o:["แก๊สถูกกักไว้ในแนวเชื่อม","ความร้อนต่ำเกินไป","โลหะเติมมากเกินไป","การขัดผิว"],a:0,w:"แก๊สที่ละลายอยู่ถูกกักไว้ขณะเย็นตัว ทำให้เกิดรูพรุนและลดความแข็งแรง"},
+{id:"en87",s:"engineering",d:2,q:"เหตุใดงานอุตสาหกรรมจึงกำหนดค่าพิกัดความเผื่อ (tolerance)",o:["เพื่อให้ชิ้นส่วนประกอบกันได้และเปลี่ยนอะไหล่ได้","เพื่อเพิ่มต้นทุน","เพื่อให้ชิ้นงานใหญ่ขึ้น","เพื่อลดความแม่นยำ"],a:0,w:"tolerance กำหนดช่วงที่ยอมรับได้ ทำให้เกิดการผลิตทดแทนกันได้ (interchangeability)"},
+{id:"en88",s:"engineering",d:3,q:"เมื่ออุณหภูมิน้ำมันหล่อลื่นสูงขึ้น ความหนืด (viscosity) มักเป็นอย่างไร",o:["เพิ่มขึ้น","ลดลง","เท่าเดิม","เป็นศูนย์ทันที"],a:1,w:"น้ำมันส่วนใหญ่มีความหนืดลดลงเมื่อร้อน จึงต้องเลือกเกรดให้เหมาะกับอุณหภูมิใช้งาน"},
+{id:"en89",s:"engineering",d:2,q:"โอริง (O-ring) ใช้ทำอะไร",o:["ซีลกันรั่วในข้อต่อ","ส่งกำลัง","วัดความดัน","กรองน้ำ"],a:0,w:"โอริงเป็นซีลยางที่อัดตัวเพื่อกันของเหลวหรือแก๊สรั่ว"},
+{id:"en90",s:"engineering",d:3,q:"การเกิดคาวิเทชัน (cavitation) ในปั๊มเกิดจากสาเหตุใด",o:["ความดันด้านดูดต่ำจนของเหลวกลายเป็นไอ","อุณหภูมิน้ำมันสูง","แรงดันด้านจ่ายสูงเกิน","มอเตอร์หมุนช้า"],a:0,w:"เมื่อความดันต่ำกว่าความดันไอ จะเกิดฟองไอแล้วยุบตัว ทำลายใบพัด"},
+{id:"en91",s:"engineering",d:2,q:"วาล์วกันกลับ (non-return valve) มีหน้าที่ใด",o:["ยอมให้ของไหลไหลทางเดียว","ปรับอัตราการไหล","ลดอุณหภูมิ","เพิ่มแรงดัน"],a:0,w:"วาล์วกันกลับป้องกันการไหลย้อนกลับในระบบ"},
+{id:"en92",s:"engineering",d:3,q:"PLC ในงานอุตสาหกรรมใช้ทำอะไร",o:["ควบคุมลำดับการทำงานของเครื่องจักรอัตโนมัติ","ผลิตกระแสไฟฟ้า","หล่อเย็นเครื่องจักร","วัดความชื้น"],a:0,w:"PLC (Programmable Logic Controller) ควบคุมกระบวนการแบบอัตโนมัติตามโปรแกรม"},
+{id:"en93",s:"engineering",d:2,q:"เทอร์มิสเตอร์ (thermistor) เปลี่ยนแปลงค่าใดตามอุณหภูมิ",o:["ความต้านทานไฟฟ้า","ความยาว","มวล","สี"],a:0,w:"เทอร์มิสเตอร์เป็นตัวต้านทานที่ค่าเปลี่ยนตามอุณหภูมิ ใช้เป็นเซนเซอร์"},
+{id:"en94",s:"engineering",d:2,q:"รีเลย์ (relay) ทำงานโดยอาศัยอะไร",o:["ขดลวดแม่เหล็กไฟฟ้า","แรงโน้มถ่วง","ความร้อนจากแสงอาทิตย์","แรงดันน้ำ"],a:0,w:"กระแสในขดลวดสร้างสนามแม่เหล็กไปดึงสวิตช์ให้ต่อ/ตัดวงจร"},
+{id:"en95",s:"engineering",d:2,q:"ข้อใดเป็นข้อดีของเบรกเกอร์เมื่อเทียบกับฟิวส์",o:["รีเซ็ตกลับมาใช้ใหม่ได้","ราคาถูกกว่า","ตัดวงจรเร็วกว่ามาก","ไม่มีข้อดี"],a:0,w:"เบรกเกอร์ตัดวงจรแล้วสามารถสับกลับมาใช้ได้ ไม่ต้องเปลี่ยนชิ้นส่วน"},
+{id:"en96",s:"engineering",d:3,q:"เครื่องตัดไฟรั่ว (RCD/GFCI) ช่วยป้องกันอะไร",o:["ไฟดูดจากกระแสรั่วลงดิน","ไฟฟ้าลัดวงจรเท่านั้น","แรงดันเกิน","ฟ้าผ่า"],a:0,w:"RCD ตรวจความต่างกระแสระหว่างสายไฟกับสายนิวทรัล และตัดเมื่อมีกระแสรั่ว"},
+{id:"en97",s:"engineering",d:3,q:"ระยะฟรี (backlash) ในชุดเฟืองส่งผลอย่างไร",o:["ทำให้ตำแหน่งคลาดเคลื่อนเมื่อเปลี่ยนทิศ","เพิ่มกำลังส่ง","ลดเสียงรบกวน","เพิ่มความเร็ว"],a:0,w:"backlash คือช่องว่างระหว่างฟัน ทำให้เกิดความคลาดเคลื่อนและกระแทกเมื่อกลับทิศ"},
+{id:"en98",s:"engineering",d:2,q:"ข้อต่อเพลา (shaft coupling) ใช้ทำอะไร",o:["เชื่อมต่อเพลาสองเส้นให้ส่งกำลังร่วมกัน","ลดความเร็วเพลา","เพิ่มแรงดัน","หล่อลื่นตลับลูกปืน"],a:0,w:"coupling ส่งแรงบิดระหว่างเพลา และบางแบบยอมให้เยื้องศูนย์ได้"},
+{id:"en99",s:"engineering",d:2,q:"วัสดุใดเหมาะกับงานที่ต้องทนการกัดกร่อนมากที่สุด",o:["เหล็กกล้าไร้สนิม","เหล็กกล้าคาร์บอน","อะลูมิเนียมบริสุทธิ์","ทองแดง"],a:0,w:"เหล็กกล้าไร้สนิมมีโครเมียมสร้างชั้นออกไซด์ป้องกันสนิม"},
+{id:"en100",s:"engineering",d:2,q:"หน่วยของความดันในระบบ SI คือข้อใด",o:["นิวตัน (N)","ปาสกาล (Pa)","จูล (J)","วัตต์ (W)"],a:1,w:"ความดัน = แรง/พื้นที่ มีหน่วยเป็นปาสกาล (N/m²)"},
+
+/* ---------- BATCH D · logic ---------- */
+{id:"lo85",s:"logic",d:3,q:"กำหนด “ทุก A เป็น B” และ “ไม่มี B ใดเป็น C” ข้อใดสรุปได้",o:["ทุก A เป็น C","ไม่มี A ใดเป็น C","บาง A เป็น C","ไม่มี A ใดเป็น B"],a:1,w:"A อยู่ใน B และ B ไม่มีส่วนร่วมกับ C → A ไม่มีส่วนร่วมกับ C"},
+{id:"lo86",s:"logic",d:3,q:"กำหนด “บาง A เป็น B” และ “ไม่มี B ใดเป็น C” ข้อใดสรุปได้",o:["บาง A ไม่เป็น C","ทุก A เป็น C","ไม่มี A ใดเป็น C","ทุก C เป็น A"],a:0,w:"A บางตัวอยู่ใน B ซึ่งไม่เป็น C → A บางตัวไม่เป็น C"},
+{id:"lo87",s:"logic",d:3,q:"กำหนด p → q และ r → q เป็นจริง ข้อใดสรุปได้",o:["p → r","r → p","สรุปความสัมพันธ์ p กับ r ไม่ได้","p ∧ r"],a:2,w:"ทั้ง p และ r ต่างนำไปสู่ q แต่ไม่ได้บอกความสัมพันธ์ระหว่างกัน"},
+{id:"lo88",s:"logic",d:3,q:"“p เว้นแต่ q” เขียนเป็นสัญลักษณ์ได้อย่างไร",o:["¬q → p","q → p","p → q","p ∧ ¬q"],a:0,w:"เว้นแต่ q หมายถึงถ้าไม่ใช่ q ก็ต้องเป็น p (¬q→p)"},
+{id:"lo89",s:"logic",d:3,q:"“p ก็ต่อเมื่อ q” (p only if q) ตรงกับข้อใด",o:["p → q","q → p","p ↔ q","¬p → q"],a:0,w:"p only if q หมายถึง p เกิดได้เฉพาะเมื่อ q เป็นจริง → p→q"},
+{id:"lo90",s:"logic",d:1,q:"อนุกรม 2, 5, 10, 17, 26, ? ควรเป็นจำนวนใด",o:["35","36","37","40"],a:2,w:"ผลต่าง +3, +5, +7, +9, +11 → 26+11 = 37"},
+{id:"lo91",s:"logic",d:2,q:"อนุกรม 6, 11, 21, 41, ? ควรเป็นจำนวนใด",o:["61","71","81","91"],a:2,w:"สูตร ×2 − 1 → 41×2−1 = 81"},
+{id:"lo92",s:"logic",d:1,q:"อนุกรม 1, 2, 4, 8, 16, ? ควรเป็นจำนวนใด",o:["24","28","32","36"],a:2,w:"แต่ละพจน์คูณ 2 → 32"},
+{id:"lo93",s:"logic",d:3,q:"อนุกรม 9, 7, 10, 8, 11, ? ควรเป็นจำนวนใด",o:["8","9","10","12"],a:1,w:"สลับ −2, +3, −2, +3, −2 → 11−2 = 9"},
+{id:"lo94",s:"logic",d:1,q:"อนุกรมตัวอักษร D, F, H, J, ? ควรเป็นตัวใด",o:["K","L","M","N"],a:1,w:"เพิ่มทีละ 2 → J(10)+2 = 12 = L"},
+{id:"lo95",s:"logic",d:1,q:"อนุกรมตัวอักษร Z, Y, X, W, ? ควรเป็นตัวใด",o:["V","U","T","S"],a:0,w:"ลดลงทีละ 1 → V"},
+{id:"lo96",s:"logic",d:2,q:"จำนวนใดไม่เข้าพวก: 1, 4, 9, 16, 20",o:["1","4","16","20"],a:3,w:"1,4,9,16 เป็นกำลังสองสมบูรณ์ แต่ 20 ไม่ใช่"},
+{id:"lo97",s:"logic",d:2,q:"พ่ออายุมากกว่าแม่ 25 ปี และลูกอายุน้อยกว่าแม่ 30 ปี ใครอายุมากที่สุด",o:["พ่อ","แม่","ลูก","สรุปไม่ได้"],a:0,w:"พ่อ > แม่ > ลูก"},
+{id:"lo98",s:"logic",d:3,q:"การนั่งเก้าอี้ 4 ตัวเรียงแถว: A ต้องนั่งติดกับ B เสมอ ข้อใดถูกต้อง",o:["A กับ B ต้องอยู่คู่ติดกัน","A ต้องนั่งหัวแถว","B ต้องนั่งท้ายแถว","จัดไม่ได้"],a:0,w:"เงื่อนไข “ติดกัน” ทำให้ A กับ B ต้องอยู่ติดกันเสมอ"},
+{id:"lo99",s:"logic",d:3,q:"ข้อใดเป็นเงื่อนไข “เพียงพอ” ของการสอบผ่าน",o:["การอ่านหนังสือครบทุกบท","การมีดินสอ","การเข้าเรียนสาย","การนั่งแถวหน้า"],a:0,w:"การอ่านครบเป็นเหตุที่เพียงพอจะทำให้ผ่าน (แต่ไม่ใช่เงื่อนไขจำเป็น)"},
+{id:"lo100",s:"logic",d:2,q:"นิเสธของ “ทั้งฝนตกและลมแรง” คือข้อใด",o:["ฝนไม่ตกและลมไม่แรง","ฝนไม่ตกหรือลมไม่แรง","ฝนตกหรือลมแรง","ฝนตกแต่ลมไม่แรง"],a:1,w:"เดอมอร์แกน: ¬(p∧q) ≡ ¬p∨¬q"},
+
+/* ---------- BATCH D · math ---------- */
+{id:"ma84",s:"math",d:1,q:"40% ของ 150 เท่ากับเท่าใด",o:["45","50","60","75"],a:2,w:"0.4 × 150 = 60"},
+{id:"ma85",s:"math",d:1,q:"ถ้า 5x = 45 แล้ว x มีค่าเท่าใด",o:["5","7","9","11"],a:2,w:"x = 45/5 = 9"},
+{id:"ma86",s:"math",d:2,q:"แก้สมการ 2(x + 5) = 24 แล้ว x มีค่าเท่าใด",o:["5","7","9","12"],a:1,w:"x + 5 = 12 → x = 7"},
+{id:"ma87",s:"math",d:2,q:"สี่เหลี่ยมจัตุรัสมีเส้นรอบรูป 20 cm มีพื้นที่เท่าใด",o:["16 cm²","20 cm²","25 cm²","100 cm²"],a:2,w:"ด้าน = 20/4 = 5 → พื้นที่ 25 cm²"},
+{id:"ma88",s:"math",d:2,q:"วงกลมรัศมี 7 cm มีเส้นรอบวงเท่าใด (π = 22/7)",o:["22 cm","44 cm","77 cm","154 cm"],a:1,w:"C = 2πr = 2(22/7)(7) = 44 cm"},
+{id:"ma89",s:"math",d:3,q:"ทรงกระบอกเส้นผ่านศูนย์กลาง 10 cm สูง 2 cm มีปริมาตรเท่าใด (ในรูป π)",o:["20π cm³","25π cm³","50π cm³","100π cm³"],a:2,w:"r = 5 → V = π(25)(2) = 50π cm³"},
+{id:"ma90",s:"math",d:1,q:"3/5 เขียนเป็นเปอร์เซ็นต์ได้เท่าใด",o:["30%","50%","60%","65%"],a:2,w:"3/5 = 0.6 = 60%"},
+{id:"ma91",s:"math",d:1,q:"0.25 เขียนเป็นเศษส่วนอย่างต่ำได้เท่าใด",o:["1/2","1/4","2/5","1/5"],a:1,w:"0.25 = 25/100 = 1/4"},
+{id:"ma92",s:"math",d:2,q:"อัตราส่วน 7 : 3 และผลต่างของสองจำนวนเป็น 40 จำนวนที่มากกว่าคือเท่าใด",o:["30","50","70","90"],a:2,w:"ผลต่าง 4 ส่วน = 40 → 1 ส่วน = 10 → 7×10 = 70"},
+{id:"ma93",s:"math",d:2,q:"ข้อมูล 10 จำนวนมีค่าเฉลี่ย 25 ผลรวมทั้งหมดเป็นเท่าใด",o:["125","200","250","300"],a:2,w:"ผลรวม = 25 × 10 = 250"},
+{id:"ma94",s:"math",d:1,q:"มัธยฐานของ 12, 15, 11, 18, 20 เท่ากับเท่าใด",o:["12","15","16","18"],a:1,w:"เรียง 11,12,15,18,20 → ค่ากลางคือ 15"},
+{id:"ma95",s:"math",d:1,q:"ฐานนิยมของ 4, 4, 5, 6, 6, 6 เท่ากับเท่าใด",o:["4","5","6","4 และ 6"],a:2,w:"6 ปรากฏ 3 ครั้ง มากที่สุด"},
+{id:"ma96",s:"math",d:2,q:"ทอยลูกเต๋า 1 ลูก ความน่าจะเป็นที่จะได้เลขคู่หรือเลข 3 เป็นเท่าใด",o:["1/6","1/2","2/3","3/4"],a:2,w:"เลขคู่ 2,4,6 และ 3 → 4/6 = 2/3"},
+{id:"ma97",s:"math",d:2,q:"โยนเหรียญ 2 เหรียญ ความน่าจะเป็นที่จะออกก้อยทั้งคู่เป็นเท่าใด",o:["1/8","1/4","1/3","1/2"],a:1,w:"มี 4 ผลลัพธ์ เหลือ TT เพียงแบบเดียว → 1/4"},
+{id:"ma98",s:"math",d:2,q:"ฝากเงิน 800 บาท ดอกเบี้ยง่าย 5% ต่อปี นาน 2 ปี ได้ดอกเบี้ยเท่าใด",o:["40 บาท","80 บาท","120 บาท","160 บาท"],a:1,w:"I = 800 × 0.05 × 2 = 80 บาท"},
+{id:"ma99",s:"math",d:2,q:"เส้นตรงที่ผ่านจุด (0, 3) และ (4, 11) มีความชันเท่าใด",o:["1","2","3","4"],a:1,w:"m = (11−3)/(4−0) = 2"},
+
+/* ---------- BATCH D · english ---------- */
+{id:"eng85",s:"english",d:2,q:"She apologized ___ being late.",o:["of","for","to","with"],a:1,w:"apologize for + สิ่งที่ขอโทษ"},
+{id:"eng86",s:"english",d:2,q:"He is capable ___ solving complex problems.",o:["to","of","for","in"],a:1,w:"capable of + V-ing"},
+{id:"eng87",s:"english",d:2,q:"The film was so boring ___ we left early.",o:["than","that","as","which"],a:1,w:"so + adj + that + ประโยคผล"},
+{id:"eng88",s:"english",d:3,q:"It was not until 2020 ___ he graduated.",o:["when","that","which","then"],a:1,w:"It was not until … that … เป็นโครงสร้างเน้นความ"},
+{id:"eng89",s:"english",d:3,q:"Had I known about the meeting, I ___.",o:["will come","would come","would have come","had come"],a:2,w:"inversion ของ third conditional: had I known … would have come"},
+{id:"eng90",s:"english",d:2,q:"The teacher made us ___ the essay.",o:["rewrite","to rewrite","rewriting","rewritten"],a:0,w:"make + object + V1"},
+{id:"eng91",s:"english",d:2,q:"I saw him ___ the street yesterday.",o:["cross","crossed","to cross","crosses"],a:0,w:"see + object + V1 (เห็นการกระทำทั้งหมด)"},
+{id:"eng92",s:"english",d:1,q:"The word “significant” is closest in meaning to…",o:["important","tiny","temporary","hidden"],a:0,w:"significant = สำคัญ มีนัยสำคัญ"},
+{id:"eng93",s:"english",d:2,q:"The word “flexible” is closest in meaning to…",o:["rigid","adaptable","fragile","heavy"],a:1,w:"flexible = ยืดหยุ่น ปรับตัวได้"},
+{id:"eng94",s:"english",d:1,q:"The word “accurate” is closest in meaning to…",o:["precise","vague","slow","large"],a:0,w:"accurate = แม่นยำ"},
+{id:"eng95",s:"english",d:1,q:"Choose the antonym of “increase”.",o:["raise","decrease","expand","grow"],a:1,w:"increase = เพิ่ม; ตรงข้ามคือ decrease = ลด"},
+{id:"eng96",s:"english",d:2,q:"The flight was cancelled ___ the bad weather.",o:["because","due to","although","so that"],a:1,w:"due to + คำนาม"},
+{id:"eng97",s:"english",d:2,q:"She studies hard ___ she can pass the entrance exam.",o:["so that","because","although","unless"],a:0,w:"so that + ประโยคจุดประสงค์"},
+{id:"eng98",s:"english",d:2,q:"He left early in order to ___ the traffic.",o:["avoid","avoiding","avoided","avoids"],a:0,w:"in order to + V1"},
+{id:"eng99",s:"english",d:2,q:"___ the bad weather, the event went ahead.",o:["Although","Despite","Because","However"],a:1,w:"despite + คำนาม"},
+{id:"eng100",s:"english",d:3,q:"___ a number of students who failed the test.",o:["There is","There are","It is","There was"],a:1,w:"a number of + พหูพจน์ ใช้ there are"},
+
 ];
 
 /* =========================================================
@@ -1075,8 +1644,10 @@ const BANK = [
    ========================================================= */
 const el = {
   menu:$('#vMenu'), battle:$('#vBattle'), end:$('#vEnd'), stats:$('#vStats'),
-  grid:$('#grid'), rushBtn:$('#rushBtn'), statsBtn:$('#statsBtn'),
-  timerBtn:$('#timerBtn'), resetBtn:$('#resetBtn'), soundBtn:$('#soundBtn'),
+  grid:$('#grid'), rushBtn:$('#rushBtn'), soundBtn:$('#soundBtn'), homeBtn:$('#homeBtn'),
+  bankMeta:$('#bankMeta'), tabbar:$('#tabbar'),
+  setSheet:$('#setSheet'), setClose:$('#setClose'), setSound:$('#setSound'), setTimer:$('#setTimer'),
+  setReset:$('#setReset'), setSoundVal:$('#setSoundVal'), setTimerVal:$('#setTimerVal'), setVer:$('#setVer'),
   arena:$('#arena'), hearts:$('#hearts'), combo:$('#comboVal'), score:$('#scoreVal'),
   bossCard:$('#bossCard'), bossInner:$('#bossInner'), ring:$('#ring'),
   face:$('#bossFace'), bname:$('#bossName'), bsub:$('#bossSub'),
@@ -1086,12 +1657,11 @@ const el = {
   skShield:$('#skShield'), skFreeze:$('#skFreeze'), skHalf:$('#skHalf'),
   ctShield:$('#ctShield'), ctFreeze:$('#ctFreeze'), ctHalf:$('#ctHalf'),
   cdShield:$('#cdShield'), cdFreeze:$('#cdFreeze'), cdHalf:$('#cdHalf'),
-  quitBtn:$('#quitBtn'),
   endTitle:$('#endTitle'), endSub:$('#endSub'), endStats:$('#endStats'),
   review:$('#review'), againBtn:$('#againBtn'), weakBtn:$('#weakBtn'), menuBtn:$('#menuBtn'),
-  statsTop:$('#statsTop'), statsBody:$('#statsBody'), backBtn:$('#backBtn'),
-  ov:$('#ov'), ovPick:$('#ovPick'), ovTitle:$('#ovTitle'), ovSub:$('#ovSub'),
-  ovBtn:$('#ovBtn'), ovCancel:$('#ovCancel'),
+  statsTop:$('#statsTop'), statsBody:$('#statsBody'),
+  ov:$('#ov'), ovPick:$('#ovPick'), ovTitle:$('#ovTitle'), ovSub:$('#ovSub'), ovStats:$('#ovStats'),
+  tiers:$('#tiers'), ovBtn:$('#ovBtn'), ovCancel:$('#ovCancel'),
   banner:$('#banner'), comboPop:$('#comboPop'), flash:$('#flash'),
   fx:$('#fxLayer'), cvs:$('#cf'), live:$('#live')
 };
@@ -1186,6 +1756,9 @@ function say(msg){
 /* =========================================================
    6. game state
    ========================================================= */
+let TIER = 'mix';
+let CURRENT_KEY = null;
+
 const S = {
   key:'physics', sub:SUB.physics, rush:false,
   questions:[], qi:0, cur:null,
@@ -1203,6 +1776,12 @@ function setView(v){
   el.end.classList.toggle('on', v === 'end');
   el.stats.classList.toggle('on', v === 'stats');
   document.body.classList.toggle('inBattle', v === 'battle');
+  document.body.classList.toggle('tabbarOn', v === 'menu' || v === 'stats');
+  $$('#tabbar button').forEach(function(b){
+    const on = (v === 'menu' && b.dataset.tab === 'home') || (v === 'stats' && b.dataset.tab === 'stats');
+    b.classList.toggle('on', on);
+  });
+  if (v !== 'menu' && v !== 'stats') closeSheet();
   window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
 }
 
@@ -1213,32 +1792,54 @@ function pctOf(k){ const s = subStat(k); return s.n ? Math.round(s.c / s.n * 100
 
 function renderMenu(){
   el.grid.innerHTML = '';
+  const C = 2 * Math.PI * 44;
   Object.keys(SUB).forEach(function(k){
     const s = SUB[k];
     const st = subStat(k);
     const pct = st.n ? Math.round(st.c / st.n * 100) : 0;
+    const total = BANK.filter(function(q){ return q.s === k; }).length;
     const primary = (LANG === 'en') ? s.en : s.th;
-    const secondary = (LANG === 'en') ? s.th : s.en;
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'card';
+    b.className = 'scard';
     b.style.setProperty('--c', s.c);
     b.setAttribute('aria-label', t('cardAria', s.boss, primary));
-    const ico = document.createElement('span'); ico.className = 'ci'; ico.textContent = s.ico;
-    const best = document.createElement('span'); best.className = 'cbest'; best.textContent = st.best ? st.best : '';
-    const th = document.createElement('span'); th.className = 'cth'; th.textContent = primary;
-    const en = document.createElement('span'); en.className = 'cen'; en.textContent = secondary;
-    const bar = document.createElement('span'); bar.className = 'cbar';
-    const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.appendChild(fill);
-    const meta = document.createElement('span'); meta.className = 'cmeta';
-    meta.textContent = st.n ? t('accMeta', pct, st.c, st.n) : subDesc(s);
-    b.appendChild(ico); b.appendChild(best); b.appendChild(th); b.appendChild(en); b.appendChild(bar); b.appendChild(meta);
+
+    const best = document.createElement('span');
+    best.className = 'cbest';
+    best.textContent = st.best ? st.best : '';
+
+    const ring = document.createElement('span');
+    ring.className = 'cRing';
+    ring.innerHTML =
+      '<svg viewBox="0 0 100 100" aria-hidden="true">' +
+        '<circle class="bg" cx="50" cy="50" r="44"></circle>' +
+        '<circle class="fg" cx="50" cy="50" r="44" style="stroke-dasharray:' + C.toFixed(1) + ';stroke-dashoffset:' + (C * (1 - pct / 100)).toFixed(1) + '"></circle>' +
+      '</svg>';
+    const ico = document.createElement('span');
+    ico.className = 'ci';
+    ico.textContent = s.ico;
+    ring.appendChild(ico);
+
+    const th = document.createElement('span');
+    th.className = 'cth';
+    th.textContent = primary;
+
+    const boss = document.createElement('span');
+    boss.className = 'cboss';
+    boss.textContent = s.boss;
+
+    const meta = document.createElement('span');
+    meta.className = 'cmeta';
+    meta.textContent = t('cardMeta', total, st.n ? pct : -1);
+
+    b.appendChild(best); b.appendChild(ring); b.appendChild(th); b.appendChild(boss); b.appendChild(meta);
     b.addEventListener('click', function(){ SFX.click(); intro(k); });
     el.grid.appendChild(b);
   });
+
+  el.bankMeta.textContent = t('bankMeta', BANK.length, Object.keys(SUB).length);
   el.rushBtn.setAttribute('aria-label', t('rushAria'));
-  el.timerBtn.setAttribute('aria-pressed', String(!store.focus));
-  el.timerBtn.innerHTML = '<span class="dot"></span><span>' + t(store.focus ? 'timerOff' : 'timerOn') + '</span>';
   el.soundBtn.textContent = store.mute ? '🔇' : '🔊';
   el.soundBtn.classList.toggle('off', store.mute);
   el.soundBtn.setAttribute('aria-pressed', String(!store.mute));
@@ -1246,6 +1847,8 @@ function renderMenu(){
   el.battle.setAttribute('aria-label', t('battleAria'));
   el.end.setAttribute('aria-label', t('endAria'));
   el.stats.setAttribute('aria-label', t('statsAria'));
+  el.setVer.textContent = t('version', BANK.length);
+  syncSettings();
 }
 
 /* =========================================================
@@ -1254,6 +1857,7 @@ function renderMenu(){
 function intro(key){
   const isRush = key === 'rush';
   const s = isRush ? RUSH : SUB[key];
+  CURRENT_KEY = key;
   el.ovPick.textContent = s.ico;
   el.ovPick.style.filter = 'drop-shadow(0 0 18px ' + s.c + ')';
   el.ovTitle.textContent = s.boss;
@@ -1265,6 +1869,8 @@ function intro(key){
   el.ovBtn.textContent = t('startBattle');
   el.ovCancel.textContent = t('cancel');
   el.ovCancel.hidden = false;
+  paintDossier();
+  paintTiers();
   el.ov.classList.add('on');
   el.ovBtn.focus();
   el.ovBtn.onclick = function(){
@@ -1275,11 +1881,41 @@ function intro(key){
 }
 function closeOv(){ el.ov.classList.remove('on'); }
 
+function paintDossier(){
+  if (!CURRENT_KEY) return;
+  const isRush = CURRENT_KEY === 'rush';
+  const total = isRush ? BANK.length : BANK.filter(function(q){ return q.s === CURRENT_KEY; }).length;
+  let pct = 0, best = 0;
+  if (isRush) {
+    pct = store.tot.n ? Math.round(store.tot.c / store.tot.n * 100) : 0;
+    best = store.bestScore || 0;
+  } else {
+    const st = subStat(CURRENT_KEY);
+    pct = st.n ? Math.round(st.c / st.n * 100) : 0;
+    best = st.best || 0;
+  }
+  el.ovStats.innerHTML =
+    '<div class="ovStat"><small>' + t('ovMastery') + '</small><b>' + pct + '%</b></div>' +
+    '<div class="ovStat"><small>' + t('ovBest') + '</small><b>' + best + '</b></div>' +
+    '<div class="ovStat"><small>' + t('ovBank') + '</small><b>' + total + '</b></div>';
+}
+
+function paintTiers(){
+  $$('#tiers button').forEach(function(b){
+    b.classList.toggle('on', b.dataset.tier === TIER);
+  });
+}
+
 /* =========================================================
    9. battle start
    ========================================================= */
-function buildSet(key, n){
+function buildSet(key, n, tier){
   let pool = (key === 'rush') ? BANK.slice() : BANK.filter(function(q){ return q.s === key; });
+  if (tier === 'core' || tier === 'hard') {
+    const allow = (tier === 'core') ? [1, 2] : [2, 3];
+    const filtered = pool.filter(function(q){ return allow.indexOf(q.d) !== -1; });
+    if (filtered.length >= n) pool = filtered;
+  }
   pool = shuffle(pool.slice());
   const byD = {1:[], 2:[], 3:[]};
   pool.forEach(function(q){ byD[q.d].push(q); });
@@ -1307,7 +1943,7 @@ function startBattle(key, opts){
   S.key = key;
   S.rush = (key === 'rush');
   S.sub = S.rush ? RUSH : SUB[key];
-  S.questions = opts.qs ? opts.qs.slice() : buildSet(key, S.rush ? 18 : 14);
+  S.questions = opts.qs ? opts.qs.slice() : buildSet(key, S.rush ? 18 : 14, TIER);
   S.qi = 0;
   S.maxHp = opts.bossMax || (S.rush ? 1600 : 1300);
   S.hp = S.maxHp;
@@ -1815,38 +2451,68 @@ function renderStats(){
    ========================================================= */
 AU.muted = !!store.mute;
 
-el.soundBtn.addEventListener('click', function(){
+function syncSettings(){
+  if (!el.setSoundVal) return;
+  el.setSoundVal.textContent = t(store.mute ? 'off' : 'on');
+  el.setTimerVal.textContent = t(store.focus ? 'off' : 'on');
+}
+function refreshSound(){
+  el.soundBtn.textContent = AU.muted ? '🔇' : '🔊';
+  el.soundBtn.classList.toggle('off', AU.muted);
+  el.soundBtn.setAttribute('aria-pressed', String(!AU.muted));
+  syncSettings();
+}
+function toggleSound(){
   unlock();
   AU.muted = !AU.muted;
   store.mute = AU.muted;
   saveStore();
-  el.soundBtn.textContent = AU.muted ? '🔇' : '🔊';
-  el.soundBtn.classList.toggle('off', AU.muted);
-  el.soundBtn.setAttribute('aria-pressed', String(!AU.muted));
+  refreshSound();
   if (!AU.muted) SFX.click();
-});
+}
+el.soundBtn.addEventListener('click', toggleSound);
+el.setSound.addEventListener('click', toggleSound);
 
-el.timerBtn.addEventListener('click', function(){
+el.setTimer.addEventListener('click', function(){
   store.focus = !store.focus;
   saveStore();
-  renderMenu();
+  syncSettings();
   SFX.click();
 });
 
-el.statsBtn.addEventListener('click', function(){
-  SFX.click();
-  renderStats();
-  setView('stats');
-});
-el.backBtn.addEventListener('click', function(){ SFX.click(); renderMenu(); setView('menu'); });
+function openSheet(){ el.setSheet.classList.add('on'); syncSettings(); }
+function closeSheet(){ el.setSheet.classList.remove('on'); }
+el.setClose.addEventListener('click', function(){ SFX.click(); closeSheet(); });
+el.setSheet.addEventListener('click', function(e){ if (e.target === el.setSheet) closeSheet(); });
 
-el.resetBtn.addEventListener('click', function(){
+el.setReset.addEventListener('click', function(){
   if (!window.confirm(t('confirmReset'))) return;
   store = { mute:store.mute, focus:store.focus, lang:LANG, sub:{}, tot:{c:0,n:0}, bestCombo:0, bestScore:0, streak:0, lastDay:null, plays:0 };
   saveStore();
+  closeSheet();
   renderMenu();
   SFX.click();
   say(t('cleared'));
+});
+
+function goHome(){ closeOv(); closeSheet(); renderMenu(); setView('menu'); }
+function goStats(){ closeOv(); closeSheet(); renderStats(); setView('stats'); }
+
+$$('#tabbar button').forEach(function(b){
+  b.addEventListener('click', function(){
+    const tab = b.dataset.tab;
+    SFX.click();
+    if (tab === 'settings') { openSheet(); return; }
+    if (tab === 'stats') goStats(); else goHome();
+  });
+});
+
+$$('#tiers button').forEach(function(b){
+  b.addEventListener('click', function(){
+    TIER = b.dataset.tier;
+    paintTiers();
+    SFX.click();
+  });
 });
 
 el.rushBtn.addEventListener('click', function(){ SFX.click(); intro('rush'); });
@@ -1857,7 +2523,7 @@ el.skShield.addEventListener('click', function(){ useSkill('shield'); });
 el.skFreeze.addEventListener('click', function(){ useSkill('freeze'); });
 el.skHalf.addEventListener('click', function(){ useSkill('half'); });
 el.nextBtn.addEventListener('click', next);
-el.quitBtn.addEventListener('click', function(){ SFX.click(); quitBattle(); });
+el.homeBtn.addEventListener('click', function(){ SFX.click(); quitBattle(); });
 
 function quitBattle(){
   if (!el.battle.classList.contains('on') || S.done) return;
@@ -1867,6 +2533,7 @@ function quitBattle(){
   cancelAnimationFrame(S.raf);
   clearTimeout(S.nextT);
   saveStore();
+  closeSheet();
   renderMenu();
   setView('menu');
 }
@@ -1881,7 +2548,7 @@ el.weakBtn.addEventListener('click', function(){
   const bossMax = clamp(100 + qs.length * 62, 240, 1400);
   startBattle(S.key, { qs: shuffle(qs), bossMax: bossMax, weak:true });
 });
-el.menuBtn.addEventListener('click', function(){ SFX.click(); renderMenu(); setView('menu'); });
+el.menuBtn.addEventListener('click', function(){ SFX.click(); goHome(); });
 
 $$('#langSwitch button').forEach(function(b){
   b.addEventListener('click', function(){
@@ -1906,6 +2573,8 @@ function applyLang(){
     b.setAttribute('aria-pressed', String(on));
   });
   renderMenu();
+  syncSettings();
+  if (el.ov.classList.contains('on')) paintDossier();
   if (el.battle.classList.contains('on')) relabelBattle();
   if (el.end.classList.contains('on')) paintEnd();
   if (el.stats.classList.contains('on')) renderStats();
@@ -1924,6 +2593,10 @@ function relabelBattle(){
 
 document.addEventListener('keydown', function(e){
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (el.setSheet.classList.contains('on')) {
+    if (e.key === 'Escape') { e.preventDefault(); closeSheet(); }
+    return;
+  }
   if (el.ov.classList.contains('on')) {
     if (e.key === 'Escape') { closeOv(); }
     if (e.key === 'Enter' && document.activeElement !== el.ovCancel) { e.preventDefault(); el.ovBtn.click(); }

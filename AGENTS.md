@@ -43,9 +43,12 @@ The files that control behaviour:
 
 | Location | Controls |
 |---|---|
-| `BANK` | All content, 180 questions (physics 37 · engineering 36 · logic 36 · math 35 · English 36) |
+| `BANK` | All content, 500 questions (physics 101 · engineering 100 · logic 100 · math 99 · English 100) |
 | `SUB` | Subject keys → Thai/English name, emoji, accent colour, boss name, description |
 | `S` | Whole battle state; `startBattle()` resets it |
+| `TIER` | `mix` \| `core` (d1–2) \| `hard` (d2–3); chosen in the boss dossier and applied by `buildSet()` |
+| `renderMenu` / `paintDossier` / `renderStats` | Every screen is re-rendered on language change |
+| `setView` / `goHome` / `goStats` / `openSheet` | Navigation: views, bottom tabs, settings sheet |
 | `M.th` / `M.en` + `t(key, …)` | UI copy; static nodes use `data-i18n` / `data-i18n-aria` |
 | `onCorrect` / `onWrong` / `checkRage` | Damage, healing, combo, rage trigger |
 | `renderMenu` / `paintEnd` / `renderStats` | Every screen is re-rendered on language change |
@@ -73,6 +76,8 @@ Question schema (must stay stable):
 - **Storage key `bbTPAT3_v1`** holds mute, focus mode, language, per-subject `{c,n,best}`,
   totals, best combo/score and day streak. Bump the key for breaking shape changes.
 - **3D is CSS transforms + a 2D canvas**, not Three.js. This keeps the file under 100 KB and offline.
+- **Navigation is tab-based**: bottom bar (Play / Stats / Settings), subject carousel on Play, boss dossier sheet with tier chips, and a one-tap 🏠 in battle. Do not reintroduce the old chip row or a separate back button on Stats — the tab bar is the home affordance.
+- **Content scale**: 500 questions inline (~140 KB). Up to ~800 is fine inline; beyond that, move `BANK` to a separate classic `<script src="bank.js">` (not `fetch`, so `file://` still works) and load it before the app script.
 - **Skill rules:** Shield 2 uses / 5 s CD, Freeze 2 / 6 s, 50/50 3 / 8 s. Weak-point rematches get
   1/1/2. A cut option can never be answered even by keyboard.
 - `el.*` is a cache of element IDs; renaming an ID in markup requires updating that map.
@@ -84,7 +89,7 @@ Question schema (must stay stable):
 - Audio is fully synthesised; there is no music and some browsers need a first tap to unlock.
 - Stats are per device and are not synced. Clearing site data wipes them.
 - No automated test suite is committed; regressions are currently caught by manual/headless play.
-- The 180-question bank is enough to replay but heavy users will still see repeats; adding items is
+- The 500-question bank is enough to replay but heavy users will still see repeats; adding items is
   the intended maintenance path. Keep the per-subject pools balanced across difficulty 1–3.
 
 ## 6. Continuity
