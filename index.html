@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07040f">
+<title>Boss Battle: TPAT3 + English</title>
+<style>
+:root{
+  color-scheme:dark;
+  --void:#07040f; --panel:#130a28; --panel2:#1b0f38; --panel3:#0d0620;
+  --mag:#ff2bd6; --cya:#19f6ff; --lime:#c6ff3d; --amb:#ffb62b; --vio:#8b5cf6;
+  --red:#ff4d6d; --text:#ece8ff; --dim:#a197cc; --line:#4a3a85;
+  --c:var(--cya);
+  --body:-apple-system,'Noto Sans Thai',"Segoe UI",system-ui,"Thonburi",sans-serif;
+  --disp:'Orbitron',"Arial Black",Impact,Haettenschweiler,ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100%;color:var(--text);font-family:var(--body);font-size:16.5px;font-weight:500;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:16px 14px calc(26px + env(safe-area-inset-bottom,0px));
+  overflow-x:hidden;
+  background-color:var(--void);
+  background-image:
+    radial-gradient(48% 34% at 6% 0%,rgba(255,43,214,.30),transparent 70%),
+    radial-gradient(42% 36% at 100% 16%,rgba(25,246,255,.22),transparent 70%),
+    radial-gradient(50% 40% at 42% 100%,rgba(139,92,246,.28),transparent 70%),
+    radial-gradient(32% 26% at 100% 100%,rgba(255,182,43,.16),transparent 70%),
+    linear-gradient(rgba(139,92,246,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(139,92,246,.06) 1px,transparent 1px);
+  background-size:auto,auto,auto,auto,38px 38px,38px 38px;
+  background-attachment:fixed;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.16;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.09) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+h1,h2,h3,p{margin:0}
+button{font-family:inherit}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px;border-radius:8px}
+
+/* ---------- brand ---------- */
+.topBar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:620px;z-index:8}
+.langSwitch{
+  display:flex;gap:2px;padding:3px;border-radius:12px;border:1px solid #3b2f6b;
+  background:rgba(19,10,40,.9);box-shadow:0 0 14px rgba(139,92,246,.22);
+}
+.langSwitch button{
+  cursor:pointer;border:0;background:transparent;color:var(--dim);
+  font:800 11px/1 ui-monospace,monospace;letter-spacing:.08em;padding:8px 10px;border-radius:9px;
+  transition:.15s;
+}
+.langSwitch button:hover{color:var(--text)}
+.langSwitch button.on{background:var(--cya);color:#07040f;box-shadow:0 0 12px rgba(25,246,255,.55)}
+.brand{text-align:center;position:relative;z-index:7;margin-top:2px}
+.brand h1{
+  font-family:var(--disp);font-weight:900;font-size:clamp(24px,6.4vw,42px);letter-spacing:.11em;line-height:1.15;
+  background:linear-gradient(92deg,var(--mag),var(--amb),var(--lime),var(--cya));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(255,43,214,.55));
+}
+.brand .sub{
+  margin-top:2px;font-size:11.5px;letter-spacing:.28em;color:var(--dim);font-weight:700;
+  font-family:ui-monospace,Menlo,monospace;
+}
+.soundBtn{
+  width:44px;height:44px;border-radius:12px;border:2px solid var(--cya);background:rgba(19,10,40,.9);
+  color:#fff;font-size:18px;cursor:pointer;box-shadow:0 0 14px rgba(25,246,255,.45);
+  display:grid;place-items:center;transition:.2s;
+}
+.soundBtn.off{border-color:#3b3357;color:var(--dim);box-shadow:none}
+
+/* ---------- views ---------- */
+.view{display:none;flex-direction:column;gap:14px;width:100%;max-width:620px;position:relative;z-index:7}
+.view.on{display:flex}
+
+/* ---------- menu ---------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:20px;padding:18px;
+  background:linear-gradient(145deg,rgba(255,43,214,.18),rgba(19,10,40,.94) 46%,rgba(25,246,255,.16));
+  border:2px solid rgba(255,43,214,.55);
+  box-shadow:0 0 28px rgba(255,43,214,.32),inset 0 0 34px rgba(139,92,246,.24);
+  display:grid;gap:14px;
+}
+.hero::before{
+  content:"";position:absolute;inset:-40% -20% auto auto;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(25,246,255,.35),transparent 65%);filter:blur(6px);pointer-events:none;
+}
+.heroTag{
+  display:inline-flex;align-items:center;gap:6px;width:max-content;
+  font:800 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;color:var(--lime);
+  border:1px solid rgba(198,255,61,.5);background:rgba(198,255,61,.08);border-radius:999px;padding:6px 10px;
+}
+.hero h2{
+  font-size:clamp(20px,5.2vw,26px);font-weight:800;letter-spacing:.01em;
+  background:linear-gradient(90deg,#fff,var(--cya));-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{color:var(--dim);font-size:14.5px;line-height:1.55;margin-top:6px;white-space:pre-line}
+.rushBtn{
+  position:relative;cursor:pointer;text-align:left;color:#fff;border-radius:16px;padding:13px 16px;
+  border:2px solid var(--amb);background:linear-gradient(100deg,rgba(255,182,43,.24),rgba(255,43,214,.2));
+  box-shadow:0 0 22px rgba(255,182,43,.35),inset 0 0 22px rgba(255,182,43,.12);
+  display:flex;align-items:center;gap:12px;transition:transform .18s,box-shadow .2s;
+}
+.rushBtn:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 34px rgba(255,182,43,.6)}
+.rushBtn .ri{font-size:28px;filter:drop-shadow(0 0 8px var(--amb))}
+.rushBtn b{display:block;font-family:var(--disp);font-size:15px;letter-spacing:.12em;color:var(--amb)}
+.rushBtn small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
+.rushBtn .go{margin-left:auto;font-size:20px;color:var(--amb)}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.card{
+  --c:var(--cya);
+  position:relative;cursor:pointer;text-align:left;color:var(--text);padding:14px 13px 12px;
+  border-radius:18px;border:2px solid color-mix(in srgb,var(--c) 42%,transparent);
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 13%,var(--panel)),var(--panel));
+  box-shadow:0 0 14px color-mix(in srgb,var(--c) 22%,transparent),inset 0 0 20px rgba(0,0,0,.35);
+  display:grid;gap:3px;grid-template-columns:1fr auto;align-items:center;
+  transition:transform .18s,box-shadow .2s,border-color .2s;
+  transform-style:preserve-3d;
+}
+.card:hover{border-color:var(--c);transform:translateY(-4px);box-shadow:0 8px 26px color-mix(in srgb,var(--c) 45%,transparent)}
+.card:active{transform:translateY(-1px) scale(.99)}
+.card .ci{font-size:30px;line-height:1.1;filter:drop-shadow(0 0 10px var(--c));grid-column:1}
+.card .cbest{grid-column:2;grid-row:1;font:800 10px/1 ui-monospace,monospace;color:var(--c);letter-spacing:.08em;opacity:.9;align-self:start;margin-top:4px}
+.card .cth{grid-column:1/-1;font-weight:800;font-size:16.5px;margin-top:4px}
+.card .cen{grid-column:1/-1;font:700 9.5px/1.2 ui-monospace,monospace;letter-spacing:.16em;color:color-mix(in srgb,var(--c) 80%,#fff);opacity:.75}
+.card .cbar{grid-column:1/-1;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:8px}
+.card .cbar i{display:block;height:100%;background:var(--c);box-shadow:0 0 8px var(--c);border-radius:99px}
+.card .cmeta{grid-column:1/-1;font-size:11px;color:var(--dim);margin-top:3px}
+.card:nth-child(5){grid-column:1/-1}
+.menuFoot{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.chip{
+  cursor:pointer;border-radius:12px;border:1px solid #3b2f6b;background:rgba(19,10,40,.85);color:var(--text);
+  padding:10px 6px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:.18s;
+}
+.chip:hover{border-color:var(--cya);color:var(--cya)}
+.chip[aria-pressed="false"]{opacity:.55}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.chip[aria-pressed="false"] .dot{background:#4a3a85;box-shadow:none}
+
+/* ---------- battle ---------- */
+.arena{--c:var(--cya);display:flex;flex-direction:column;gap:12px;width:100%;will-change:transform}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
+#hearts{font-size:19px;letter-spacing:1px;line-height:1}
+.hudBox{text-align:right;line-height:1.05}
+.hudBox .cl{display:block;font:700 8.5px/1 ui-monospace,monospace;letter-spacing:.2em;color:var(--dim)}
+.hudBox b{font-family:var(--disp);font-size:17px;color:var(--amb);text-shadow:0 0 12px rgba(255,182,43,.7)}
+#comboVal.hot{color:var(--mag);text-shadow:0 0 16px var(--mag)}
+.bossCard{perspective:900px;display:flex;justify-content:center;padding-top:20px;padding-bottom:4px}
+.bossInner{
+  display:flex;align-items:center;gap:16px;transform-style:preserve-3d;
+  transition:transform .18s ease-out;
+}
+.ring{
+  position:relative;width:clamp(96px,26vw,132px);aspect-ratio:1;border-radius:50%;flex:none;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 34%,color-mix(in srgb,var(--c) 38%,#1a0b3a),#120826 72%);
+  border:3px solid var(--c);
+  box-shadow:0 0 22px var(--c),0 0 64px color-mix(in srgb,var(--c) 50%,transparent),inset 0 0 26px color-mix(in srgb,var(--c) 42%,transparent);
+  transition:border-color .45s,box-shadow .45s,background .45s;
+}
+.ring::before{
+  content:"";position:absolute;inset:-11px;border-radius:50%;
+  border:2px dashed color-mix(in srgb,var(--c) 75%,transparent);opacity:.55;
+  animation:spin 16s linear infinite;
+}
+.ring::after{
+  content:"";position:absolute;inset:-20px;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--c) 35%,transparent);
+  box-shadow:0 0 30px color-mix(in srgb,var(--c) 30%,transparent);
+  opacity:.7;animation:breathe 3.4s ease-in-out infinite;
+}
+.face{font-size:clamp(46px,13vw,68px);line-height:1;filter:drop-shadow(0 0 12px var(--c));animation:bob 2.8s ease-in-out infinite}
+.ring.hit{animation:ringHit .4s ease-out}
+.bossMeta{display:grid;gap:6px;min-width:0}
+.bname{
+  font-family:var(--disp);font-weight:900;font-size:clamp(15px,4vw,20px);letter-spacing:.1em;line-height:1.15;
+  color:var(--c);text-shadow:0 0 14px color-mix(in srgb,var(--c) 70%,transparent);
+}
+.bossSub{font:700 10px/1.3 ui-monospace,monospace;letter-spacing:.14em;color:var(--dim)}
+.rageBadge{
+  display:none;width:max-content;font:900 10px/1 ui-monospace,monospace;letter-spacing:.2em;
+  padding:5px 8px;border-radius:6px;color:#fff;background:var(--red);
+  box-shadow:0 0 16px var(--red);animation:ragePulse .9s infinite alternate;
+}
+.arena.rage .rageBadge{display:block}
+.arena.rage .ring{
+  border-color:var(--red);
+  background:radial-gradient(circle at 50% 34%,#5a0c1c,#1a0610 72%);
+  box-shadow:0 0 26px var(--red),0 0 80px rgba(255,43,61,.65),inset 0 0 34px rgba(255,43,61,.55);
+}
+.arena.rage .ring::before{border-color:rgba(255,77,109,.85);animation-duration:5s}
+.arena.rage .ring::after{border-color:rgba(255,77,109,.5);box-shadow:0 0 40px rgba(255,77,109,.5)}
+.arena.rage .bname{color:var(--red);text-shadow:0 0 18px rgba(255,43,61,.9)}
+.arena.rage .face{filter:drop-shadow(0 0 18px var(--red));animation:bob 1.1s ease-in-out infinite}
+.hpbar{
+  position:relative;width:100%;height:20px;border-radius:99px;overflow:hidden;
+  background:#241048;border:1px solid #5b49a0;box-shadow:inset 0 2px 8px rgba(0,0,0,.6);
+}
+.hpbar i{
+  position:absolute;inset:0 auto 0 0;width:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--red),var(--amb),var(--lime));
+  box-shadow:0 0 16px var(--amb);transition:width .45s cubic-bezier(.2,.9,.2,1);
+}
+.hpbar i::after{
+  content:"";position:absolute;inset:0;border-radius:99px;
+  background:repeating-linear-gradient(90deg,rgba(0,0,0,.22) 0 2px,transparent 2px 14px);
+}
+.hpbar span{
+  position:relative;display:block;text-align:center;font:700 10.5px/20px ui-monospace,monospace;
+  letter-spacing:.1em;color:#07040f;text-shadow:0 1px 0 rgba(255,255,255,.35);
+}
+.arena.rage .hpbar{border-color:rgba(255,77,109,.7)}
+.arena.rage .hpbar i{background:linear-gradient(90deg,#ff2b3d,#ff7a2b);box-shadow:0 0 20px var(--red);animation:hpGlow .8s infinite alternate}
+
+.qcard{
+  --c:var(--mag);position:relative;width:100%;padding:16px;border-radius:18px;
+  background:linear-gradient(165deg,rgba(27,15,56,.96),rgba(13,6,32,.98));
+  border:2px solid color-mix(in srgb,var(--c) 60%,transparent);
+  box-shadow:0 0 24px color-mix(in srgb,var(--c) 34%,transparent),inset 0 0 24px rgba(0,0,0,.4);
+  transition:border-color .3s,box-shadow .3s;
+}
+.qcard.urgent{border-color:var(--red);animation:urgent .5s ease-in-out infinite alternate}
+.tb{height:7px;border-radius:99px;background:#24104a;overflow:hidden;display:none;flex:1}
+.tb.on{display:block}
+.tb i{display:block;height:100%;width:100%;border-radius:99px;background:linear-gradient(90deg,var(--lime),var(--amb),var(--red))}
+.qTop{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.qLang{
+  flex:none;margin-left:auto;font:800 9px/1 ui-monospace,monospace;letter-spacing:.12em;
+  color:#9b8ec9;border:1px solid #4a3a85;border-radius:6px;padding:3px 5px;
+}
+.q{font-size:clamp(16.5px,4.4vw,21px);line-height:1.6;font-weight:700;margin:0 0 14px;white-space:pre-wrap;letter-spacing:.005em}
+.opts{display:grid;gap:9px}
+.opt{
+  --c:var(--cya);display:flex;gap:11px;align-items:center;text-align:left;width:100%;
+  font:500 15.5px/1.5 var(--body);color:var(--text);
+  background:color-mix(in srgb,var(--c) 9%,#1b0f38);
+  border:2px solid color-mix(in srgb,var(--c) 50%,transparent);
+  border-radius:12px;padding:10px 12px;cursor:pointer;transition:transform .15s,box-shadow .18s,border-color .18s,opacity .25s;
+}
+.opt i{
+  flex:none;display:grid;place-items:center;width:29px;height:29px;border-radius:8px;
+  background:var(--c);color:#07040f;font:900 13px/1 ui-monospace,monospace;font-style:normal;
+}
+.opt span{flex:1;min-width:0;overflow-wrap:anywhere}
+.opt:hover:not(:disabled){transform:translateX(4px);border-color:var(--c);box-shadow:0 0 18px color-mix(in srgb,var(--c) 55%,transparent)}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--lime);background:rgba(198,255,61,.18);box-shadow:0 0 22px rgba(198,255,61,.55)}
+.opt.ok i{background:var(--lime)}
+.opt.no{border-color:var(--red);background:rgba(255,77,109,.18);box-shadow:0 0 22px rgba(255,77,109,.5)}
+.opt.no i{background:var(--red)}
+.opt.cut{opacity:.22;filter:grayscale(1);pointer-events:none;transform:none}
+.exp{
+  display:none;margin-top:13px;padding:11px 13px;border-left:4px solid var(--amb);
+  background:rgba(255,255,255,.055);border-radius:0 10px 10px 0;font-size:14px;line-height:1.55;
+}
+.exp.on{display:block;animation:fadeUp .28s ease-out}
+.exp b{display:block;margin-bottom:3px;font-size:14.5px}
+.exp b.good{color:var(--lime)}
+.exp b.bad{color:var(--red)}
+.exp .why{color:var(--text);opacity:.92}
+.nextBtn{
+  display:none;margin-top:12px;width:100%;cursor:pointer;color:#07040f;font-weight:900;font-size:15px;
+  padding:11px;border-radius:11px;border:0;background:linear-gradient(90deg,var(--lime),var(--cya));
+  box-shadow:0 0 20px rgba(198,255,61,.45);letter-spacing:.02em;
+}
+.nextBtn.on{display:block;animation:fadeUp .2s ease-out}
+
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%}
+.skill{
+  position:relative;cursor:pointer;color:var(--text);border-radius:13px;padding:9px 6px 8px;
+  border:2px solid #3b2f6b;background:linear-gradient(180deg,rgba(27,15,56,.95),rgba(13,6,32,.95));
+  display:grid;place-items:center;gap:2px;transition:.18s;overflow:hidden;
+}
+.skill .si{font-size:22px;line-height:1;filter:drop-shadow(0 0 8px currentColor)}
+.skill .sn{font:900 9.5px/1 ui-monospace,monospace;letter-spacing:.12em;color:var(--dim)}
+.skill .sc{
+  position:absolute;top:5px;right:6px;min-width:17px;height:17px;border-radius:9px;
+  font:900 10px/17px ui-monospace,monospace;background:var(--cya);color:#07040f;text-align:center;
+}
+.skill[data-sk="shield"]{border-color:rgba(25,246,255,.6)}
+.skill[data-sk="freeze"]{border-color:rgba(198,255,61,.6)}
+.skill[data-sk="half"]{border-color:rgba(255,43,214,.6)}
+.skill:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(25,246,255,.35)}
+.skill:disabled{opacity:.42;cursor:not-allowed}
+.skill.armed{border-color:var(--cya);box-shadow:0 0 20px var(--cya),inset 0 0 18px rgba(25,246,255,.3)}
+.skill.used{animation:skillPop .35s}
+.skill .sc.empty{background:#4a3a85;color:#cfc6ee}
+.skill .cd{position:absolute;bottom:3px;right:7px;font:700 8.5px/1 ui-monospace,monospace;color:#9b8ec9;letter-spacing:.06em}
+.hint{text-align:center;font:600 10.5px/1 ui-monospace,monospace;letter-spacing:.1em;color:#7a6fa8;margin-top:-2px}
+.footRow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.quit{
+  cursor:pointer;background:transparent;border:1px solid #4a3a85;color:var(--dim);
+  font:700 10.5px/1 ui-monospace,monospace;letter-spacing:.08em;padding:6px 9px;border-radius:8px;
+}
+.quit:hover{border-color:var(--red);color:var(--red)}
+
+/* ---------- end / stats ---------- */
+.ct{--c:var(--cya);padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.ct .top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.ct .top b{font-family:var(--disp);color:var(--c);white-space:nowrap}
+.endCard,.panel{
+  width:100%;border-radius:20px;padding:18px;background:linear-gradient(165deg,rgba(27,15,56,.96),rgba(13,6,32,.98));
+  border:2px solid rgba(139,92,246,.5);box-shadow:0 0 26px rgba(139,92,246,.3),inset 0 0 30px rgba(0,0,0,.4);
+  display:grid;gap:14px;
+}
+.endTitle{
+  font-family:var(--disp);font-weight:900;text-align:center;font-size:clamp(30px,8.6vw,48px);letter-spacing:.09em;line-height:1.1;
+}
+.endTitle.win{background:linear-gradient(92deg,var(--mag),var(--cya),var(--lime));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(25,246,255,.6))}
+.endTitle.lose{color:var(--red);text-shadow:0 0 26px rgba(255,43,61,.9)}
+.endSub{text-align:center;color:var(--dim);font-size:13.5px;margin-top:-6px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.st{
+  text-align:center;padding:10px 6px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid color-mix(in srgb,var(--c,var(--cya)) 45%,transparent);
+}
+.st small{display:block;color:var(--dim);font-size:11.5px;margin-bottom:2px}
+.st b{font-family:var(--disp);font-size:19px;color:var(--c,var(--cya))}
+.review{display:grid;gap:8px}
+.review h3{font-size:14.5px;color:var(--amb);letter-spacing:.02em}
+.rv{padding:10px 12px;border-radius:0 10px 10px 0;border-left:4px solid var(--red);background:rgba(255,255,255,.045);font-size:13.5px;line-height:1.5}
+.rv .rq{font-weight:700;margin-bottom:4px}
+.rv .ra{color:var(--lime);font-weight:700}
+.rv .rw{color:var(--dim);margin-top:3px}
+.endBtns{display:grid;gap:9px}
+.bigBtn{
+  cursor:pointer;color:#fff;font-weight:800;font-size:15.5px;padding:13px;border-radius:13px;
+  border:2px solid var(--mag);background:rgba(255,43,214,.14);
+  box-shadow:0 0 20px rgba(255,43,214,.4);transition:.18s;
+}
+.bigBtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 30px rgba(255,43,214,.7)}
+.bigBtn.alt{border-color:var(--cya);background:rgba(25,246,255,.1);box-shadow:0 0 20px rgba(25,246,255,.35)}
+.bigBtn.ghost{border-color:#3b2f6b;background:rgba(255,255,255,.04);box-shadow:none;color:var(--dim)}
+.bigBtn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ---------- overlays / fx ---------- */
+.ov{
+  position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;
+  background:rgba(7,4,15,.86);backdrop-filter:blur(7px);
+}
+.ov.on{display:flex;animation:fadeIn .2s ease-out}
+.ovBox{width:min(100%,380px);display:grid;gap:12px;text-align:center;justify-items:center}
+.ovKicker{font:800 10.5px/1 ui-monospace,monospace;letter-spacing:.28em;color:var(--lime)}
+.ovTitle{font-family:var(--disp);font-weight:900;font-size:clamp(24px,7vw,34px);letter-spacing:.08em;line-height:1.15;color:#fff;text-shadow:0 0 22px var(--mag)}
+.ovSub{color:var(--dim);font-size:14px;line-height:1.6}
+.ov .bigBtn{width:100%}
+.bossPick{font-size:56px;line-height:1;filter:drop-shadow(0 0 18px var(--cya));animation:bob 2.4s ease-in-out infinite}
+#banner{
+  position:fixed;left:0;right:0;top:34%;z-index:55;display:grid;place-items:center;pointer-events:none;opacity:0;
+}
+#banner.on{animation:bannerIn 1.7s ease-out}
+#banner span{
+  font-family:var(--disp);font-weight:900;font-size:clamp(26px,8vw,46px);letter-spacing:.16em;color:#fff;
+  padding:10px 22px;border-top:2px solid var(--red);border-bottom:2px solid var(--red);
+  background:linear-gradient(90deg,transparent,rgba(255,43,61,.35),transparent);
+  text-shadow:0 0 20px var(--red),0 0 50px var(--mag);
+}
+#comboPop{
+  position:fixed;left:50%;top:36%;z-index:54;pointer-events:none;opacity:0;
+  font-family:var(--disp);font-weight:900;font-size:clamp(28px,9vw,46px);letter-spacing:.06em;
+  color:#fff;text-shadow:0 0 18px var(--amb),0 0 44px var(--mag);transform:translate(-50%,-50%);
+}
+#comboPop.on{animation:comboPop .8s ease-out}
+#comboPop.big{font-size:clamp(34px,11vw,56px);color:var(--amb);text-shadow:0 0 22px var(--amb),0 0 60px var(--mag)}
+#flash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(255,77,109,.55),rgba(255,77,109,0) 70%)}
+#flash.on{animation:flashOut .45s ease-out}
+#fxLayer{position:fixed;inset:0;z-index:52;pointer-events:none;overflow:hidden}
+.fl{
+  position:absolute;transform:translate(-50%,-50%);white-space:nowrap;
+  font-family:var(--disp);font-weight:900;font-size:clamp(22px,6vw,32px);color:#fff;
+  text-shadow:0 0 12px var(--red),0 0 26px var(--red);animation:floatUp 1s ease-out forwards;
+}
+.fl.crit{font-size:clamp(30px,8vw,46px);color:var(--amb);text-shadow:0 0 16px var(--amb),0 0 38px var(--mag)}
+.fl.block{color:var(--cya);text-shadow:0 0 16px var(--cya),0 0 34px var(--cya);font-size:20px}
+.fl.small{font-size:16px;color:var(--lime);text-shadow:0 0 12px var(--lime)}
+#cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-7px)}}
+@keyframes breathe{50%{transform:scale(1.05);opacity:1}}
+@keyframes ringHit{0%{transform:scale(1)}28%{transform:scale(.9) rotate(-4deg);filter:brightness(2.3)}62%{transform:scale(1.05) rotate(2deg)}100%{transform:scale(1)}}
+@keyframes hpGlow{to{box-shadow:0 0 26px var(--red)}}
+@keyframes ragePulse{to{box-shadow:0 0 26px var(--red),0 0 4px #fff inset;transform:scale(1.04)}}
+@keyframes urgent{to{box-shadow:0 0 34px rgba(255,43,61,.75),inset 0 0 26px rgba(255,43,61,.22)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes floatUp{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}18%{opacity:1;transform:translate(-50%,-58%) scale(1.12)}100%{opacity:0;transform:translate(-50%,-190%) scale(.95)}}
+@keyframes comboPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}22%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}70%{opacity:1;transform:translate(-50%,-64%) scale(1)}100%{opacity:0;transform:translate(-50%,-90%) scale(.9)}}
+@keyframes bannerIn{0%{opacity:0;transform:scaleX(.4)}16%{opacity:1;transform:scaleX(1)}78%{opacity:1}100%{opacity:0;transform:scaleX(1.08)}}
+@keyframes flashOut{from{opacity:1}to{opacity:0}}
+@keyframes skillPop{40%{transform:scale(.9)}100%{transform:scale(1)}}
+@keyframes shk{10%{transform:translate(-6px,3px)}30%{transform:translate(5px,-4px)}50%{transform:translate(-4px,-2px)}70%{transform:translate(4px,3px)}90%{transform:translate(-2px,1px)}}
+@keyframes shk2{8%{transform:translate(-11px,6px) rotate(-.4deg)}26%{transform:translate(10px,-8px) rotate(.4deg)}48%{transform:translate(-8px,-4px)}70%{transform:translate(7px,5px)}88%{transform:translate(-3px,2px)}}
+.arena.shk{animation:shk .36s cubic-bezier(.36,.07,.19,.97)}
+.arena.shk2{animation:shk2 .46s cubic-bezier(.36,.07,.19,.97)}
+
+body.inBattle{gap:10px;padding-top:10px}
+body.inBattle .brand{display:none}
+
+@media (max-width:380px){
+  body{font-size:16px;padding-left:11px;padding-right:11px}
+  .card .cth{font-size:15.5px}
+  .skill .sn{font-size:8.5px}
+  .hudBox b{font-size:15px}
+}
+@media (min-width:1000px){
+  .view{max-width:740px}
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .card:nth-child(5){grid-column:auto}
+}
+@media (max-height:730px){
+  body.inBattle{padding-top:6px;gap:7px}
+  .arena{gap:8px}
+  .bossCard{padding-top:10px;padding-bottom:0}
+  .ring{width:clamp(78px,21vw,100px)}
+  .face{font-size:clamp(36px,9.5vw,50px)}
+  .qcard{padding:12px;border-radius:15px}
+  .q{font-size:clamp(15.5px,4vw,18px);line-height:1.5;margin-bottom:9px}
+  .opt{padding:7px 10px;font-size:15px;border-radius:10px}
+  .opt i{width:26px;height:26px;font-size:12px}
+  .exp{padding:9px 11px;font-size:13px;margin-top:9px}
+  .nextBtn{padding:9px;margin-top:8px}
+  .skill{padding:6px 5px 5px}
+  .skill .si{font-size:19px}
+  .tb{margin-bottom:0}
+  .qTop{margin-bottom:9px}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important}
+  .face,.ring::before,.ring::after{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="topBar">
+  <div class="langSwitch" id="langSwitch" role="group" aria-label="Language / ภาษา">
+    <button type="button" data-lang="th" class="on" aria-pressed="true">TH</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <button class="soundBtn" id="soundBtn" type="button" data-i18n-aria="soundAria" aria-pressed="true">🔊</button>
+</div>
+
+<header class="brand">
+  <h1>BOSS BATTLE</h1>
+  <p class="sub">TPAT3 · ENGLISH · ARCADE</p>
+</header>
+
+<main>
+  <!-- ===== MENU ===== -->
+  <section class="view on" id="vMenu" aria-label="เมนูเลือกบอส">
+    <div class="hero">
+      <div>
+        <span class="heroTag" data-i18n="heroTag">◈ ARCADE STUDY MODE</span>
+        <h2 data-i18n="heroTitle">เลือกบอสที่อยากล้ม</h2>
+        <p data-i18n="heroP">ตอบถูก = ดาเมจ · ตอบผิด = บอสฟื้น
+คอมโบสูง = ดาเมจหนัก · ใช้สกิลให้คุ้ม
+ปิดเกมก่อนบอสคลั่ง</p>
+      </div>
+      <button class="rushBtn" id="rushBtn" type="button" data-i18n-aria="rushAria">
+        <span class="ri">👑</span>
+        <span>
+          <b>BOSS RUSH</b>
+          <small id="rushSub" data-i18n="rushSub">รวมทุกวิชา · 18 ข้อ · ดาเมจคูณพิเศษ</small>
+        </span>
+        <span class="go">▶</span>
+      </button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="menuFoot">
+      <button class="chip" id="statsBtn" type="button" data-i18n="statsBtn">📊 สถิติ</button>
+      <button class="chip" id="timerBtn" type="button" aria-pressed="true"><span class="dot"></span><span data-i18n="timerOn">จับเวลา</span></button>
+      <button class="chip" id="resetBtn" type="button" data-i18n="resetBtn">🗑️ ล้างข้อมูล</button>
+    </div>
+  </section>
+
+  <!-- ===== BATTLE ===== -->
+  <section class="view" id="vBattle" aria-label="การต่อสู้">
+    <div class="arena" id="arena">
+      <div class="hud">
+        <span id="hearts" aria-label="พลังชีวิต"></span>
+        <div class="hudBox"><span class="cl">COMBO</span><b id="comboVal">x0</b></div>
+        <div class="hudBox"><span class="cl">SCORE</span><b id="scoreVal">0</b></div>
+      </div>
+
+      <div class="bossCard" id="bossCard">
+        <div class="bossInner" id="bossInner">
+          <div class="ring" id="ring"><span class="face" id="bossFace">⚡</span></div>
+          <div class="bossMeta">
+            <div class="bname" id="bossName">VOLT REAPER</div>
+            <div class="bossSub" id="bossSub">PHYSICS · BOSS</div>
+            <div class="rageBadge" id="rageBadge">RAGE PHASE</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hpbar" id="hpbar"><i id="hpFill"></i><span id="hpTxt">1300 / 1300</span></div>
+
+      <div class="qcard" id="qcard">
+        <div class="qTop">
+          <div class="tb on" id="tb"><i id="timeFill"></i></div>
+          <span class="qLang" id="qLang">TH</span>
+        </div>
+        <p class="q" id="qText">…</p>
+        <div class="opts" id="opts"></div>
+        <div class="exp" id="exp"><b id="fb"></b><span class="why" id="why"></span></div>
+        <button class="nextBtn" id="nextBtn" type="button">ต่อไป ▶</button>
+      </div>
+
+      <div class="skills" id="skills">
+        <button class="skill" id="skShield" data-sk="shield" type="button" data-i18n-aria="skShield">
+          <span class="si">🛡️</span><span class="sn">SHIELD</span><span class="sc" id="ctShield">2</span><span class="cd" id="cdShield"></span>
+        </button>
+        <button class="skill" id="skFreeze" data-sk="freeze" type="button" data-i18n-aria="skFreeze">
+          <span class="si">⏱️</span><span class="sn">FREEZE</span><span class="sc" id="ctFreeze">2</span><span class="cd" id="cdFreeze"></span>
+        </button>
+        <button class="skill" id="skHalf" data-sk="half" type="button" data-i18n-aria="skHalf">
+          <span class="si">💡</span><span class="sn">50 / 50</span><span class="sc" id="ctHalf">3</span><span class="cd" id="cdHalf"></span>
+        </button>
+      </div>
+      <div class="footRow">
+        <p class="hint" id="hint" data-i18n="hint">กด 1–4 เพื่อตอบ · Q / W / E ใช้สกิล</p>
+        <button class="quit" id="quitBtn" type="button" data-i18n="quit">ออก</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== END ===== -->
+  <section class="view" id="vEnd" aria-label="สรุปผล" data-i18n-aria="endAria">
+    <div class="endCard">
+      <h2 class="endTitle" id="endTitle">VICTORY</h2>
+      <p class="endSub" id="endSub"></p>
+      <div class="stats" id="endStats"></div>
+      <div class="review" id="review"></div>
+      <div class="endBtns">
+        <button class="bigBtn" id="againBtn" type="button">🔁 สู้ใหม่อีกครั้ง</button>
+        <button class="bigBtn alt" id="weakBtn" type="button">🎯 ซ้อมจุดอ่อน</button>
+        <button class="bigBtn ghost" id="menuBtn" type="button">🏠 กลับเมนู</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="view" id="vStats" aria-label="สถิติ" data-i18n-aria="statsAria">
+    <div class="panel">
+      <h2 class="endTitle" style="font-size:clamp(22px,6vw,30px);color:var(--cya);text-shadow:0 0 18px rgba(25,246,255,.6)">STATS</h2>
+      <div class="stats" id="statsTop"></div>
+      <div class="review" id="statsBody"></div>
+      <button class="bigBtn ghost" id="backBtn" type="button" data-i18n="back">← กลับเมนู</button>
+    </div>
+  </section>
+</main>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ovTitle">
+  <div class="ovBox">
+    <span class="ovKicker" data-i18n="encounter">BOSS ENCOUNTER</span>
+    <div class="bossPick" id="ovPick">⚡</div>
+    <h2 class="ovTitle" id="ovTitle">VOLT REAPER</h2>
+    <p class="ovSub" id="ovSub"></p>
+    <button class="bigBtn" id="ovBtn" type="button" data-i18n="startBattle">เริ่มการต่อสู้</button>
+    <button class="bigBtn ghost" id="ovCancel" type="button" data-i18n="cancel">ยกเลิก</button>
+  </div>
+</div>
+
+<div id="banner" aria-hidden="true"><span>RAGE PHASE</span></div>
+<div id="comboPop" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
+<div id="fxLayer" aria-hidden="true"></div>
+<canvas id="cf" aria-hidden="true"></canvas>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   0. helpers
+   ========================================================= */
+const $  = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
+const rand = n => Math.floor(Math.random() * n);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isTouch = window.matchMedia('(hover: none)').matches;
+
+/* =========================================================
+   1. audio — everything synthesised, zero assets
+   ========================================================= */
+const AU = { ctx: null, muted: false, noise: null };
+
+function ac(){
+  if (!AU.ctx) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    try { AU.ctx = new C(); } catch (e) { return null; }
+  }
+  return AU.ctx;
+}
+function unlock(){
+  const c = ac();
+  if (c && c.state === 'suspended') c.resume();
+}
+function tone(f1, f2, dur, type, vol, delay){
+  if (AU.muted) return;
+  const c = ac(); if (!c) return;
+  const t0 = c.currentTime + (delay || 0);
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = type || 'square';
+  o.frequency.setValueAtTime(f1, t0);
+  if (f2 && f2 !== f1) o.frequency.exponentialRampToValueAtTime(Math.max(24, f2), t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(Math.max(0.001, vol), t0 + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(t0); o.stop(t0 + dur + 0.05);
+}
+function noiseHit(dur, vol, freq, delay){
+  if (AU.muted) return;
+  const c = ac(); if (!c) return;
+  if (!AU.noise) {
+    const len = Math.floor(c.sampleRate * 0.6);
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    AU.noise = buf;
+  }
+  const t0 = c.currentTime + (delay || 0);
+  const s = c.createBufferSource(); s.buffer = AU.noise;
+  const f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = freq || 900; f.Q.value = 0.8;
+  const g = c.createGain();
+  g.gain.setValueAtTime(vol, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  s.connect(f); f.connect(g); g.connect(c.destination);
+  s.start(t0); s.stop(t0 + dur + 0.02);
+}
+const SFX = {
+  click(){ tone(620, 880, .06, 'square', .05); },
+  correct(){ tone(660, 660, .08, 'triangle', .09); tone(880, 880, .09, 'triangle', .08, .07); tone(1170, 1170, .12, 'triangle', .06, .14); },
+  wrong(){ tone(220, 90, .28, 'sawtooth', .10); tone(150, 70, .3, 'square', .06, .02); noiseHit(.16, .05, 320); },
+  hit(){ noiseHit(.22, .14, 1500); tone(120, 46, .22, 'sine', .16); },
+  crit(){ noiseHit(.32, .18, 2400); tone(880, 220, .18, 'sawtooth', .10); tone(1320, 660, .16, 'square', .06, .04); },
+  block(){ tone(320, 720, .16, 'sine', .09); tone(720, 320, .16, 'sine', .05, .1); },
+  freeze(){ tone(1400, 420, .34, 'triangle', .09); tone(700, 210, .34, 'sine', .05, .05); },
+  half(){ tone(980, 980, .05, 'square', .07); tone(740, 740, .05, 'square', .07, .07); },
+  heal(){ tone(300, 500, .18, 'sine', .07); },
+  rage(){ tone(90, 42, .7, 'sawtooth', .13); noiseHit(.6, .10, 200); tone(180, 60, .55, 'square', .06, .1); },
+  win(){ [523,659,784,1046].forEach((f,i)=>tone(f,f,.22,'triangle',.09,i*.12)); noiseHit(.4,.06,2400,.35); },
+  lose(){ [392,330,262,196].forEach((f,i)=>tone(f,f,.3,'sawtooth',.085,i*.16)); },
+  combo(){ tone(880,1320,.12,'square',.07); tone(1320,1760,.12,'square',.05,.1); },
+  power(){ tone(200, 900, .25, 'sawtooth', .08); }
+};
+
+/* =========================================================
+   2. storage
+   ========================================================= */
+const KEY = 'bbTPAT3_v1';
+const DEFAULTS = { mute:false, focus:false, lang:'th', sub:{}, tot:{c:0,n:0}, bestCombo:0, bestScore:0, streak:0, lastDay:null, plays:0 };
+function loadStore(){
+  let s;
+  try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e) { s = null; }
+  const out = Object.assign({}, DEFAULTS, s || {});
+  out.sub = Object.assign({}, out.sub); out.tot = Object.assign({}, out.tot);
+  return out;
+}
+let store = loadStore();
+function saveStore(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e) {} }
+function subStat(k){
+  if (!store.sub[k]) store.sub[k] = { c:0, n:0, best:0 };
+  return store.sub[k];
+}
+const dayKey = (d) => { const x = d || new Date(); return x.getFullYear() + '-' + String(x.getMonth()+1).padStart(2,'0') + '-' + String(x.getDate()).padStart(2,'0'); };
+function bumpStreak(){
+  const today = dayKey();
+  if (store.lastDay === today) return;
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  store.streak = (store.lastDay === dayKey(y)) ? (store.streak || 0) + 1 : 1;
+  store.lastDay = today;
+}
+
+/* =========================================================
+   2.5 i18n — Thai is the default language
+   ========================================================= */
+let LANG = (store.lang === 'en') ? 'en' : 'th';
+
+const M = {
+  th: {
+    heroTag:'◈ ARCADE STUDY MODE',
+    heroTitle:'เลือกบอสที่อยากล้ม',
+    heroP:'ตอบถูก = ดาเมจ · ตอบผิด = บอสฟื้น\nคอมโบสูง = ดาเมจหนัก · ใช้สกิลให้คุ้ม\nปิดเกมก่อนบอสคลั่ง',
+    rushSub:'รวมทุกวิชา · 18 ข้อ · ดาเมจคูณพิเศษ',
+    rushAria:'โหมดบอสรวมทุกวิชา',
+    statsBtn:'📊 สถิติ',
+    timerOn:'จับเวลา',
+    timerOff:'โหมดผ่อนคลาย',
+    resetBtn:'🗑️ ล้างข้อมูล',
+    accMeta:(p,c,n)=>'แม่น ' + p + '% · ' + c + '/' + n,
+    cardAria:(boss,th)=>'สู้กับ ' + boss + ' วิชา' + th,
+    encounter:'BOSS ENCOUNTER',
+    startBattle:'⚔️ เริ่มการต่อสู้',
+    cancel:'ยกเลิก',
+    rushOv:'18 ข้อจากทุกสาย · บอสแข็งแกร่งขึ้นทุกเฟส · ใช้สกิลให้คุ้ม',
+    subjOv:(th,desc)=>th + ' · ' + desc + '\nตอบถูก = ดาเมจ · ตอบผิด = บอสฟื้น',
+    weakTag:'จุดอ่อน',
+    bossTag:'บอส',
+    hint:'กด 1–4 เพื่อตอบ · Q / W / E ใช้สกิล',
+    quit:'ออก',
+    confirmQuit:'ออกจากการต่อสู้? ความคืบหน้ารอบนี้จะถูกบันทึกเฉพาะข้อที่ตอบแล้ว',
+    next:'ต่อไป ▶',
+    results:'ดูผลสรุป ▶',
+    correctFb:'✓ ถูกต้อง',
+    wrongFb:(a)=>'✗ ยังไม่ถูก — เฉลย: ' + a,
+    timeoutFb:(a)=>'⏱ หมดเวลา — เฉลย: ' + a,
+    hpAria:(a,b)=>'พลังชีวิต ' + a + ' จาก ' + b,
+    skShield:'โล่ป้องกัน บล็อกความเสียหายหนึ่งครั้ง',
+    skFreeze:'หยุดเวลา เพิ่มเวลาสิบวินาที',
+    skHalf:'ตัดตัวเลือกผิดสองข้อ',
+    soundAria:'เปิดหรือปิดเสียง',
+    menuAria:'เมนูเลือกบอส',
+    battleAria:'การต่อสู้',
+    endAria:'สรุปผล',
+    statsAria:'สถิติ',
+    victory:'VICTORY',
+    defeat:'DEFEAT',
+    winSub:(n)=>'บอสถูกกำจัดด้วย ' + n + ' คำตอบที่ถูกต้อง',
+    loseHp:(hp)=>'พลังชีวิตหมดก่อน · บอสเหลือ ' + hp + ' HP',
+    loseAmmo:(hp)=>'กระสุนหมดก่อนที่บอสจะล้ม · เหลือ ' + hp + ' HP',
+    loseClose:'บอสยังไม่ล้ม · ต้องแม่นกว่านี้อีกนิด',
+    statScore:'SCORE',
+    statAcc:'แม่นยำ',
+    statCombo:'คอมโบสูงสุด',
+    statDmg:'ดาเมจรวม',
+    reviewHead:(n)=>'ทบทวนจุดที่พลาด (' + n + ' ข้อ)',
+    answerLabel:(a)=>'เฉลย: ' + a,
+    more:(n)=>'และอีก ' + n + ' ข้อ — กด “ซ้อมจุดอ่อน” เพื่อเล่นเฉพาะข้อที่พลาด',
+    perfect:'PERFECT RUN — ไม่พลาดสักข้อ!',
+    again:'🔁 สู้ใหม่อีกครั้ง',
+    weak:(n)=>'🎯 ซ้อมจุดอ่อน (' + n + ' ข้อ)',
+    noWeak:'🎯 ไม่มีจุดอ่อนให้ซ้อม',
+    menu:'🏠 กลับเมนู',
+    back:'← กลับเมนู',
+    statTotal:'ตอบทั้งหมด',
+    statAccTotal:'ความแม่นรวม',
+    statBest:'คะแนนสูงสุด',
+    statRuns:'เล่นไปแล้ว',
+    runs:(n)=>n + ' รอบ',
+    mastery:'ความชำนาญรายวิชา',
+    subjStat:(c,n,b)=>'ตอบถูก ' + c + ' / ' + n + ' · สถิติสูงสุด ' + b,
+    extra:(combo,streak)=>'คอมโบสูงสุดตลอดกาล x' + combo + ' · สตรีคการเล่น ' + streak + ' วัน',
+    confirmReset:'ล้างสถิติทั้งหมดในเครื่องนี้?',
+    cleared:'ล้างข้อมูลแล้ว',
+    sayQ:(i,n)=>'ข้อ ' + i + ' จาก ' + n,
+    sayCorrect:(dmg,crit,hp)=>'ตอบถูก ดาเมจ ' + dmg + (crit ? ' คริติคอล' : '') + ' บอสเหลือ ' + hp,
+    sayWrong:'ตอบผิด เสียชีวิต 1 และบอสฟื้น 30 HP',
+    sayBlock:'โล่ป้องกันความเสียหายไว้ได้',
+    sayShield:'เปิดโล่ไว้ บล็อกความเสียหายได้ 1 ครั้ง',
+    sayFreeze:'เพิ่มเวลาอีก 10 วินาที',
+    sayHalf:'ตัดตัวเลือกผิดออก 2 ข้อ',
+    sayRage:'บอสเข้าสู่โหมดคลั่ง เวลาตอบลดลง 4 วินาที'
+  },
+  en: {
+    heroTag:'◈ ARCADE STUDY MODE',
+    heroTitle:'Choose your boss',
+    heroP:'Right answer = damage · Wrong = boss heals\nHigher combo = heavier hits\nFinish the boss before it enrages',
+    rushSub:'All subjects · 18 questions',
+    rushAria:'Boss rush mode across every subject',
+    statsBtn:'📊 Stats',
+    timerOn:'Timer',
+    timerOff:'Relax mode',
+    resetBtn:'🗑️ Reset data',
+    accMeta:(p,c,n)=>'Accuracy ' + p + '% · ' + c + '/' + n,
+    cardAria:(boss,th)=>'Fight ' + boss + ' — ' + th,
+    encounter:'BOSS ENCOUNTER',
+    startBattle:'⚔️ Start battle',
+    cancel:'Cancel',
+    rushOv:'18 questions from every subject · the boss hardens each phase · make every skill count',
+    subjOv:(th,desc)=>th + ' · ' + desc + '\nRight answer = damage · Wrong answer = boss heals',
+    weakTag:'WEAK POINTS',
+    bossTag:'BOSS',
+    hint:'Press 1–4 to answer · Q / W / E for skills',
+    quit:'Quit',
+    confirmQuit:'Leave this battle? Answered questions stay in your stats.',
+    next:'Next ▶',
+    results:'See results ▶',
+    correctFb:'✓ Correct',
+    wrongFb:(a)=>'✗ Not quite — answer: ' + a,
+    timeoutFb:(a)=>'⏱ Time is up — answer: ' + a,
+    hpAria:(a,b)=>'HP ' + a + ' of ' + b,
+    skShield:'Shield — block one instance of damage',
+    skFreeze:'Time freeze — add ten seconds',
+    skHalf:'50/50 — remove two wrong options',
+    soundAria:'Toggle sound',
+    menuAria:'Boss select menu',
+    battleAria:'Battle',
+    endAria:'Results',
+    statsAria:'Statistics',
+    victory:'VICTORY',
+    defeat:'DEFEAT',
+    winSub:(n)=>'Boss defeated with ' + n + ' correct answers',
+    loseHp:(hp)=>'You ran out of HP · boss had ' + hp + ' left',
+    loseAmmo:(hp)=>'Out of questions · boss had ' + hp + ' HP left',
+    loseClose:'The boss survived · you need a little more accuracy',
+    statScore:'SCORE',
+    statAcc:'Accuracy',
+    statCombo:'Max combo',
+    statDmg:'Total damage',
+    reviewHead:(n)=>'Review your misses (' + n + ')',
+    answerLabel:(a)=>'Answer: ' + a,
+    more:(n)=>'and ' + n + ' more — hit “Weak points” to replay only what you missed',
+    perfect:'PERFECT RUN — no mistakes!',
+    again:'🔁 Fight again',
+    weak:(n)=>'🎯 Weak points (' + n + ')',
+    noWeak:'🎯 No weak points yet',
+    menu:'🏠 Menu',
+    back:'← Menu',
+    statTotal:'Total answered',
+    statAccTotal:'Overall accuracy',
+    statBest:'Best score',
+    statRuns:'Runs played',
+    runs:(n)=>n + ' runs',
+    mastery:'Mastery by subject',
+    subjStat:(c,n,b)=>'Correct ' + c + ' / ' + n + ' · Best ' + b,
+    extra:(combo,streak)=>'All-time combo x' + combo + ' · ' + streak + '-day streak',
+    confirmReset:'Clear all stats on this device?',
+    cleared:'Data cleared',
+    sayQ:(i,n)=>'Question ' + i + ' of ' + n,
+    sayCorrect:(dmg,crit,hp)=>'Correct — ' + dmg + ' damage' + (crit ? ' critical' : '') + ' · boss at ' + hp,
+    sayWrong:'Wrong — you lost 1 HP and the boss healed 30 HP',
+    sayBlock:'Shield absorbed the damage',
+    sayShield:'Shield up — blocks one hit',
+    sayFreeze:'Added 10 seconds',
+    sayHalf:'Two wrong options removed',
+    sayRage:'Rage phase — 4 seconds cut from the clock'
+  }
+};
+
+function t(key){
+  const dict = M[LANG] || M.th;
+  const v = dict[key];
+  const args = Array.prototype.slice.call(arguments, 1);
+  return (typeof v === 'function') ? v.apply(null, args) : (v == null ? key : v);
+}
+function subName(s){ return LANG === 'en' ? s.en : s.th; }
+function subDesc(s){ return LANG === 'en' ? (s.descEn || s.desc) : s.desc; }
+
+/* =========================================================
+   3. subjects + question bank (100 questions)
+   ========================================================= */
+const SUB = {
+  physics:     { th:'ฟิสิกส์',      en:'PHYSICS',     ico:'⚡', c:'#19f6ff', boss:'VOLT REAPER',      desc:'กลศาสตร์ ไฟฟ้า คลื่น ความร้อน', descEn:'mechanics · electricity · waves · heat' },
+  engineering: { th:'วิศวกรรม',    en:'ENGINEERING', ico:'⚙️', c:'#ffb62b', boss:'GEAR TITAN',       desc:'กลไก วัสดุ โครงสร้าง พลังงาน', descEn:'mechanisms · materials · structures · energy' },
+  logic:       { th:'ตรรกศาสตร์',   en:'LOGIC',       ico:'🧠', c:'#c6ff3d', boss:'PARADOX WRAITH',   desc:'การให้เหตุผล อนุกรม การพิสูจน์', descEn:'reasoning · series · proof' },
+  math:        { th:'คณิตศาสตร์',  en:'MATH',        ico:'📐', c:'#8b5cf6', boss:'PRIME OVERLORD',   desc:'พีชคณิต อัตราส่วน สถิติ ความน่าจะเป็น', descEn:'algebra · ratio · statistics · probability' },
+  english:     { th:'ภาษาอังกฤษ',  en:'ENGLISH',     ico:'🔤', c:'#ff2bd6', boss:'LEXICON DRAGON',   desc:'คำศัพท์ ไวยากรณ์ การอ่าน', descEn:'vocabulary · grammar · reading' }
+};
+const RUSH = { th:'BOSS RUSH', en:'BOSS RUSH', ico:'👑', c:'#ffb62b', boss:'OMEGA CORE', desc:'รวมทุกวิชา', descEn:'all subjects' };
+
+/* d = difficulty 1..3 | a = index of correct option */
+const BANK = [
+/* ---------- PHYSICS ---------- */
+{id:"ph1",s:"physics",d:1,q:"รถคันหนึ่งเริ่มเคลื่อนที่จากหยุดนิ่งด้วยความเร่งคงที่ 2 m/s² เป็นเวลา 5 วินาที ความเร็วปลายทางเป็นเท่าใด",o:["5 m/s","10 m/s","15 m/s","20 m/s"],a:1,w:"v = u + at = 0 + (2)(5) = 10 m/s"},
+{id:"ph2",s:"physics",d:1,q:"ปล่อยวัตถุจากที่สูงให้ตกแบบอิสระ (g = 10 m/s²) เป็นเวลา 2 วินาที วัตถุตกลงมาเป็นระยะทางเท่าใด",o:["10 m","20 m","40 m","5 m"],a:1,w:"s = ½gt² = ½(10)(4) = 20 m"},
+{id:"ph3",s:"physics",d:1,q:"ออกแรง 10 N กับวัตถุมวล 5 kg บนพื้นลื่น ความเร่งของวัตถุเป็นเท่าใด",o:["0.5 m/s²","2 m/s²","5 m/s²","50 m/s²"],a:1,w:"F = ma → a = 10/5 = 2 m/s²"},
+{id:"ph4",s:"physics",d:1,q:"เครื่องจักรทำงาน 20 จูล ในเวลา 4 วินาที กำลังของเครื่องจักรเป็นเท่าใด",o:["2 W","5 W","16 W","80 W"],a:1,w:"P = W/t = 20/4 = 5 วัตต์"},
+{id:"ph5",s:"physics",d:1,q:"คลื่นที่มีความถี่ 50 Hz มีคาบเป็นเท่าใด",o:["0.02 s","0.2 s","2 s","50 s"],a:0,w:"T = 1/f = 1/50 = 0.02 วินาที"},
+{id:"ph6",s:"physics",d:1,q:"วัตถุมวล 2 kg เคลื่อนที่ด้วยความเร็ว 3 m/s มีโมเมนตัมเท่าใด",o:["1.5 kg·m/s","5 kg·m/s","6 kg·m/s","9 kg·m/s"],a:2,w:"p = mv = (2)(3) = 6 kg·m/s"},
+{id:"ph7",s:"physics",d:1,q:"ขว้างวัตถุขึ้นตรง ๆ ด้วยความเร็ว 20 m/s (g = 10 m/s²) วัตถุจะขึ้นไปได้สูงสุดเท่าใด",o:["10 m","20 m","40 m","80 m"],a:1,w:"v² = u² − 2gh → 0 = 400 − 20h → h = 20 m"},
+{id:"ph8",s:"physics",d:2,q:"ต่อความต้านทาน 4 Ω เข้ากับแบตเตอรี่ 12 V กระแสไฟฟ้าในวงจรเป็นเท่าใด",o:["0.33 A","3 A","8 A","48 A"],a:1,w:"I = V/R = 12/4 = 3 A"},
+{id:"ph9",s:"physics",d:2,q:"นำตัวต้านทาน 3 Ω และ 5 Ω มาต่ออนุกรมกัน ความต้านทานรวมเป็นเท่าใด",o:["1.9 Ω","2 Ω","8 Ω","15 Ω"],a:2,w:"อนุกรมบวกกันตรง ๆ: 3 + 5 = 8 Ω"},
+{id:"ph10",s:"physics",d:2,q:"วางวัตถุไว้หน้าเลนส์นูนความยาวโฟกัส 10 cm ที่ระยะ 20 cm ภาพที่ได้เป็นอย่างไร",o:["ภาพจริง ขนาดเท่าวัตถุ","ภาพเสมือน ขนาดโตกว่าวัตถุ","ภาพจริง ขนาดเล็กกว่าครึ่ง","ไม่เกิดภาพ"],a:0,w:"1/f = 1/u + 1/v → 1/10 = 1/20 + 1/v → v = 20 cm และ m = −v/u = −1"},
+{id:"ph11",s:"physics",d:2,q:"ทำน้ำมวล 1 kg (c = 4,200 J/kg·°C) ให้ร้อนขึ้น 10 °C ต้องใช้ความร้อนเท่าใด",o:["420 J","4,200 J","42,000 J","420,000 J"],a:2,w:"Q = mcΔT = (1)(4200)(10) = 42,000 J"},
+{id:"ph12",s:"physics",d:2,q:"แสงใช้เวลาเดินทางจากดวงอาทิตย์มายังโลกนานเท่าใด (ระยะ 1.5×10¹¹ m, c = 3×10⁸ m/s)",o:["0.5 s","5 s","500 s","5,000 s"],a:2,w:"t = s/c = 1.5×10¹¹ / 3×10⁸ = 500 วินาที"},
+{id:"ph13",s:"physics",d:2,q:"เดินไปทางเหนือ 3 m แล้วเลี้ยวไปทางตะวันออกอีก 4 m ขนาดของการกระจัดเป็นเท่าใด",o:["1 m","5 m","7 m","12 m"],a:1,w:"การกระจัดเป็นเวกเตอร์ ใช้พีทาโกรัส: √(3²+4²) = 5 m"},
+{id:"ph14",s:"physics",d:3,q:"ขับรถไปที่ 60 km/h แล้วกลับด้วยความเร็ว 40 km/h ในระยะทางเท่ากัน ความเร็วเฉลี่ยตลอดเที่ยวเป็นเท่าใด",o:["48 km/h","50 km/h","52 km/h","100 km/h"],a:0,w:"ระยะเท่ากันต้องใช้ค่าเฉลี่ยฮาร์มอนิก: 2(60)(40)/(100) = 48 km/h"},
+{id:"ph15",s:"physics",d:3,q:"ปล่อยก้อนหินจากดาดฟ้าสูง 45 m (g = 10 m/s²) ใช้เวลากี่วินาทีจึงถึงพื้น",o:["1.5 s","3 s","4.5 s","9 s"],a:1,w:"s = ½gt² → 45 = 5t² → t = 3 วินาที"},
+{id:"ph16",s:"physics",d:3,q:"ถ้าเพิ่มระยะห่างระหว่างมวลสองก้อนเป็น 2 เท่า แรงโน้มถ่วงระหว่างกันจะเปลี่ยนเป็นเท่าใด",o:["เท่าเดิม","เพิ่ม 2 เท่า","ลดเหลือ 1/2","ลดเหลือ 1/4"],a:3,w:"F ∝ 1/r² เมื่อ r เป็น 2 เท่า แรงจึงเหลือ 1/4"},
+{id:"ph17",s:"physics",d:3,q:"ที่ความลึก 2 m ใต้น้ำ (ρ = 1,000 kg/m³, g = 10 m/s²) ความดันเกจเป็นเท่าใด",o:["2,000 Pa","10,000 Pa","20,000 Pa","200,000 Pa"],a:2,w:"P = ρgh = (1000)(10)(2) = 20,000 Pa"},
+{id:"ph18",s:"physics",d:3,q:"ออกแรง 20 N ลากวัตถุเคลื่อนที่ 5 m โดยแรงทำมุม 60° กับแนวการเคลื่อนที่ งานที่ทำเป็นเท่าใด",o:["0 J","50 J","86.6 J","100 J"],a:1,w:"W = Fs·cosθ = (20)(5)(0.5) = 50 J"},
+{id:"ph19",s:"physics",d:2,q:"ภาพที่เกิดจากกระจกนูนมีลักษณะอย่างไร",o:["ภาพจริง หัวตั้ง ขนาดใหญ่กว่า","ภาพเสมือน หัวตั้ง ขนาดเล็กกว่า","ภาพจริง กลับหัว ขนาดเล็กกว่า","ไม่เกิดภาพ"],a:1,w:"กระจกนูนให้ภาพเสมือน หัวตั้ง และขนาดเล็กกว่าวัตถุเสมอ"},
+{id:"ph20",s:"physics",d:1,q:"หน่วย SI ของกำลังคือข้อใด",o:["นิวตัน","จูล","วัตต์","ปาสกาล"],a:2,w:"กำลังมีหน่วยเป็นวัตต์ (W) ซึ่งเท่ากับจูลต่อวินาที (J/s)"},
+{id:"ph21",s:"physics",d:2,q:"เมื่อแรงลัพธ์ที่กระทำต่อวัตถุเป็นศูนย์ ข้อใดถูกต้อง",o:["วัตถุต้องหยุดนิ่งเท่านั้น","วัตถุเคลื่อนที่ด้วยความเร็วคงที่","ความเร่งเพิ่มขึ้นเรื่อย ๆ","ทิศทางเปลี่ยนตลอดเวลา"],a:1,w:"แรงลัพธ์ศูนย์ = สมดุล → ความเร็วคงที่ (อาจหยุดนิ่งหรือเคลื่อนที่ตรงสม่ำเสมอ)"},
+
+/* ---------- ENGINEERING ---------- */
+{id:"en1",s:"engineering",d:1,q:"เฟือง A มี 20 ฟัน ขับเฟือง B ซึ่งมี 40 ฟัน อัตราการหมุนของ B เป็นอย่างไร",o:["เร็วขึ้น 2 เท่า","ช้าลง 2 เท่า","เท่ากัน","ช้าลง 4 เท่า"],a:1,w:"อัตราทด = 20/40 = 1/2 → B หมุนช้ากว่าและได้แรงบิดมากขึ้น"},
+{id:"en2",s:"engineering",d:1,q:"ใช้รอกเคลื่อนที่ 1 ตัว ยกของหนัก 100 N (ไม่คิดแรงเสียดทาน) ต้องออกแรงเท่าใด",o:["25 N","50 N","100 N","200 N"],a:1,w:"รอกเคลื่อนที่ได้เปรียบเชิงกล 2 เท่า → ออกแรง 100/2 = 50 N"},
+{id:"en3",s:"engineering",d:2,q:"คานสมดุล: ออกแรง 60 N ที่ระยะ 2 m จากจุดหมุน ต้องวางน้ำหนัก 40 N ที่ระยะเท่าใดจึงสมดุล",o:["1.33 m","2 m","3 m","6 m"],a:2,w:"โมเมนต์เท่ากัน: 60×2 = 40×d → d = 3 m"},
+{id:"en4",s:"engineering",d:2,q:"ระบบรอกมีเชือกที่รับน้ำหนัก 3 เส้น (MA = 3) ต้องออกแรงเท่าใดเพื่อยกของ 300 N",o:["33 N","100 N","150 N","300 N"],a:1,w:"MA = 3 → F = 300/3 = 100 N (แต่ต้องดึงเชือกยาวขึ้น 3 เท่า)"},
+{id:"en5",s:"engineering",d:2,q:"วัสดุใดเหมาะสมที่สุดในการทำสปริงรับแรงดัดกลับซ้ำ ๆ",o:["อะลูมิเนียมบริสุทธิ์","เหล็กกล้าสปริง","คอนกรีต","พลาสติก ABS"],a:1,w:"เหล็กกล้าสปริงมีความยืดหยุ่นและทนการล้าของวัสดุได้ดี"},
+{id:"en6",s:"engineering",d:2,q:"ในคอนกรีตเสริมเหล็ก บทบาทของเหล็กเสริมคือข้อใด",o:["รับแรงอัดแทนคอนกรีต","รับแรงดึงที่คอนกรีตทนได้น้อย","เพิ่มน้ำหนักให้โครงสร้าง","กันน้ำซึม"],a:1,w:"คอนกรีตทนแรงอัดได้ดีแต่ทนแรงดึงได้แย่ เหล็กจึงทำหน้าที่รับแรงดึง"},
+{id:"en7",s:"engineering",d:2,q:"วัสดุที่มีค่ามอดุลัสของยัง (Young's modulus) สูงกว่า เมื่อรับแรงเท่ากันจะเกิดอะไรขึ้น",o:["ยืดตัวมากกว่า","ยืดตัวน้อยกว่า","ขาดง่ายกว่า","ไม่แตกต่างกัน"],a:1,w:"E สูง = มีความแข็งเกร็งสูง → ความเครียดน้อยลงเมื่อความเค้นเท่ากัน"},
+{id:"en8",s:"engineering",d:2,q:"หลอดไฟสองหลอดต่อแบบขนานกัน ถ้าหลอดหนึ่งขาด เกิดอะไรขึ้น",o:["อีกหลอดดับด้วย","อีกหลอดสว่างขึ้นสองเท่า","อีกหลอดยังติดปกติ","วงจรลัดวงจร"],a:2,w:"วงจรขนานมีเส้นทางแยกกัน หลอดที่เหลือจึงยังได้รับแรงดันเต็มและติดปกติ"},
+{id:"en9",s:"engineering",d:2,q:"ฟิวส์เลือกใช้โลหะแบบใด",o:["โลหะจุดหลอมเหลวสูง","โลหะจุดหลอมเหลวต่ำ","เซรามิก","ยาง"],a:1,w:"กระแสเกินจะทำให้ฟิวส์ร้อนและหลอมขาดเพื่อตัดวงจร จึงต้องใช้โลหะจุดหลอมเหลวต่ำ"},
+{id:"en10",s:"engineering",d:1,q:"การถ่ายเทความร้อนผ่านแท่งโลหะเรียกว่าอะไร",o:["การพาความร้อน","การนำความร้อน","การแผ่รังสี","การระเหย"],a:1,w:"ของแข็งถ่ายเทความร้อนโดยการนำ (conduction) ผ่านการสั่นของอะตอม"},
+{id:"en11",s:"engineering",d:3,q:"เหตุใดเขื่อนจึงสร้างฐานให้กว้างกว่ายอด",o:["เพราะความดันน้ำเพิ่มขึ้นตามความลึก","เพราะต้องการที่จอดรถ","เพราะแรงลมด้านบนมาก","เพราะคอนกรีตด้านบนหนักกว่า"],a:0,w:"P = ρgh เพิ่มตามความลึก ฐานจึงต้องรับแรงดันและโมเมนต์มากกว่า"},
+{id:"en12",s:"engineering",d:2,q:"เคเบิลของสะพานแขวนรับแรงประเภทใดเป็นหลัก",o:["แรงอัด","แรงดึง","แรงบิด","แรงเฉือน"],a:1,w:"เคเบิลถูกดึงให้ตึงเพื่อรับน้ำหนัก จึงรับแรงดึง (tension)"},
+{id:"en13",s:"engineering",d:2,q:"ระบบเบรกไฮดรอลิกของรถยนต์อาศัยหลักการใด",o:["หลักการของแบร์นูลี","กฎของพาสคาล","กฎของฮุก","กฎของโอห์ม"],a:1,w:"กฎของพาสคาล: ความดันที่เพิ่มในของไหลถูกส่งไปทุกทิศเท่ากัน"},
+{id:"en14",s:"engineering",d:3,q:"เครื่องยนต์ความร้อนทำงานระหว่าง 500 K และ 300 K ประสิทธิภาพสูงสุดตามคาร์โนต์เป็นเท่าใด",o:["20%","40%","60%","80%"],a:1,w:"η = 1 − Tc/Th = 1 − 300/500 = 0.40 = 40%"},
+{id:"en15",s:"engineering",d:3,q:"ถ้าแรงกดเท่าเดิมแต่พื้นที่รับแรงลดลงครึ่งหนึ่ง ความเค้นจะเปลี่ยนเป็นเท่าใด",o:["เท่าเดิม","เพิ่ม 2 เท่า","ลดเหลือครึ่ง","เพิ่ม 4 เท่า"],a:1,w:"σ = F/A เมื่อ A หารครึ่ง σ จึงเป็นสองเท่า"},
+{id:"en16",s:"engineering",d:1,q:"หน่วยของแรงบิด (torque) คือข้อใด",o:["N/m","N·m","J/s","kg·m/s"],a:1,w:"แรงบิด = แรง × ระยะตั้งฉาก มีหน่วยเป็นนิวตัน·เมตร"},
+{id:"en17",s:"engineering",d:2,q:"ข้อใดเป็นเหตุผลหลักที่ใช้ aluminium ในงานโครงสร้างเบา",o:["แข็งกว่าเหล็กกล้า","เบากว่าและทนการกัดกร่อนได้ดี","นำไฟฟ้าไม่ได้","ราคาถูกกว่าเหล็กมาก"],a:1,w:"อะลูมิเนียมมีความหนาแน่นต่ำและเกิดชั้นออกไซด์ป้องกันการกัดกร่อน"},
+{id:"en18",s:"engineering",d:1,q:"มอเตอร์ไฟฟ้าเปลี่ยนรูปพลังงานอย่างไร",o:["พลังงานกลเป็นพลังงานไฟฟ้า","พลังงานไฟฟ้าเป็นพลังงานกล","พลังงานความร้อนเป็นพลังงานแสง","พลังงานเคมีเป็นพลังงานกล"],a:1,w:"มอเตอร์ใช้แรงแม่เหล็กไฟฟ้าเปลี่ยนพลังงานไฟฟ้าเป็นพลังงานกล"},
+{id:"en19",s:"engineering",d:3,q:"ชุดเฟืองหนอน (worm gear) ให้ผลอย่างไรเมื่อเทียบกับเฟืองตรง",o:["เพิ่มความเร็วและลดแรงบิด","ลดความเร็วและเพิ่มแรงบิด พร้อมล็อกตัวเองได้","ให้ความเร็วเท่าเดิม","ใช้ได้กับแกนขนานเท่านั้น"],a:1,w:"worm gear ทดรอบได้สูง ทำให้ความเร็วลดลง แรงบิดเพิ่มขึ้น และมักหมุนกลับไม่ได้"},
+{id:"en20",s:"engineering",d:1,q:"ตลับลูกปืน (bearing) ในเครื่องจักรมีหน้าที่หลักอะไร",o:["เพิ่มแรงเสียดทาน","ลดแรงเสียดทานและรองรับเพลา","เพิ่มน้ำหนัก","ผลิตกระแสไฟฟ้า"],a:1,w:"bearing รองรับเพลาหมุนและลดแรงเสียดทานด้วยการกลิ้งหรือการหล่อลื่น"},
+
+/* ---------- LOGIC ---------- */
+{id:"lo1",s:"logic",d:1,q:"ข้อความ “ถ้าฝนตก แล้วถนนเปียก” ข้อใดเป็นข้อความที่สมเหตุสมผลเทียบเท่ากัน (contrapositive)",o:["ถ้าถนนเปียก แล้วฝนตก","ถ้าถนนไม่เปียก แล้วฝนไม่ตก","ถ้าฝนไม่ตก แล้วถนนไม่เปียก","ฝนตกหรือถนนเปียก"],a:1,w:"p→q สมมูลกับ ¬q→¬p เสมอ"},
+{id:"lo2",s:"logic",d:1,q:"นิเสธของข้อความ “นักเรียนทุกคนขยัน” คือข้อใด",o:["นักเรียนทุกคนไม่ขยัน","มีนักเรียนบางคนไม่ขยัน","นักเรียนบางคนขยัน","ไม่มีนักเรียนคนใดขยัน"],a:1,w:"นิเสธของ “ทุก x เป็น P” คือ “มี x บางตัวที่ไม่เป็น P”"},
+{id:"lo3",s:"logic",d:2,q:"ข้อใดสมมูลกับ p → q",o:["p ∧ ¬q","¬p ∨ q","¬p ∧ q","q → p"],a:1,w:"p→q ≡ ¬p∨q (นิยามของ conditional)"},
+{id:"lo4",s:"logic",d:1,q:"ถ้า p เป็นจริง และ q เป็นเท็จ ค่าความจริงของ p → q คือข้อใด",o:["จริง","เท็จ","จริงและเท็จ","ไม่สามารถสรุปได้"],a:1,w:"p→q เป็นเท็จเฉพาะกรณี p จริง q เท็จ (กรณีนี้พอดี)"},
+{id:"lo5",s:"logic",d:1,q:"p ∧ q มีค่าความจริงเป็นจริงเมื่อใด",o:["p จริง หรือ q จริง","p จริง และ q จริง","p เท็จ และ q เท็จ","p กับ q ต่างกัน"],a:1,w:"ตัวเชื่อม “และ” ต้องจริงทั้งคู่จึงจะเป็นจริง"},
+{id:"lo6",s:"logic",d:1,q:"p ∨ q มีค่าความจริงเป็นเท็จเมื่อใด",o:["p จริง q เท็จ","p เท็จ q จริง","p เท็จ และ q เท็จ","p จริง และ q จริง"],a:2,w:"“หรือ” จะเท็จก็ต่อเมื่อทั้งสองประพจน์เท็จ"},
+{id:"lo7",s:"logic",d:2,q:"กำหนด p → q เป็นจริง และ p เป็นจริง ข้อใดสรุปได้ถูกต้อง (modus ponens)",o:["q เป็นจริง","q เป็นเท็จ","¬p เป็นจริง","สรุปไม่ได้"],a:0,w:"modus ponens: p→q, p ⇒ q"},
+{id:"lo8",s:"logic",d:2,q:"กำหนด p → q เป็นจริง และ ¬q เป็นจริง ข้อใดสรุปได้ถูกต้อง (modus tollens)",o:["p เป็นจริง","¬p เป็นจริง","q เป็นจริง","p และ q เป็นจริง"],a:1,w:"modus tollens: p→q, ¬q ⇒ ¬p"},
+{id:"lo9",s:"logic",d:1,q:"อนุกรม 2, 4, 8, 16, ? ควรเป็นจำนวนใด",o:["18","24","32","64"],a:2,w:"แต่ละพจน์คูณ 2 → 16×2 = 32"},
+{id:"lo10",s:"logic",d:1,q:"อนุกรม 1, 1, 2, 3, 5, 8, ? ควรเป็นจำนวนใด",o:["11","12","13","15"],a:2,w:"ไฟโบนักชี: บวกสองพจน์ก่อนหน้า → 5+8 = 13"},
+{id:"lo11",s:"logic",d:2,q:"อนุกรม 3, 6, 11, 18, ? ควรเป็นจำนวนใด",o:["24","25","27","29"],a:2,w:"ผลต่างเพิ่มทีละ 2: +3, +5, +7, +9 → 18+9 = 27"},
+{id:"lo12",s:"logic",d:1,q:"A แก่กว่า B และ B แก่กว่า C ข้อใดสรุปได้แน่นอน",o:["C แก่ที่สุด","A แก่ที่สุด","B แก่ที่สุด","สรุปไม่ได้"],a:1,w:"ความสัมพันธ์ถ่ายทอดได้: A > B > C"},
+{id:"lo13",s:"logic",d:2,q:"กำหนด “สิ่งมีชีวิตทุกชนิดต้องหายใจ” และ “แบคทีเรียเป็นสิ่งมีชีวิต” สรุปได้ว่าอะไร",o:["แบคทีเรียต้องหายใจ","แบคทีเรียไม่ต้องหายใจ","บางแบคทีเรียหายใจ","สรุปไม่ได้"],a:0,w:"ใช้ sylogism: ทุก A เป็น B, x เป็น A ⇒ x เป็น B"},
+{id:"lo14",s:"logic",d:2,q:"p ↔ q เป็นจริงเมื่อใด",o:["p จริง q เท็จ","p เท็จ q จริง","p และ q มีค่าความจริงตรงกัน","p และ q เป็นเท็จทั้งคู่เท่านั้น"],a:2,w:"biconditional จริงเมื่อค่าความจริงของทั้งสองฝั่งเหมือนกัน"},
+{id:"lo15",s:"logic",d:3,q:"นิเสธของ “ฝนตกและลมแรง” คือข้อใด",o:["ฝนไม่ตกและลมไม่แรง","ฝนไม่ตกหรือลมไม่แรง","ฝนตกแต่ลมไม่แรง","ฝนไม่ตกแต่ลมแรง"],a:1,w:"เดอมอร์แกน: ¬(p∧q) ≡ ¬p∨¬q"},
+{id:"lo16",s:"logic",d:3,q:"อนุกรมตัวอักษร A, C, F, J, O, ? ควรเป็นตัวใด",o:["U","V","T","S"],a:0,w:"เว้นเพิ่มขึ้น +2, +3, +4, +5, +6 → O(15)+6 = 21 = U"},
+{id:"lo17",s:"logic",d:1,q:"จำนวนเฉพาะที่มีค่าตั้งแต่ 1 ถึง 20 มีกี่จำนวน",o:["7","8","9","10"],a:1,w:"2, 3, 5, 7, 11, 13, 17, 19 รวม 8 จำนวน"},
+{id:"lo18",s:"logic",d:3,q:"วิศวกรทุกคนเรียนคณิตศาสตร์ สมชายไม่เรียนคณิตศาสตร์ สรุปได้ว่าอะไร",o:["สมชายเป็นวิศวกร","สมชายไม่ใช่วิศวกร","สมชายเรียนคณิตศาสตร์ไม่จบ","สรุปไม่ได้"],a:1,w:"contrapositive ของ “วิศวกร → เรียนคณิต” คือ “ไม่เรียนคณิต → ไม่ใช่วิศวกร”"},
+{id:"lo19",s:"logic",d:3,q:"ถ้า “A เป็นเงื่อนไขจำเป็นของ B” ข้อใดถูกต้อง",o:["ถ้า A เกิด แล้ว B ต้องเกิด","ถ้าไม่มี A แล้ว B เกิดไม่ได้","A กับ B เกิดพร้อมกันเสมอ","B เป็นสาเหตุของ A"],a:1,w:"เงื่อนไขจำเป็น: ไม่มี A ก็ไม่มี B (B → A)"},
+{id:"lo20",s:"logic",d:3,q:"กำหนด p → q และ q → r เป็นจริง ข้อใดสรุปได้ (hypothetical syllogism)",o:["p → r","r → p","¬p → r","q → p"],a:0,w:"ลูกโซ่เงื่อนไข: p→q, q→r ⇒ p→r"},
+
+/* ---------- MATH ---------- */
+{id:"ma1",s:"math",d:1,q:"15% ของ 240 เท่ากับเท่าใด",o:["24","30","36","42"],a:2,w:"0.15 × 240 = 36"},
+{id:"ma2",s:"math",d:1,q:"สินค้าราคา 800 บาท ลดราคา 20% ราคาที่ต้องจ่ายคือเท่าใด",o:["620 บาท","640 บาท","680 บาท","760 บาท"],a:1,w:"ลด 20% เหลือ 80% → 800 × 0.8 = 640 บาท"},
+{id:"ma3",s:"math",d:1,q:"แก้สมการ 2x + 5 = 17 แล้ว x มีค่าเท่าใด",o:["4","6","8","11"],a:1,w:"2x = 12 → x = 6"},
+{id:"ma4",s:"math",d:2,q:"วงกลมรัศมี 7 cm มีพื้นที่เท่าใด (ใช้ π = 22/7)",o:["44 cm²","77 cm²","154 cm²","308 cm²"],a:2,w:"A = πr² = (22/7)(49) = 154 cm²"},
+{id:"ma5",s:"math",d:1,q:"สามเหลี่ยมมุมฉากมีด้านประกอบมุมฉากยาว 6 และ 8 ด้านตรงข้ามมุมฉากยาวเท่าใด",o:["9","10","12","14"],a:1,w:"พีทาโกรัส: √(36+64) = 10"},
+{id:"ma6",s:"math",d:1,q:"ค่าเฉลี่ยของ 4, 7, 9, 12, 13 เท่ากับเท่าใด",o:["8","9","10","11"],a:1,w:"ผลรวม 45 ÷ 5 = 9"},
+{id:"ma7",s:"math",d:2,q:"มัธยฐานของ 3, 7, 5, 9, 11, 2 เท่ากับเท่าใด",o:["5","6","7","8"],a:1,w:"เรียง 2,3,5,7,9,11 → ค่ากลางคือ (5+7)/2 = 6"},
+{id:"ma8",s:"math",d:1,q:"กล่องมีลูกบอล 10 ลูก เป็นสีแดง 3 ลูก ความน่าจะเป็นที่จะหยิบได้ลูกแดงคือเท่าใด",o:["1/10","3/10","3/7","7/10"],a:1,w:"ความน่าจะเป็น = จำนวนผลที่ต้องการ / ผลทั้งหมด = 3/10"},
+{id:"ma9",s:"math",d:2,q:"ทอยลูกเต๋า 2 ลูกพร้อมกัน มีกี่วิธีที่ผลรวมเป็น 7",o:["4","5","6","7"],a:2,w:"(1,6)(2,5)(3,4)(4,3)(5,2)(6,1) = 6 วิธี"},
+{id:"ma10",s:"math",d:2,q:"(3/4) × (2/5) เท่ากับเท่าใด",o:["5/9","6/20","3/10","5/20"],a:2,w:"คูณเศษกับเศษ ส่วนกับส่วน: 6/20 = 3/10"},
+{id:"ma11",s:"math",d:1,q:"45 คิดเป็นกี่เปอร์เซ็นต์ของ 180",o:["20%","25%","30%","40%"],a:1,w:"45/180 = 0.25 = 25%"},
+{id:"ma12",s:"math",d:2,q:"log₂ 32 มีค่าเท่าใด",o:["4","5","6","16"],a:1,w:"2⁵ = 32 → log₂32 = 5"},
+{id:"ma13",s:"math",d:1,q:"2⁸ มีค่าเท่าใด",o:["128","256","512","1024"],a:1,w:"2⁸ = 256"},
+{id:"ma14",s:"math",d:2,q:"แก้สมการ 3(x − 2) = x + 4 แล้ว x มีค่าเท่าใด",o:["3","4","5","6"],a:2,w:"3x − 6 = x + 4 → 2x = 10 → x = 5"},
+{id:"ma15",s:"math",d:1,q:"แบ่งเงิน 40 บาท ในอัตราส่วน 3 : 5 ส่วนที่น้อยกว่าคือเท่าใด",o:["12 บาท","15 บาท","16 บาท","25 บาท"],a:1,w:"อัตราส่วนรวม 8 ส่วน → 40/8 = 5 → 3×5 = 15 บาท"},
+{id:"ma16",s:"math",d:2,q:"ฝากเงิน 1,000 บาท ดอกเบี้ยง่าย 5% ต่อปี นาน 2 ปี ได้ดอกเบี้ยเท่าใด",o:["50 บาท","100 บาท","105 บาท","200 บาท"],a:1,w:"I = P r t = 1000 × 0.05 × 2 = 100 บาท"},
+{id:"ma17",s:"math",d:2,q:"วงกลมรัศมี 5 cm มีเส้นรอบวงประมาณเท่าใด (π ≈ 3.14)",o:["15.7 cm","31.4 cm","78.5 cm","157 cm"],a:1,w:"C = 2πr = 2(3.14)(5) = 31.4 cm"},
+{id:"ma18",s:"math",d:1,q:"(a + b)² เท่ากับข้อใด",o:["a² + b²","a² + 2ab + b²","a² − 2ab + b²","a² + ab + b²"],a:1,w:"กระจายได้ a² + 2ab + b²"},
+{id:"ma19",s:"math",d:2,q:"พื้นที่สี่เหลี่ยมผืนผ้ากว้าง 7 cm ยาว 12 cm เท่ากับเท่าใด",o:["19 cm²","38 cm²","84 cm²","144 cm²"],a:2,w:"A = กว้าง × ยาว = 7 × 12 = 84 cm²"},
+
+/* ---------- ENGLISH ---------- */
+{id:"eng1",s:"english",d:1,q:"Choose the word closest in meaning to “abundant”.",o:["scarce","plentiful","fragile","temporary"],a:1,w:"abundant = มีมากมาย, plentiful = อุดมสมบูรณ์"},
+{id:"eng2",s:"english",d:1,q:"Choose the antonym of “deteriorate”.",o:["decline","improve","collapse","weaken"],a:1,w:"deteriorate = เสื่อมลง; ตรงข้ามคือ improve = ดีขึ้น"},
+{id:"eng3",s:"english",d:1,q:"She ___ to school by bus every day.",o:["go","goes","going","gone"],a:1,w:"ประธานเอกพจน์บุรุษที่ 3 + present simple → goes"},
+{id:"eng4",s:"english",d:2,q:"If I ___ rich, I would travel around the world.",o:["am","was","were","will be"],a:2,w:"เงื่อนไขสมมติ (second conditional) ใช้ were กับทุกประธาน"},
+{id:"eng5",s:"english",d:2,q:"The report ___ by the engineering team yesterday.",o:["writes","wrote","was written","has written"],a:2,w:"passive voice อดีต: was/were + past participle"},
+{id:"eng6",s:"english",d:1,q:"He is very interested ___ physics and robotics.",o:["at","in","on","for"],a:1,w:"interested in + สิ่งที่สนใจ"},
+{id:"eng7",s:"english",d:2,q:"Neither the students nor the teacher ___ ready for the exam.",o:["are","is","were","be"],a:1,w:"neither…nor ใช้กริยาตามประธานตัวใกล้สุด (the teacher) → is"},
+{id:"eng8",s:"english",d:1,q:"The experiment was conducted ___ a controlled environment.",o:["on","at","in","by"],a:2,w:"in an environment = ในสภาพแวดล้อม"},
+{id:"eng9",s:"english",d:2,q:"“The engineer’s solution was ingenious.” The word “ingenious” is closest to…",o:["ordinary","clever and original","expensive","dangerous"],a:1,w:"ingenious = ฉลาดและคิดได้แปลกใหม่"},
+{id:"eng10",s:"english",d:2,q:"Despite ___ very hard, he failed the test.",o:["study","studied","working","works"],a:2,w:"despite + noun/V-ing → despite working hard"},
+{id:"eng11",s:"english",d:2,q:"The ___ of the new bridge took almost two years.",o:["construct","construction","constructive","constructing"],a:1,w:"ต้องใช้คำนาม construction เป็นประธานของประโยค"},
+{id:"eng12",s:"english",d:3,q:"By the time we arrived, the show ___.",o:["starts","started","had started","has started"],a:2,w:"past perfect สำหรับเหตุการณ์ที่เกิดก่อนอีกเหตุการณ์ในอดีต"},
+{id:"eng13",s:"english",d:3,q:"She suggested ___ the meeting until next week.",o:["postpone","to postpone","postponing","postponed"],a:2,w:"suggest + V-ing"},
+{id:"eng14",s:"english",d:1,q:"This machine is ___ than the old one.",o:["efficient","more efficient","most efficient","the most efficient"],a:1,w:"เปรียบเทียบขั้นกว่าของคำคุณศัพท์หลายพยางค์ใช้ more + adj"},
+{id:"eng15",s:"english",d:3,q:"Hardly ___ finished the presentation when the power went out.",o:["he had","had he","he has","has he"],a:1,w:"หลัง hardly ซึ่งอยู่ต้นประโยคต้องสลับกริยาช่วย: had he"},
+{id:"eng16",s:"english",d:1,q:"The result depends ___ the temperature of the sample.",o:["at","on","of","with"],a:1,w:"depend on = ขึ้นอยู่กับ"},
+{id:"eng17",s:"english",d:2,q:"The results were ___ with our original hypothesis.",o:["consistent","consist","consistency","consistently"],a:0,w:"be consistent with = สอดคล้องกับ"},
+{id:"eng18",s:"english",d:2,q:"___ the heavy rain, the football match continued.",o:["Although","Despite","Because","However"],a:1,w:"Despite + noun phrase; Although ต้องตามด้วยประโยค"},
+{id:"eng19",s:"english",d:2,q:"Which collocation is correct?",o:["do a decision","make a decision","take a decision-making","build a decision"],a:1,w:"make a decision = ตัดสินใจ (collocation มาตรฐาน)"},
+{id:"eng20",s:"english",d:3,q:"“The new alloy is lighter than steel but equally strong.” What can be inferred?",o:["It is weaker than steel.","It may replace steel where weight matters.","It is more expensive than steel.","It cannot be used in vehicles."],a:1,w:"เบากว่าแต่แข็งแรงเท่า → เหมาะกับงานที่ต้องการลดน้ำหนัก"},
+
+/* ---------- PHYSICS · extension ---------- */
+{id:"ph22",s:"physics",d:2,q:"วัตถุเริ่มจากหยุดนิ่ง เคลื่อนที่ด้วยความเร่ง 2 m/s² ไปได้ระยะทาง 9 m ความเร็วปลายทางเป็นเท่าใด",o:["3 m/s","6 m/s","9 m/s","18 m/s"],a:1,w:"v² = u² + 2as = 0 + 2(2)(9) = 36 → v = 6 m/s"},
+{id:"ph23",s:"physics",d:2,q:"วัตถุมวล 4 kg เคลื่อนที่ด้วยความเร็ว 3 m/s มีพลังงานจลน์เท่าใด",o:["6 J","12 J","18 J","36 J"],a:2,w:"Ek = ½mv² = ½(4)(9) = 18 J"},
+{id:"ph24",s:"physics",d:2,q:"ยกของหนัก 100 N ขึ้นสูง 2 m (g = 10 m/s²) ต้องทำงานเท่าใด",o:["20 J","100 J","200 J","2,000 J"],a:2,w:"W = mgh = (10 kg)(10)(2) = 200 J"},
+{id:"ph25",s:"physics",d:1,q:"วัตถุมวล 600 g มีปริมาตร 200 cm³ ความหนาแน่นเป็นเท่าใด",o:["0.33 g/cm³","1.5 g/cm³","3 g/cm³","12 g/cm³"],a:2,w:"ρ = m/V = 600/200 = 3 g/cm³"},
+{id:"ph26",s:"physics",d:2,q:"นำตัวต้านทาน 6 Ω และ 3 Ω มาต่อขนานกัน ความต้านทานรวมเป็นเท่าใด",o:["1.5 Ω","2 Ω","4.5 Ω","9 Ω"],a:1,w:"1/R = 1/6 + 1/3 = 1/2 → R = 2 Ω"},
+{id:"ph27",s:"physics",d:1,q:"เครื่องใช้ไฟฟ้ากินกระแส 2 A ที่แรงดัน 12 V มีกำลังไฟฟ้าเท่าใด",o:["6 W","12 W","24 W","48 W"],a:2,w:"P = VI = (12)(2) = 24 W"},
+{id:"ph28",s:"physics",d:2,q:"คลื่นความถี่ 50 Hz มีความยาวคลื่น 2 m อัตราเร็วคลื่นเป็นเท่าใด",o:["25 m/s","50 m/s","100 m/s","200 m/s"],a:2,w:"v = fλ = (50)(2) = 100 m/s"},
+{id:"ph29",s:"physics",d:2,q:"เมื่อแสงเคลื่อนที่จากอากาศเข้าสู่ผิวน้ำ ลำแสงจะเปลี่ยนทิศอย่างไร",o:["เบนออกจากเส้นปกติ","เบนเข้าหาเส้นปกติ","ไม่เปลี่ยนทิศเลย","สะท้อนกลับทั้งหมด"],a:1,w:"จากตัวกลางที่เบากว่าไปสู่ที่หนาแน่นกว่า แสงจะหักเหเข้าหาเส้นปกติ"},
+{id:"ph30",s:"physics",d:3,q:"วัตถุจมในน้ำและแทนที่น้ำได้ 0.5 m³ (ρ = 1,000 kg/m³, g = 10 m/s²) แรงลอยตัวที่กระทำต่อวัตถุเป็นเท่าใด",o:["500 N","1,000 N","5,000 N","10,000 N"],a:2,w:"F = ρgV = (1000)(10)(0.5) = 5,000 N"},
+{id:"ph31",s:"physics",d:2,q:"หน่วยของความเข้มสนามไฟฟ้า (E) คือข้อใด",o:["J/C","N/C","C/s","V·m"],a:1,w:"E = F/q มีหน่วยเป็นนิวตันต่อคูลอมบ์ (N/C) หรือโวลต์ต่อเมตร"},
+{id:"ph32",s:"physics",d:1,q:"รถเพิ่มความเร็วจาก 0 เป็น 20 m/s ภายใน 4 วินาที ความเร่งเฉลี่ยเป็นเท่าใด",o:["0.2 m/s²","4 m/s²","5 m/s²","80 m/s²"],a:2,w:"a = Δv/Δt = 20/4 = 5 m/s²"},
+{id:"ph33",s:"physics",d:1,q:"ปล่อยวัตถุตกอิสระ (g = 10 m/s²) นาน 3 วินาที ความเร็วขณะนั้นเป็นเท่าใด",o:["3 m/s","10 m/s","30 m/s","45 m/s"],a:2,w:"v = gt = (10)(3) = 30 m/s"},
+{id:"ph34",s:"physics",d:3,q:"รถเข็นมวล 2 kg เคลื่อนที่ 3 m/s ชนรถเข็นมวล 2 kg ที่หยุดนิ่งแล้วติดไปด้วยกัน ความเร็วหลังชนเป็นเท่าใด",o:["1.5 m/s","2 m/s","3 m/s","6 m/s"],a:0,w:"โมเมนตัมคงตัว: (2)(3) = (2+2)v → v = 1.5 m/s"},
+{id:"ph35",s:"physics",d:1,q:"หน่วย SI ของความถี่คือข้อใด",o:["เฮิรตซ์ (Hz)","วินาที (s)","เมตรต่อวินาที (m/s)","จูล (J)"],a:0,w:"ความถี่มีหน่วยเป็นเฮิรตซ์ (Hz) = จำนวนรอบต่อวินาที"},
+{id:"ph36",s:"physics",d:1,q:"เมื่อนำวัตถุร้อนกับวัตถุเย็นมาสัมผัสกัน ความร้อนจะถ่ายเทอย่างไร",o:["จากเย็นไปร้อน","จากร้อนไปเย็น","ถ่ายเทสองทางเท่ากัน","ไม่ถ่ายเท"],a:1,w:"ความร้อนถ่ายเทจากอุณหภูมิสูงไปต่ำจนกว่าจะสมดุล"},
+{id:"ph37",s:"physics",d:3,q:"การขว้างวัตถุด้วยอัตราเร็วต้นเท่ากัน มุมใดให้ระยะตกไกลที่สุดบนพื้นราบ",o:["15°","30°","45°","60°"],a:2,w:"ระยะการเคลื่อนที่แบบโพรเจกไทล์มากที่สุดที่มุม 45° (sin 2θ = 1)"},
+
+/* ---------- ENGINEERING · extension ---------- */
+{id:"en21",s:"engineering",d:1,q:"กรรไกรจัดเป็นคานประเภทใด",o:["คานอันดับ 1","คานอันดับ 2","คานอันดับ 3","ไม่ใช่คาน"],a:0,w:"กรรไกรมีจุดหมุนอยู่ระหว่างแรงที่ให้กับแรงต้าน → คานอันดับ 1"},
+{id:"en22",s:"engineering",d:2,q:"เฟืองขับ 20 ฟัน หมุนเฟืองตาม 40 ฟัน แรงบิดที่เฟืองตามจะเป็นอย่างไร",o:["ลดลงครึ่งหนึ่ง","เท่าเดิม","เพิ่มขึ้น 2 เท่า","เพิ่มขึ้น 4 เท่า"],a:2,w:"ลดความเร็วลงครึ่งหนึ่งแต่ได้แรงบิดเพิ่มเป็น 2 เท่า (ไม่คิดการสูญเสีย)"},
+{id:"en23",s:"engineering",d:2,q:"รอกตายตัว (fixed pulley) มีสมบัติอย่างไร",o:["ได้เปรียบเชิงกล 1 แต่ออกแรงได้สะดวกทิศทาง","ได้เปรียบเชิงกล 2","ได้เปรียบเชิงกล 0.5","ได้เปรียบเชิงกล 3"],a:0,w:"รอกตายตัวไม่ลดแรงที่ใช้ แต่เปลี่ยนทิศทางของแรงให้สะดวกขึ้น"},
+{id:"en24",s:"engineering",d:3,q:"คานรับน้ำหนักแบบง่าย (simply supported) มีน้ำหนัก P กระทำที่กึ่งกลางพอดี แรงปฏิกิริยาที่จุดรองรับแต่ละข้างเป็นเท่าใด",o:["P","P/2","2P","P/4"],a:1,w:"โหลดอยู่กลางช่วง แรงปฏิกิริยาสองข้างจึงแบ่งเท่ากันข้างละ P/2"},
+{id:"en25",s:"engineering",d:3,q:"คานยื่น (cantilever) ที่รับน้ำหนักที่ปลายอิสระ มีโมเมนต์ดัดมากที่สุดที่ตำแหน่งใด",o:["ที่ปลายอิสระ","ที่กลางคาน","ที่จุดยึดติดฐาน","เท่ากันตลอดคาน"],a:2,w:"โมเมนต์ดัดสะสมจากปลายมาฐาน จึงมากที่สุดที่จุดยึด"},
+{id:"en26",s:"engineering",d:2,q:"วัสดุใดมีพฤติกรรมเปราะ (brittle) และมักวิบัติโดยไม่มีการยืดตัวเตือน",o:["เหล็กเหนียว","กระจก","ยางธรรมชาติ","ทองแดง"],a:1,w:"วัสดุเปราะ เช่น กระจก แตกหักทันทีโดยไม่โค้งงอมาก่อน"},
+{id:"en27",s:"engineering",d:1,q:"ความเค้น (stress) มีหน่วยเดียวกับข้อใด",o:["N·m","N/m²","kg/m³","J/s"],a:1,w:"σ = F/A มีหน่วยเป็นนิวตันต่อตารางเมตร (Pa)"},
+{id:"en28",s:"engineering",d:2,q:"ความเครียด (strain) นิยามจากข้อใด",o:["ΔL × L","ΔL / L","L / ΔL","ΔL + L"],a:1,w:"strain = การยืดตัวส่วนความยาวเดิม (ΔL/L) เป็นปริมาณไม่มีหน่วย"},
+{id:"en29",s:"engineering",d:2,q:"เหตุใดรางรถไฟจึงต้องเว้นช่องว่างระหว่างราง",o:["เพื่อระบายน้ำ","เพื่อเผื่อการขยายตัวจากความร้อน","เพื่อลดน้ำหนักราง","เพื่อความสวยงาม"],a:1,w:"โลหะขยายตัวเมื่อร้อน หากไม่เผื่อช่องว่างรางจะโก่งงอ"},
+{id:"en30",s:"engineering",d:2,q:"ฟิวส์ควรต่อในวงจรอย่างไร",o:["ขนานกับโหลด","อนุกรมกับวงจร","ต่อตรงลงดินอย่างเดียว","ไม่ต้องต่อ"],a:1,w:"ฟิวส์ต้องต่ออนุกรมเพื่อให้กระแสทั้งหมดไหลผ่านและตัดวงจรได้"},
+{id:"en31",s:"engineering",d:3,q:"หม้อแปลงมีขดลวดปฐมภูมิ 100 รอบ ทุติยภูมิ 200 รอบ แรงดันด้านออกจะเป็นอย่างไร",o:["ลดลงครึ่งหนึ่ง","เท่าเดิม","เพิ่มขึ้น 2 เท่า","เพิ่มขึ้น 4 เท่า"],a:2,w:"V₂/V₁ = N₂/N₁ = 200/100 = 2"},
+{id:"en32",s:"engineering",d:3,q:"เครื่องอัดไฮดรอลิก ลูกสูบเล็กพื้นที่ 10 cm² รับแรง 10 N ลูกสูบใหญ่พื้นที่ 100 cm² จะยกได้เท่าใด",o:["10 N","50 N","100 N","1,000 N"],a:2,w:"กฎพาสคาล: แรงเพิ่มตามอัตราส่วนพื้นที่ = 10 × (100/10) = 100 N"},
+{id:"en33",s:"engineering",d:2,q:"เครื่องจักรรับพลังงาน 500 J และให้งานที่มีประโยชน์ 400 J มีประสิทธิภาพเท่าใด",o:["20%","60%","80%","125%"],a:2,w:"η = งานที่ได้/พลังงานที่ให้ × 100 = 400/500 = 80%"},
+{id:"en34",s:"engineering",d:1,q:"การชุบสังกะสี (galvanising) ช่วยป้องกันการกัดกร่อนอย่างไร",o:["เคลือบสังกะสีกันไม่ให้เหล็กสัมผัสอากาศ","ทำให้เหล็กแข็งขึ้น","เพิ่มน้ำหนักให้ชิ้นงาน","ทำให้สีติดง่าย"],a:0,w:"ชั้นสังกะสีทำหน้าที่เป็นเกราะและยัง sacrificial anode ให้กับเหล็ก"},
+{id:"en35",s:"engineering",d:3,q:"สกรูที่มีเกลียวละเอียดขึ้นให้ผลอย่างไร",o:["ได้เปรียบเชิงกลมากขึ้นแต่เคลื่อนที่ช้าลง","ได้เปรียบเชิงกลน้อยลงและเร็วขึ้น","ไม่ต่างจากเดิม","เพิ่มแรงเสียดทานจนใช้ไม่ได้"],a:0,w:"ระยะพิทช์สั้นลง = ออกแรงน้อยลงแต่ต้องหมุนหลายรอบขึ้น"},
+{id:"en36",s:"engineering",d:2,q:"ถ้าแรงดันคงที่แต่เพิ่มความต้านทานเป็น 2 เท่า กระแสไฟฟ้าจะเปลี่ยนอย่างไร",o:["เพิ่ม 2 เท่า","ลดลงครึ่งหนึ่ง","เท่าเดิม","ลดเหลือ 1/4"],a:1,w:"I = V/R เมื่อ R เป็น 2 เท่า กระแสจึงเหลือครึ่งเดียว"},
+
+/* ---------- LOGIC · extension ---------- */
+{id:"lo21",s:"logic",d:2,q:"กำหนด “ทุก A เป็น B” และ “บาง B เป็น C” ข้อใดสรุปได้แน่นอน",o:["A ทุกตัวเป็น C","ไม่มี A ใดเป็น C","สรุปเกี่ยวกับ A กับ C ไม่ได้","C ทุกตัวเป็น A"],a:2,w:"การที่ A อยู่ใน B และ B บางส่วนอยู่ใน C ไม่ได้บังคับว่า A จะอยู่ใน C"},
+{id:"lo22",s:"logic",d:2,q:"กำหนด “ไม่มี A ใดเป็น B” และ “x เป็น A” ข้อใดถูกต้อง",o:["x เป็น B","x ไม่เป็น B","x อาจเป็น B","สรุปไม่ได้"],a:1,w:"ถ้าไม่มีสมาชิกใดของ A เป็น B และ x อยู่ใน A แล้ว x ย่อมไม่เป็น B"},
+{id:"lo23",s:"logic",d:1,q:"อนุกรม 1, 4, 9, 16, ? ควรเป็นจำนวนใด",o:["20","24","25","36"],a:2,w:"เป็นกำลังสองของ 1,2,3,4 → 5² = 25"},
+{id:"lo24",s:"logic",d:1,q:"อนุกรม 100, 50, 25, ? ควรเป็นจำนวนใด",o:["10","12.5","15","5"],a:1,w:"แต่ละพจน์หารด้วย 2 → 25/2 = 12.5"},
+{id:"lo25",s:"logic",d:2,q:"อนุกรม 2, 6, 12, 20, ? ควรเป็นจำนวนใด",o:["26","28","30","36"],a:2,w:"ผลต่าง +4, +6, +8, +10 → 20+10 = 30 (หรือ n(n+1))"},
+{id:"lo26",s:"logic",d:3,q:"อนุกรมตัวอักษร B, D, G, K, P, ? ควรเป็นตัวใด",o:["T","U","V","W"],a:2,w:"เว้นเพิ่ม +2,+3,+4,+5,+6 → P(16)+6 = 22 = V"},
+{id:"lo27",s:"logic",d:1,q:"ข้อความ ¬p จะเป็นจริงเมื่อใด",o:["p เป็นจริง","p เป็นเท็จ","p เป็นจริงและเท็จ","ไม่ขึ้นกับค่าของ p"],a:1,w:"นิเสธจะมีค่าตรงข้ามกับประพจน์เดิม"},
+{id:"lo28",s:"logic",d:3,q:"“ถ้ารถเสียแล้วจะมาสาย” และวันนี้ “มาสาย” ข้อใดสรุปได้ถูกต้อง",o:["รถเสียแน่นอน","รถไม่เสียแน่นอน","มาสายเพราะรถเสีย","สรุปไม่ได้ว่ารถเสียหรือไม่"],a:3,w:"นี่คือ affirming the consequent — มาสายอาจเกิดจากสาเหตุอื่นได้"},
+{id:"lo29",s:"logic",d:2,q:"ถ้า A เป็นเงื่อนไขเพียงพอของ B ข้อใดถูกต้อง",o:["ถ้าไม่มี A แล้ว B ไม่เกิด","ถ้า A เกิดแล้ว B เกิดแน่นอน","A กับ B ต้องเกิดพร้อมกัน","B ต้องเกิดก่อน A"],a:1,w:"เงื่อนไขเพียงพอ: A → B (การมี A ทำให้สรุป B ได้)"},
+{id:"lo30",s:"logic",d:3,q:"ถ้า A ⊂ B แล้ว A ∩ B เท่ากับเซตใด",o:["A","B","เซตว่าง","A ∪ B"],a:0,w:"เมื่อ A อยู่ภายใน B สมาชิกร่วมของสองเซตคือ A ทั้งหมด"},
+{id:"lo31",s:"logic",d:1,q:"นิเสธของ “มีบางคนสอบผ่าน” คือข้อใด",o:["ทุกคนสอบผ่าน","ไม่มีใครสอบผ่าน","บางคนไม่ผ่าน","ทุกคนไม่ผ่านหรือบางคนผ่าน"],a:1,w:"นิเสธของ “มี x ที่ P” คือ “ไม่มี x ใดที่ P”"},
+{id:"lo32",s:"logic",d:1,q:"อนุกรม 3, 9, 27, 81, ? ควรเป็นจำนวนใด",o:["162","216","243","324"],a:2,w:"แต่ละพจน์คูณ 3 → 81×3 = 243"},
+{id:"lo33",s:"logic",d:2,q:"อนุกรม 5, 8, 14, 23, ? ควรเป็นจำนวนใด",o:["32","34","35","38"],a:2,w:"ผลต่าง +3, +6, +9, +12 → 23+12 = 35"},
+{id:"lo34",s:"logic",d:2,q:"จำนวนใดไม่เข้าพวก: 2, 4, 6, 9, 10",o:["2","4","9","10"],a:2,w:"ตัวอื่นเป็นจำนวนคู่ทั้งหมด ส่วน 9 เป็นจำนวนคี่"},
+{id:"lo35",s:"logic",d:3,q:"“แมวทุกตัวเป็นสัตว์เลี้ยงลูกด้วยนม” และ “สัตว์เลี้ยงลูกด้วยนมบางชนิดว่ายน้ำได้” สรุปได้ว่าอะไร",o:["แมวทุกตัวว่ายน้ำได้","แมวบางตัวว่ายน้ำได้","ไม่มีแมวตัวใดว่ายน้ำได้","สรุปเกี่ยวกับการว่ายน้ำของแมวไม่ได้"],a:3,w:"“บางชนิด” ไม่ได้ครอบคลุมถึงแมว จึงสรุปไม่ได้"},
+{id:"lo36",s:"logic",d:1,q:"p ∨ q เป็นจริงในกรณีใด",o:["p เท็จ และ q เท็จ","p จริง และ q เท็จ","ทั้งสองเป็นเท็จ","ไม่ขึ้นกับค่าความจริง"],a:1,w:"“หรือ” เป็นจริงเมื่อมีอย่างน้อยหนึ่งตัวเป็นจริง"},
+
+/* ---------- MATH · extension ---------- */
+{id:"ma20",s:"math",d:1,q:"25% ของ 80 เท่ากับเท่าใด",o:["15","16","20","25"],a:2,w:"0.25 × 80 = 20"},
+{id:"ma21",s:"math",d:2,q:"แก้สมการ 5x − 3 = 2x + 9 แล้ว x มีค่าเท่าใด",o:["2","3","4","6"],a:2,w:"5x − 2x = 9 + 3 → 3x = 12 → x = 4"},
+{id:"ma22",s:"math",d:1,q:"สามเหลี่ยมฐาน 10 cm สูง 6 cm มีพื้นที่เท่าใด",o:["16 cm²","30 cm²","60 cm²","80 cm²"],a:1,w:"A = ½ × ฐาน × สูง = ½(10)(6) = 30 cm²"},
+{id:"ma23",s:"math",d:1,q:"ลูกบาศก์ยาวด้านละ 4 cm มีปริมาตรเท่าใด",o:["12 cm³","16 cm³","64 cm³","96 cm³"],a:2,w:"V = s³ = 4³ = 64 cm³"},
+{id:"ma24",s:"math",d:2,q:"ค.ร.น. ของ 6 และ 8 คือเท่าใด",o:["12","24","48","96"],a:1,w:"ตัวคูณร่วมน้อยของ 6 และ 8 คือ 24"},
+{id:"ma25",s:"math",d:2,q:"ห.ร.ม. ของ 24 และ 36 คือเท่าใด",o:["6","8","12","18"],a:2,w:"ตัวหารร่วมมากของ 24 และ 36 คือ 12"},
+{id:"ma26",s:"math",d:2,q:"2/3 + 1/6 เท่ากับเท่าใด",o:["3/9","5/6","1/2","4/6"],a:1,w:"แปลงเป็นส่วน 6: 4/6 + 1/6 = 5/6"},
+{id:"ma27",s:"math",d:2,q:"แบ่งเงิน 60 บาท ในอัตราส่วน 2 : 3 : 5 ส่วนที่มากที่สุดคือเท่าใด",o:["12 บาท","18 บาท","30 บาท","40 บาท"],a:2,w:"รวม 10 ส่วน → 60/10 = 6 → 5×6 = 30 บาท"},
+{id:"ma28",s:"math",d:2,q:"โยนเหรียญ 2 เหรียญพร้อมกัน ความน่าจะเป็นที่จะออกหัวทั้งคู่เป็นเท่าใด",o:["1/2","1/3","1/4","1/8"],a:2,w:"ผลทั้งหมด 4 แบบ (HH, HT, TH, TT) → 1/4"},
+{id:"ma29",s:"math",d:1,q:"มัธยฐานของ 4, 8, 6, 2, 10 เท่ากับเท่าใด",o:["4","6","8","10"],a:1,w:"เรียง 2,4,6,8,10 → ค่ากลางคือ 6"},
+{id:"ma30",s:"math",d:1,q:"ฐานนิยมของ 1, 2, 2, 3, 4 คือเท่าใด",o:["1","2","3","4"],a:1,w:"ค่าที่ปรากฏบ่อยที่สุดคือ 2"},
+{id:"ma31",s:"math",d:2,q:"ราคาสินค้าเพิ่มจาก 50 บาท เป็น 60 บาท เพิ่มขึ้นกี่เปอร์เซ็นต์",o:["10%","16.7%","20%","120%"],a:2,w:"เพิ่ม 10 จากฐาน 50 = 10/50 = 20%"},
+{id:"ma32",s:"math",d:3,q:"ค่าเฉลี่ยของข้อมูล 5 จำนวนเป็น 12 ถ้าตัดค่าหนึ่งซึ่งเท่ากับ 20 ออก ค่าเฉลี่ยที่เหลือเป็นเท่าใด",o:["8","10","11","12"],a:1,w:"ผลรวมเดิม 60 ตัด 20 เหลือ 40 จาก 4 จำนวน → 10"},
+{id:"ma33",s:"math",d:3,q:"ฝากเงิน 1,000 บาท ดอกเบี้ยทบต้น 10% ต่อปี นาน 2 ปี จะได้เงินรวมเท่าใด",o:["1,100 บาท","1,200 บาท","1,210 บาท","1,220 บาท"],a:2,w:"1,000 × 1.1² = 1,210 บาท"},
+{id:"ma34",s:"math",d:2,q:"เส้นตรงที่ผ่านจุด (1, 2) และ (3, 6) มีความชันเท่าใด",o:["1","2","3","4"],a:1,w:"m = (6−2)/(3−1) = 4/2 = 2"},
+{id:"ma35",s:"math",d:2,q:"วงกลมเส้นผ่านศูนย์กลาง 14 cm มีพื้นที่เท่าใด (π = 22/7)",o:["44 cm²","77 cm²","154 cm²","308 cm²"],a:2,w:"r = 7 → A = πr² = (22/7)(49) = 154 cm²"},
+
+/* ---------- ENGLISH · extension ---------- */
+{id:"eng21",s:"english",d:2,q:"Neither of the two answers ___ correct.",o:["are","is","were","be"],a:1,w:"neither of + พหูพจน์ใช้กริยาเอกพจน์ → is"},
+{id:"eng22",s:"english",d:2,q:"The number of applicants ___ increasing every year.",o:["are","is","were","have"],a:1,w:"the number of ใช้กริยาเอกพจน์ (ตัวเลขเป็นประธาน)"},
+{id:"eng23",s:"english",d:2,q:"He has worked at this company ___ 2019.",o:["for","since","from","during"],a:1,w:"since + จุดเวลาเริ่มต้น; for + ระยะเวลา"},
+{id:"eng24",s:"english",d:3,q:"I wish I ___ more time to finish the project.",o:["have","had","will have","would have"],a:1,w:"wish + past simple สำหรับความปรารถนาในปัจจุบัน"},
+{id:"eng25",s:"english",d:2,q:"She said that she ___ tired after the experiment.",o:["is","was","were","has been"],a:1,w:"reported speech ลด tense ย้อนกลับ: is → was"},
+{id:"eng26",s:"english",d:2,q:"The word “meticulous” is closest in meaning to…",o:["careless","very careful","rapid","cheap"],a:1,w:"meticulous = ละเอียดรอบคอบมาก"},
+{id:"eng27",s:"english",d:3,q:"The word “inevitable” is closest in meaning to…",o:["avoidable","unavoidable","unexpected","temporary"],a:1,w:"inevitable = หลีกเลี่ยงไม่ได้"},
+{id:"eng28",s:"english",d:2,q:"“To carry out an experiment” means to…",o:["cancel it","perform it","delay it","repeat it"],a:1,w:"carry out = ดำเนินการ ทำจริง"},
+{id:"eng29",s:"english",d:3,q:"Not only ___ late, but he also forgot the data.",o:["he was","was he","he is","is he"],a:1,w:"Not only ขึ้นต้นประโยคต้องสลับกริยาช่วย: was he"},
+{id:"eng30",s:"english",d:3,q:"If the temperature had been lower, the reaction ___ slower.",o:["will be","would be","would have been","had been"],a:2,w:"third conditional: had + V3, would have + V3"},
+{id:"eng31",s:"english",d:2,q:"The engineer is responsible ___ checking the safety system.",o:["of","for","to","with"],a:1,w:"responsible for + หน้าที่"},
+{id:"eng32",s:"english",d:2,q:"The results, ___ were surprising, were published last week.",o:["that","which","who","what"],a:1,w:"non-defining relative clause ใช้ which กับสิ่งของ"},
+{id:"eng33",s:"english",d:2,q:"She is used to ___ up early for the morning shift.",o:["wake","woke","waking","be woken"],a:2,w:"be used to + V-ing = เคยชินกับ"},
+{id:"eng34",s:"english",d:1,q:"Choose the antonym of “scarce”.",o:["rare","abundant","limited","expensive"],a:1,w:"scarce = ขาดแคลน; ตรงข้ามคือ abundant = มีมาก"},
+{id:"eng35",s:"english",d:2,q:"Unless you study, you ___ fail the exam.",o:["won't","will","would","did"],a:1,w:"unless = if not → เหตุการณ์ที่จะเกิดตามมาจึงใช้ will"},
+{id:"eng36",s:"english",d:2,q:"Choose the correct collocation: ___ a conclusion.",o:["do","draw","build","take"],a:1,w:"draw a conclusion = สรุปข้อสรุป"}
+];
+
+/* =========================================================
+   4. DOM refs
+   ========================================================= */
+const el = {
+  menu:$('#vMenu'), battle:$('#vBattle'), end:$('#vEnd'), stats:$('#vStats'),
+  grid:$('#grid'), rushBtn:$('#rushBtn'), statsBtn:$('#statsBtn'),
+  timerBtn:$('#timerBtn'), resetBtn:$('#resetBtn'), soundBtn:$('#soundBtn'),
+  arena:$('#arena'), hearts:$('#hearts'), combo:$('#comboVal'), score:$('#scoreVal'),
+  bossCard:$('#bossCard'), bossInner:$('#bossInner'), ring:$('#ring'),
+  face:$('#bossFace'), bname:$('#bossName'), bsub:$('#bossSub'),
+  hpFill:$('#hpFill'), hpTxt:$('#hpTxt'), hpbar:$('#hpbar'),
+  qcard:$('#qcard'), tb:$('#tb'), timeFill:$('#timeFill'), qText:$('#qText'), qLang:$('#qLang'),
+  opts:$('#opts'), exp:$('#exp'), fb:$('#fb'), why:$('#why'), nextBtn:$('#nextBtn'),
+  skShield:$('#skShield'), skFreeze:$('#skFreeze'), skHalf:$('#skHalf'),
+  ctShield:$('#ctShield'), ctFreeze:$('#ctFreeze'), ctHalf:$('#ctHalf'),
+  cdShield:$('#cdShield'), cdFreeze:$('#cdFreeze'), cdHalf:$('#cdHalf'),
+  quitBtn:$('#quitBtn'),
+  endTitle:$('#endTitle'), endSub:$('#endSub'), endStats:$('#endStats'),
+  review:$('#review'), againBtn:$('#againBtn'), weakBtn:$('#weakBtn'), menuBtn:$('#menuBtn'),
+  statsTop:$('#statsTop'), statsBody:$('#statsBody'), backBtn:$('#backBtn'),
+  ov:$('#ov'), ovPick:$('#ovPick'), ovTitle:$('#ovTitle'), ovSub:$('#ovSub'),
+  ovBtn:$('#ovBtn'), ovCancel:$('#ovCancel'),
+  banner:$('#banner'), comboPop:$('#comboPop'), flash:$('#flash'),
+  fx:$('#fxLayer'), cvs:$('#cf'), live:$('#live')
+};
+
+/* =========================================================
+   5. canvas particles
+   ========================================================= */
+const cv = el.cvs, cx = cv.getContext('2d');
+let parts = [], fxRunning = false, dpr = 1;
+function sizeCanvas(){
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.floor(window.innerWidth * dpr);
+  cv.height = Math.floor(window.innerHeight * dpr);
+  cv.style.width = window.innerWidth + 'px';
+  cv.style.height = window.innerHeight + 'px';
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+sizeCanvas();
+window.addEventListener('resize', sizeCanvas);
+
+function burst(x, y, color, count, power){
+  if (reduced) return;
+  if (parts.length > 240) parts.splice(0, parts.length - 240);
+  for (let i = 0; i < count; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const sp = power * (0.35 + Math.random());
+    parts.push({
+      x: x, y: y,
+      vx: Math.cos(a) * sp,
+      vy: Math.sin(a) * sp - 1.2,
+      life: 1,
+      decay: 0.012 + Math.random() * 0.022,
+      size: 1.6 + Math.random() * 3.2,
+      c: color
+    });
+  }
+  if (!fxRunning) { fxRunning = true; requestAnimationFrame(fxLoop); }
+}
+function fxLoop(){
+  cx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i];
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.16; p.vx *= 0.985;
+    p.life -= p.decay;
+    if (p.life <= 0 || p.y > window.innerHeight + 40) { parts.splice(i, 1); continue; }
+    cx.globalAlpha = Math.max(0, p.life);
+    cx.fillStyle = p.c;
+    cx.shadowBlur = 12; cx.shadowColor = p.c;
+    cx.beginPath(); cx.arc(p.x, p.y, p.size, 0, Math.PI * 2); cx.fill();
+  }
+  cx.globalAlpha = 1; cx.shadowBlur = 0;
+  if (parts.length) requestAnimationFrame(fxLoop);
+  else { fxRunning = false; cx.clearRect(0, 0, window.innerWidth, window.innerHeight); }
+}
+function bossCenter(){
+  const r = el.ring.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+}
+function floatText(txt, cls){
+  const c = bossCenter();
+  const d = document.createElement('div');
+  d.className = 'fl ' + (cls || '');
+  d.textContent = txt;
+  d.style.left = c.x + 'px';
+  d.style.top = c.y + 'px';
+  el.fx.appendChild(d);
+  setTimeout(() => d.remove(), 1050);
+}
+function shake(strong){
+  if (reduced) return;
+  el.arena.classList.remove('shk', 'shk2');
+  void el.arena.offsetWidth;
+  el.arena.classList.add(strong ? 'shk2' : 'shk');
+  setTimeout(() => el.arena.classList.remove('shk', 'shk2'), 500);
+}
+function flash(){
+  el.flash.classList.remove('on');
+  void el.flash.offsetWidth;
+  el.flash.classList.add('on');
+}
+function popCombo(txt){
+  el.comboPop.textContent = txt;
+  el.comboPop.classList.remove('on');
+  void el.comboPop.offsetWidth;
+  el.comboPop.classList.add('on');
+}
+function say(msg){
+  el.live.textContent = msg;
+}
+
+/* =========================================================
+   6. game state
+   ========================================================= */
+const S = {
+  key:'physics', sub:SUB.physics, rush:false,
+  questions:[], qi:0, cur:null,
+  maxHp:900, hp:900, plHp:5, plMax:5,
+  combo:0, maxCombo:0, score:0, correct:0, wrong:0, dmg:0,
+  uses:{shield:2,freeze:2,half:3}, cd:{shield:0,freeze:0,half:0},
+  shieldOn:false, rage:false, answered:false, running:false, over:false,
+  timeMax:32, time:32, last:0, raf:0, nextT:0, uiLast:0,
+  log:[], startTime:0
+};
+
+function setView(v){
+  el.menu.classList.toggle('on', v === 'menu');
+  el.battle.classList.toggle('on', v === 'battle');
+  el.end.classList.toggle('on', v === 'end');
+  el.stats.classList.toggle('on', v === 'stats');
+  document.body.classList.toggle('inBattle', v === 'battle');
+  window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
+}
+
+/* =========================================================
+   7. menu
+   ========================================================= */
+function pctOf(k){ const s = subStat(k); return s.n ? Math.round(s.c / s.n * 100) : 0; }
+
+function renderMenu(){
+  el.grid.innerHTML = '';
+  Object.keys(SUB).forEach(function(k){
+    const s = SUB[k];
+    const st = subStat(k);
+    const pct = st.n ? Math.round(st.c / st.n * 100) : 0;
+    const primary = (LANG === 'en') ? s.en : s.th;
+    const secondary = (LANG === 'en') ? s.th : s.en;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'card';
+    b.style.setProperty('--c', s.c);
+    b.setAttribute('aria-label', t('cardAria', s.boss, primary));
+    const ico = document.createElement('span'); ico.className = 'ci'; ico.textContent = s.ico;
+    const best = document.createElement('span'); best.className = 'cbest'; best.textContent = st.best ? st.best : '';
+    const th = document.createElement('span'); th.className = 'cth'; th.textContent = primary;
+    const en = document.createElement('span'); en.className = 'cen'; en.textContent = secondary;
+    const bar = document.createElement('span'); bar.className = 'cbar';
+    const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.appendChild(fill);
+    const meta = document.createElement('span'); meta.className = 'cmeta';
+    meta.textContent = st.n ? t('accMeta', pct, st.c, st.n) : subDesc(s);
+    b.appendChild(ico); b.appendChild(best); b.appendChild(th); b.appendChild(en); b.appendChild(bar); b.appendChild(meta);
+    b.addEventListener('click', function(){ SFX.click(); intro(k); });
+    el.grid.appendChild(b);
+  });
+  el.rushBtn.setAttribute('aria-label', t('rushAria'));
+  el.timerBtn.setAttribute('aria-pressed', String(!store.focus));
+  el.timerBtn.innerHTML = '<span class="dot"></span><span>' + t(store.focus ? 'timerOff' : 'timerOn') + '</span>';
+  el.soundBtn.textContent = store.mute ? '🔇' : '🔊';
+  el.soundBtn.classList.toggle('off', store.mute);
+  el.soundBtn.setAttribute('aria-pressed', String(!store.mute));
+  el.menu.setAttribute('aria-label', t('menuAria'));
+  el.battle.setAttribute('aria-label', t('battleAria'));
+  el.end.setAttribute('aria-label', t('endAria'));
+  el.stats.setAttribute('aria-label', t('statsAria'));
+}
+
+/* =========================================================
+   8. intro overlay
+   ========================================================= */
+function intro(key){
+  const isRush = key === 'rush';
+  const s = isRush ? RUSH : SUB[key];
+  el.ovPick.textContent = s.ico;
+  el.ovPick.style.filter = 'drop-shadow(0 0 18px ' + s.c + ')';
+  el.ovTitle.textContent = s.boss;
+  el.ovTitle.style.textShadow = '0 0 22px ' + s.c;
+  el.ovSub.textContent = isRush
+    ? t('rushOv')
+    : t('subjOv', subName(s), subDesc(s));
+  el.ovSub.style.whiteSpace = 'pre-line';
+  el.ovBtn.textContent = t('startBattle');
+  el.ovCancel.textContent = t('cancel');
+  el.ovCancel.hidden = false;
+  el.ov.classList.add('on');
+  el.ovBtn.focus();
+  el.ovBtn.onclick = function(){
+    unlock(); SFX.click();
+    closeOv();
+    startBattle(key);
+  };
+}
+function closeOv(){ el.ov.classList.remove('on'); }
+
+/* =========================================================
+   9. battle start
+   ========================================================= */
+function buildSet(key, n){
+  let pool = (key === 'rush') ? BANK.slice() : BANK.filter(function(q){ return q.s === key; });
+  pool = shuffle(pool.slice());
+  const byD = {1:[], 2:[], 3:[]};
+  pool.forEach(function(q){ byD[q.d].push(q); });
+  const w1 = Math.round(n * 0.35);
+  const w2 = Math.round(n * 0.4);
+  const w3 = Math.max(0, n - w1 - w2);
+  let out = byD[1].slice(0, w1).concat(byD[2].slice(0, w2), byD[3].slice(0, w3));
+  if (out.length < n) {
+    const used = {};
+    out.forEach(function(q){ used[q.id] = 1; });
+    const rest = shuffle(pool.filter(function(q){ return !used[q.id]; }));
+    out = out.concat(rest.slice(0, n - out.length));
+  }
+  return out.sort(function(a, b){ return a.d - b.d; });
+}
+
+function paintBossSub(){
+  el.bsub.textContent = (S.rush ? 'ALL SUBJECTS' : S.sub.en) + ' · ' + t(S.weak ? 'weakTag' : 'bossTag');
+}
+
+function startBattle(key, opts){
+  opts = opts || {};
+  clearTimeout(S.nextT);
+  cancelAnimationFrame(S.raf);
+  S.key = key;
+  S.rush = (key === 'rush');
+  S.sub = S.rush ? RUSH : SUB[key];
+  S.questions = opts.qs ? opts.qs.slice() : buildSet(key, S.rush ? 18 : 14);
+  S.qi = 0;
+  S.maxHp = opts.bossMax || (S.rush ? 1600 : 1300);
+  S.hp = S.maxHp;
+  S.plMax = 5; S.plHp = 5;
+  S.uses = { shield:2, freeze:2, half:3 };
+  if (opts.weak) S.uses = { shield:1, freeze:1, half:2 };
+  S.cd = { shield:0, freeze:0, half:0 };
+  S.combo = 0; S.maxCombo = 0; S.score = 0; S.correct = 0; S.wrong = 0; S.dmg = 0;
+  S.shieldOn = false; S.rage = false; S.answered = false; S.over = false; S.done = false;
+  S.weak = !!opts.weak;
+  S.timeMax = 32; S.time = 32; S.qStart = performance.now(); S.log = []; S.startTime = performance.now();
+
+  el.arena.classList.remove('rage');
+  el.arena.style.setProperty('--c', S.sub.c);
+  el.battle.style.setProperty('--c', S.sub.c);
+  el.qcard.style.setProperty('--c', S.sub.c);
+  el.face.textContent = S.sub.ico;
+  el.bname.textContent = S.sub.boss;
+  paintBossSub();
+  el.nextBtn.classList.remove('on');
+  el.exp.classList.remove('on');
+
+  renderHud();
+  el.hpFill.style.width = '100%';
+  el.hpTxt.textContent = Math.ceil(S.hp) + ' / ' + S.maxHp;
+
+  setView('battle');
+  setTimeout(showQuestion, reduced ? 0 : 120);
+}
+
+/* =========================================================
+   10. question flow
+   ========================================================= */
+function showQuestion(){
+  if (S.over) return;
+  const q = S.questions[S.qi];
+  if (!q) { finish(false); return; }
+  S.cur = q;
+  S.answered = false;
+  S.timeMax = S.rage ? 26 : 32;
+  S.time = S.timeMax;
+  S.qStart = performance.now();
+  el.qText.textContent = q.q;
+  el.qLang.textContent = (q.s === 'english') ? 'EN' : 'TH';
+  el.qLang.title = LANG === 'th' ? 'ภาษาของเนื้อหาโจทย์' : 'Question content language';
+  el.qcard.classList.remove('urgent');
+  el.exp.classList.remove('on');
+  el.nextBtn.classList.remove('on');
+  el.opts.innerHTML = '';
+  S.cut = [];
+  const letters = ['A', 'B', 'C', 'D'];
+  q.o.forEach(function(txt, i){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.dataset.i = String(i);
+    const badge = document.createElement('i');
+    badge.textContent = letters[i];
+    const span = document.createElement('span');
+    span.textContent = txt;
+    b.appendChild(badge); b.appendChild(span);
+    b.addEventListener('click', function(){ answer(i); });
+    el.opts.appendChild(b);
+  });
+  el.tb.classList.toggle('on', !store.focus);
+  el.timeFill.style.width = '100%';
+  renderHud();
+  renderSkills();
+  startTimer();
+  say(t('sayQ', S.qi + 1, S.questions.length));
+}
+
+function startTimer(){
+  cancelAnimationFrame(S.raf);
+  S.last = performance.now();
+  if (store.focus) { S.running = false; return; }
+  S.running = true;
+  S.raf = requestAnimationFrame(tick);
+}
+
+function tick(now){
+  if (!S.running || S.answered || S.over) return;
+  const dt = Math.min(0.25, (now - S.last) / 1000);
+  S.last = now;
+  S.time -= dt;
+  if (S.time <= 0) {
+    S.time = 0;
+    paintTime();
+    onTimeout();
+    return;
+  }
+  paintTime();
+  if (now - S.uiLast > 180) { S.uiLast = now; renderSkills(); }
+  S.raf = requestAnimationFrame(tick);
+}
+
+function paintTime(){
+  const p = clamp(S.time / S.timeMax, 0, 1);
+  el.timeFill.style.width = (p * 100) + '%';
+  el.timeFill.style.background = p > 0.5
+    ? 'linear-gradient(90deg,#c6ff3d,#ffb62b)'
+    : (p > 0.25 ? 'linear-gradient(90deg,#ffb62b,#ff7a2b)' : 'linear-gradient(90deg,#ff2b3d,#ffb62b)');
+  el.qcard.classList.toggle('urgent', p < 0.22 && !S.answered);
+}
+
+function lockOptions(chosen){
+  const q = S.cur;
+  $$('.opt', el.opts).forEach(function(b){
+    b.disabled = true;
+    const i = Number(b.dataset.i);
+    if (i === q.a) b.classList.add('ok');
+    else if (i === chosen) b.classList.add('no');
+  });
+}
+
+function answer(i){
+  if (S.answered || S.over || !S.cur) return;
+  if (S.cut && S.cut.indexOf(i) !== -1) return;
+  S.answered = true;
+  S.running = false;
+  cancelAnimationFrame(S.raf);
+  const q = S.cur;
+  const ok = (i === q.a);
+  lockOptions(i);
+  const picked = ok ? q.o[q.a] : (i >= 0 ? q.o[i] : 'timeout');
+
+  if (ok) onCorrect(q); else onWrong(q, picked, 'wrong');
+
+  el.exp.classList.add('on');
+  S.fb = { ok: ok, timeout: false, ans: q.o[q.a] };
+  paintFeedback();
+  el.why.textContent = q.w;
+  el.nextBtn.classList.add('on');
+  paintNextLabel();
+  scheduleNext(ok ? 1900 : 4600);
+}
+
+function paintFeedback(){
+  if (!S.fb) return;
+  el.fb.className = S.fb.ok ? 'good' : 'bad';
+  el.fb.textContent = S.fb.ok ? t('correctFb') : t(S.fb.timeout ? 'timeoutFb' : 'wrongFb', S.fb.ans);
+}
+function paintNextLabel(){
+  el.nextBtn.textContent = (S.qi + 1 >= S.questions.length) ? t('results') : t('next');
+}
+
+function scheduleNext(delay){
+  clearTimeout(S.nextT);
+  S.nextT = setTimeout(next, delay);
+}
+function next(){
+  clearTimeout(S.nextT);
+  if (S.over) return;
+  if (!S.answered) return;
+  S.qi++;
+  if (S.qi >= S.questions.length) { finish(S.hp <= 0); return; }
+  showQuestion();
+}
+
+function comboMult(){ return clamp(S.combo, 0, 6); }
+
+function onCorrect(q){
+  S.correct++;
+  S.combo++;
+  if (S.combo > S.maxCombo) S.maxCombo = S.combo;
+  const elapsed = (performance.now() - S.qStart) / 1000;
+  const crit = elapsed <= 8 && !store.focus;
+  const raw = Math.round((70 + comboMult() * 12) * (crit ? 1.5 : 1));
+  const dmg = Math.min(raw, S.hp);
+  S.hp = Math.max(0, S.hp - raw);
+  S.dmg += dmg;
+  const timeBonus = store.focus ? 0 : Math.round(S.time * 3);
+  S.score += 100 + S.combo * 25 + timeBonus + (crit ? 75 : 0);
+
+  // per-subject stats
+  const s = subStat(q.s);
+  s.n++; s.c++;
+
+  SFX.correct();
+  if (crit) setTimeout(function(){ SFX.crit(); }, 40);
+
+  const c = bossCenter();
+  burst(c.x, c.y, S.sub.c, crit ? 34 : 20, crit ? 7 : 5);
+  burst(c.x, c.y, '#ffffff', crit ? 12 : 7, crit ? 8 : 5);
+  floatText('-' + dmg, crit ? 'crit' : '');
+  if (crit) floatText('CRIT!', 'small');
+  el.ring.classList.remove('hit');
+  void el.ring.offsetWidth;
+  el.ring.classList.add('hit');
+  shake(crit);
+  if (crit) flash();
+  popCombo('x' + S.combo);
+  if (S.combo === 3 || S.combo === 5 || S.combo === 7) SFX.combo();
+  const milestone = (S.combo === 5 || S.combo === 8);
+  el.comboPop.classList.toggle('big', S.combo >= 5);
+  if (milestone) { burst(c.x, c.y, '#ffb62b', 26, 8); popCombo('COMBO x' + S.combo); }
+  say(t('sayCorrect', dmg, crit, Math.ceil(S.hp)));
+  renderHud();
+  checkRage();
+
+  if (S.hp <= 0) {
+    S.over = true;
+    setTimeout(function(){ finish(true); }, 800);
+  }
+}
+
+function onWrong(q, picked, why){
+  S.wrong++;
+  if (!q) return;
+  const s = subStat(q.s); s.n++;
+  S.log.push({ q:q, picked:picked, why:why });
+
+  if (S.shieldOn) {
+    S.shieldOn = false;
+    SFX.block();
+    floatText('BLOCKED', 'block');
+    flash();
+    say(t('sayBlock'));
+    el.skShield.classList.remove('armed');
+    renderHud();
+    return;
+  }
+
+  S.combo = 0;
+  S.plHp = Math.max(0, S.plHp - 1);
+  const hpBefore = S.hp;
+  S.hp = Math.min(S.maxHp, S.hp + 30);
+  const healed = Math.round(S.hp - hpBefore);
+  SFX.wrong();
+  if (healed > 0) {
+    setTimeout(function(){ SFX.heal(); }, 160);
+    floatText('+' + healed + ' HP', 'small');
+  }
+  flash(); shake(true);
+  say(t('sayWrong'));
+  renderHud();
+  el.hpFill.style.width = ((S.hp / S.maxHp) * 100) + '%';
+
+  if (S.plHp <= 0) {
+    S.over = true;
+    setTimeout(function(){ finish(false); }, 900);
+  }
+}
+
+function onTimeout(){
+  if (S.answered || S.over) return;
+  S.answered = true;
+  S.running = false;
+  cancelAnimationFrame(S.raf);
+  lockOptions(-1);
+  onWrong(S.cur, 'timeout', 'timeout');
+  el.exp.classList.add('on');
+  S.fb = { ok: false, timeout: true, ans: S.cur.o[S.cur.a] };
+  paintFeedback();
+  el.why.textContent = S.cur.w;
+  el.nextBtn.classList.add('on');
+  paintNextLabel();
+  scheduleNext(4600);
+}
+
+function checkRage(){
+  if (S.rage || S.hp <= 0) return;
+  if (S.hp <= S.maxHp * 0.5) {
+    S.rage = true;
+    el.arena.classList.add('rage');
+    S.timeMax = 26;
+    S.time = Math.max(2, Math.min(S.time, 26) - 4);
+    paintTime();
+    el.banner.querySelector('span').textContent = 'RAGE PHASE';
+    el.banner.classList.remove('on');
+    void el.banner.offsetWidth;
+    el.banner.classList.add('on');
+    SFX.rage();
+    shake(true);
+    say(t('sayRage'));
+  }
+}
+
+/* =========================================================
+   11. skills
+   ========================================================= */
+const CD = { shield:5000, freeze:6000, half:8000 };
+
+function skillReady(k){
+  return !S.answered && !S.over && S.uses[k] > 0 && performance.now() >= S.cd[k];
+}
+function renderSkills(){
+  const now = performance.now();
+  const rows = [
+    ['shield', el.skShield, el.ctShield, el.cdShield],
+    ['freeze', el.skFreeze, el.ctFreeze, el.cdFreeze],
+    ['half', el.skHalf, el.ctHalf, el.cdHalf]
+  ];
+  rows.forEach(function(row){
+    const k = row[0], btn = row[1], ct = row[2], cdEl = row[3];
+    const left = S.uses[k];
+    const cdLeft = Math.max(0, S.cd[k] - now);
+    const blocked = S.answered || S.over || (k === 'freeze' && store.focus);
+    btn.disabled = !(left > 0 && cdLeft <= 0) || blocked;
+    ct.textContent = String(left);
+    ct.classList.toggle('empty', left <= 0);
+    cdEl.textContent = cdLeft > 0 ? Math.ceil(cdLeft / 1000) + 's' : '';
+    if (k === 'shield') btn.classList.toggle('armed', S.shieldOn);
+  });
+}
+function useSkill(k){
+  if (!skillReady(k)) return;
+  if (k === 'shield' && S.shieldOn) return;
+  S.uses[k]--;
+  S.cd[k] = performance.now() + CD[k];
+
+  if (k === 'shield') {
+    S.shieldOn = true;
+    SFX.power();
+    floatText('SHIELD ON', 'block');
+    say(t('sayShield'));
+  }
+  if (k === 'freeze') {
+    if (!store.focus) {
+      S.time = Math.min(S.timeMax + 10, S.time + 10);
+      paintTime();
+    }
+    SFX.freeze();
+    floatText('+10 SEC', 'small');
+    say(t('sayFreeze'));
+  }
+  if (k === 'half') {
+    const q = S.cur;
+    const wrongIdx = [];
+    q.o.forEach(function(_, i){ if (i !== q.a) wrongIdx.push(i); });
+    shuffle(wrongIdx);
+    const cut = wrongIdx.slice(0, 2);
+    S.cut = cut.slice();
+    $$('.opt', el.opts).forEach(function(b){
+      if (cut.indexOf(Number(b.dataset.i)) !== -1) b.classList.add('cut');
+    });
+    SFX.half();
+    say(t('sayHalf'));
+  }
+  el[k === 'shield' ? 'skShield' : k === 'freeze' ? 'skFreeze' : 'skHalf'].classList.add('used');
+  renderSkills();
+}
+
+/* =========================================================
+   12. hud
+   ========================================================= */
+function renderHud(){
+  let h = '';
+  for (let i = 0; i < S.plMax; i++) h += (i < S.plHp ? '❤️' : '🖤');
+  el.hearts.textContent = h;
+  el.hearts.setAttribute('aria-label', t('hpAria', S.plHp, S.plMax));
+  el.combo.textContent = 'x' + S.combo;
+  el.combo.classList.toggle('hot', S.combo >= 3);
+  el.score.textContent = S.score;
+  const p = clamp(S.hp / S.maxHp, 0, 1);
+  el.hpFill.style.width = (p * 100) + '%';
+  el.hpTxt.textContent = Math.ceil(S.hp) + ' / ' + S.maxHp;
+}
+
+/* =========================================================
+   13. finish / end screen
+   ========================================================= */
+function finish(win){
+  if (S.over && S.done) return;
+  S.done = true;
+  S.over = true;
+  S.running = false;
+  cancelAnimationFrame(S.raf);
+  clearTimeout(S.nextT);
+  if (win) { SFX.win(); if (!reduced) { const c = bossCenter(); burst(c.x, c.y, S.sub.c, 60, 9); burst(c.x, c.y, '#fff', 24, 11); } }
+  else { SFX.lose(); }
+
+  const total = S.correct + S.wrong;
+  const acc = total ? Math.round(S.correct / total * 100) : 0;
+  const s = subStat(S.key);
+  if (S.score > (s.best || 0)) s.best = S.score;
+  if (S.maxCombo > (store.bestCombo || 0)) store.bestCombo = S.maxCombo;
+  if (S.score > (store.bestScore || 0)) store.bestScore = S.score;
+  store.tot.n += total;
+  store.tot.c += S.correct;
+  store.plays = (store.plays || 0) + 1;
+  bumpStreak();
+  saveStore();
+
+  S.result = { win: win, acc: acc, total: total };
+  paintEnd();
+  setTimeout(function(){ setView('end'); }, win ? 700 : 500);
+}
+
+function paintEnd(){
+  if (!S.result) return;
+  const win = S.result.win;
+  const acc = S.result.acc;
+  const total = S.result.total;
+
+  el.endTitle.textContent = t(win ? 'victory' : 'defeat');
+  el.endTitle.className = 'endTitle ' + (win ? 'win' : 'lose');
+  const unanswered = S.questions.length - total;
+  el.endSub.textContent = win
+    ? t('winSub', S.correct)
+    : (S.plHp <= 0
+        ? t('loseHp', Math.ceil(S.hp))
+        : (unanswered > 0 ? t('loseAmmo', Math.ceil(S.hp)) : t('loseClose')));
+
+  const st = [
+    [t('statScore'), S.score, 'var(--amb)'],
+    [t('statAcc'), acc + '%', 'var(--lime)'],
+    [t('statCombo'), 'x' + S.maxCombo, 'var(--mag)'],
+    [t('statDmg'), S.dmg, 'var(--cya)']
+  ];
+  el.endStats.innerHTML = '';
+  st.forEach(function(row){
+    const d = document.createElement('div');
+    d.className = 'st';
+    d.style.setProperty('--c', row[2]);
+    const sm = document.createElement('small'); sm.textContent = row[0];
+    const b = document.createElement('b'); b.textContent = row[1];
+    d.appendChild(sm); d.appendChild(b);
+    el.endStats.appendChild(d);
+  });
+
+  el.review.innerHTML = '';
+  if (S.log.length) {
+    const h = document.createElement('h3');
+    h.textContent = t('reviewHead', S.log.length);
+    el.review.appendChild(h);
+    S.log.slice(0, 8).forEach(function(item){
+      const d = document.createElement('div');
+      d.className = 'rv';
+      const rq = document.createElement('div'); rq.className = 'rq'; rq.textContent = item.q.q;
+      const ra = document.createElement('div'); ra.className = 'ra'; ra.textContent = t('answerLabel', item.q.o[item.q.a]);
+      const rw = document.createElement('div'); rw.className = 'rw'; rw.textContent = item.q.w;
+      d.appendChild(rq); d.appendChild(ra); d.appendChild(rw);
+      el.review.appendChild(d);
+    });
+    if (S.log.length > 8) {
+      const more = document.createElement('div');
+      more.className = 'rw';
+      more.textContent = t('more', S.log.length - 8);
+      el.review.appendChild(more);
+    }
+  } else if (win) {
+    const d = document.createElement('div');
+    d.className = 'rv';
+    d.style.borderLeftColor = 'var(--lime)';
+    d.textContent = t('perfect');
+    el.review.appendChild(d);
+  }
+
+  el.weakBtn.disabled = S.log.length < 1;
+  el.weakBtn.textContent = S.log.length ? t('weak', S.log.length) : t('noWeak');
+  el.againBtn.textContent = t('again');
+  el.menuBtn.textContent = t('menu');
+}
+
+/* =========================================================
+   14. stats screen
+   ========================================================= */
+function renderStats(){
+  const acc = store.tot.n ? Math.round(store.tot.c / store.tot.n * 100) : 0;
+  const top = [
+    [t('statTotal'), store.tot.n, 'var(--cya)'],
+    [t('statAccTotal'), acc + '%', 'var(--lime)'],
+    [t('statBest'), store.bestScore || 0, 'var(--amb)'],
+    [t('statRuns'), t('runs', store.plays || 0), 'var(--mag)']
+  ];
+  el.statsTop.innerHTML = '';
+  top.forEach(function(row){
+    const d = document.createElement('div');
+    d.className = 'st';
+    d.style.setProperty('--c', row[2]);
+    const sm = document.createElement('small'); sm.textContent = row[0];
+    const b = document.createElement('b'); b.textContent = row[1];
+    d.appendChild(sm); d.appendChild(b);
+    el.statsTop.appendChild(d);
+  });
+
+  el.statsBody.innerHTML = '';
+  const head = document.createElement('h3');
+  head.textContent = t('mastery');
+  el.statsBody.appendChild(head);
+  Object.keys(SUB).forEach(function(k){
+    const s = SUB[k], st = subStat(k);
+    const pct = st.n ? Math.round(st.c / st.n * 100) : 0;
+    const name = (LANG === 'en') ? s.en : s.th;
+    const d = document.createElement('div');
+    d.className = 'ct';
+    d.style.setProperty('--c', s.c);
+    d.innerHTML =
+      '<div class="top"><span>' + s.ico + ' ' + name + '</span><b>' + pct + '%</b></div>' +
+      '<div class="tb" style="display:block;margin:0"><i style="width:' + pct + '%;background:' + s.c + ';box-shadow:0 0 10px ' + s.c + '"></i></div>' +
+      '<div class="cmeta" style="margin-top:6px;font-size:11.5px;color:var(--dim)">' + t('subjStat', st.c, st.n, st.best || 0) + '</div>';
+    el.statsBody.appendChild(d);
+  });
+
+  const extra = document.createElement('div');
+  extra.className = 'rv';
+  extra.style.borderLeftColor = 'var(--cya)';
+  extra.textContent = t('extra', store.bestCombo || 0, store.streak || 0);
+  el.statsBody.appendChild(extra);
+}
+
+/* =========================================================
+   15. settings & events
+   ========================================================= */
+AU.muted = !!store.mute;
+
+el.soundBtn.addEventListener('click', function(){
+  unlock();
+  AU.muted = !AU.muted;
+  store.mute = AU.muted;
+  saveStore();
+  el.soundBtn.textContent = AU.muted ? '🔇' : '🔊';
+  el.soundBtn.classList.toggle('off', AU.muted);
+  el.soundBtn.setAttribute('aria-pressed', String(!AU.muted));
+  if (!AU.muted) SFX.click();
+});
+
+el.timerBtn.addEventListener('click', function(){
+  store.focus = !store.focus;
+  saveStore();
+  renderMenu();
+  SFX.click();
+});
+
+el.statsBtn.addEventListener('click', function(){
+  SFX.click();
+  renderStats();
+  setView('stats');
+});
+el.backBtn.addEventListener('click', function(){ SFX.click(); renderMenu(); setView('menu'); });
+
+el.resetBtn.addEventListener('click', function(){
+  if (!window.confirm(t('confirmReset'))) return;
+  store = { mute:store.mute, focus:store.focus, lang:LANG, sub:{}, tot:{c:0,n:0}, bestCombo:0, bestScore:0, streak:0, lastDay:null, plays:0 };
+  saveStore();
+  renderMenu();
+  SFX.click();
+  say(t('cleared'));
+});
+
+el.rushBtn.addEventListener('click', function(){ SFX.click(); intro('rush'); });
+el.ovCancel.addEventListener('click', function(){ SFX.click(); closeOv(); });
+el.ov.addEventListener('click', function(e){ if (e.target === el.ov) closeOv(); });
+
+el.skShield.addEventListener('click', function(){ useSkill('shield'); });
+el.skFreeze.addEventListener('click', function(){ useSkill('freeze'); });
+el.skHalf.addEventListener('click', function(){ useSkill('half'); });
+el.nextBtn.addEventListener('click', next);
+el.quitBtn.addEventListener('click', function(){ SFX.click(); quitBattle(); });
+
+function quitBattle(){
+  if (!el.battle.classList.contains('on') || S.done) return;
+  if (!window.confirm(t('confirmQuit'))) return;
+  S.running = false;
+  S.over = true;
+  cancelAnimationFrame(S.raf);
+  clearTimeout(S.nextT);
+  saveStore();
+  renderMenu();
+  setView('menu');
+}
+
+el.againBtn.addEventListener('click', function(){ SFX.click(); startBattle(S.key); });
+el.weakBtn.addEventListener('click', function(){
+  if (!S.log.length) return;
+  SFX.click();
+  const qs = [];
+  const seen = {};
+  S.log.forEach(function(l){ if (!seen[l.q.id]) { seen[l.q.id] = 1; qs.push(l.q); } });
+  const bossMax = clamp(100 + qs.length * 62, 240, 1400);
+  startBattle(S.key, { qs: shuffle(qs), bossMax: bossMax, weak:true });
+});
+el.menuBtn.addEventListener('click', function(){ SFX.click(); renderMenu(); setView('menu'); });
+
+$$('#langSwitch button').forEach(function(b){
+  b.addEventListener('click', function(){
+    const want = b.dataset.lang;
+    if (want === LANG) return;
+    LANG = want;
+    store.lang = LANG;
+    saveStore();
+    SFX.click();
+    applyLang();
+    say(LANG === 'th' ? 'เปลี่ยนเป็นภาษาไทย' : 'Switched to English');
+  });
+});
+
+function applyLang(){
+  document.documentElement.lang = LANG;
+  $$('[data-i18n]').forEach(function(n){ n.textContent = t(n.dataset.i18n); });
+  $$('[data-i18n-aria]').forEach(function(n){ n.setAttribute('aria-label', t(n.dataset.i18nAria)); });
+  $$('#langSwitch button').forEach(function(b){
+    const on = b.dataset.lang === LANG;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+  renderMenu();
+  if (el.battle.classList.contains('on')) relabelBattle();
+  if (el.end.classList.contains('on')) paintEnd();
+  if (el.stats.classList.contains('on')) renderStats();
+}
+
+function relabelBattle(){
+  paintBossSub();
+  if (S.cur) el.qLang.title = (LANG === 'th') ? 'ภาษาของเนื้อหาโจทย์' : 'Question content language';
+  if (el.exp.classList.contains('on')) {
+    paintFeedback();
+    if (S.cur) el.why.textContent = S.cur.w;
+  }
+  if (el.nextBtn.classList.contains('on')) paintNextLabel();
+  renderHud();
+}
+
+document.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (el.ov.classList.contains('on')) {
+    if (e.key === 'Escape') { closeOv(); }
+    if (e.key === 'Enter' && document.activeElement !== el.ovCancel) { e.preventDefault(); el.ovBtn.click(); }
+    return;
+  }
+  if (!el.battle.classList.contains('on')) return;
+  const k = e.key.toLowerCase();
+  if (k === 'escape') { e.preventDefault(); quitBattle(); return; }
+  if (k === 'enter' || k === ' ') {
+    if (S.answered && !S.over) { e.preventDefault(); next(); }
+    return;
+  }
+  if (!S.answered && !S.over && /^[1-4]$/.test(k)) {
+    e.preventDefault();
+    answer(Number(k) - 1);
+    return;
+  }
+  if (!S.answered && !S.over) {
+    if (k === 'q') useSkill('shield');
+    if (k === 'w') useSkill('freeze');
+    if (k === 'e') useSkill('half');
+  }
+});
+
+/* 3D tilt on the boss card (pointer only) */
+if (!isTouch) {
+  el.bossCard.addEventListener('pointermove', function(e){
+    if (reduced) return;
+    const r = el.bossCard.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+    const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+    el.bossInner.style.transform = 'rotateY(' + (dx * 14).toFixed(2) + 'deg) rotateX(' + (-dy * 12).toFixed(2) + 'deg)';
+  });
+  el.bossCard.addEventListener('pointerleave', function(){
+    el.bossInner.style.transform = '';
+  });
+}
+
+/* audio unlock on first gesture */
+document.addEventListener('pointerdown', unlock, { once:true });
+document.addEventListener('keydown', unlock, { once:true });
+
+/* pause the clock when the tab is hidden */
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden) { S.running = false; cancelAnimationFrame(S.raf); }
+  else if (!S.answered && !S.over && el.battle.classList.contains('on') && !store.focus) {
+    S.running = true; S.last = performance.now();
+    S.raf = requestAnimationFrame(tick);
+  }
+});
+
+/* =========================================================
+   16. boot
+   ========================================================= */
+applyLang();
+setView('menu');
+S.timeMax = 32; S.time = 32;
+
+/* keep skill cooldown labels ticking even in focus mode / between frames */
+setInterval(function(){
+  if (el.battle.classList.contains('on') && !S.answered && !S.over) renderSkills();
+}, 250);
+
+})();
+</script>
+</body>
+</html>

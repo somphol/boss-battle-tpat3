@@ -1,0 +1,42 @@
+# Boss Battle: TPAT3 + English
+
+A single-file arcade quiz game for TPAT3-style science/engineering/logic and English practice.
+Answer correctly to damage the boss, chain combos, spend three tactical skills, and survive the rage phase.
+
+**Play:** https://somphol.github.io/boss-battle-tpat3/
+
+## What is in it
+
+- **180 original practice questions** — physics 37, engineering 36, logic 36, math 35, English 36 — each with an explanation.
+- **5 bosses + Boss Rush** (all subjects, 18 questions).
+- **3 skills**: Shield (blocks one hit), Time Freeze (+10 s), 50/50 (removes two wrong options) — limited uses plus cooldowns.
+- **Rage phase** below 50% boss HP: red aura, faster clock.
+- **Bilingual UI — Thai by default**, English toggle in the top-left. Question content stays in the language it is taught in (Thai for TPAT3 subjects, English for the English set) and is labelled `TH` / `EN` on the card.
+- Combo multiplier, crits, screen shake, canvas particles, synthesised Web Audio SFX, local stats and mastery bars.
+
+## Controls
+
+| Action | Key |
+|---|---|
+| Answer | `1` `2` `3` `4` |
+| Shield / Freeze / 50-50 | `Q` `W` `E` |
+| Next question | `Enter` or `Space` |
+| Quit battle | `Esc` |
+
+Everything also works by touch/mouse.
+
+## Notes
+
+- Questions are **written for this project as "แนวข้อสอบ"** — they follow the exam blueprint but are not reproduced past papers.
+- One HTML file, no build, no external requests; it runs from `file://` and offline.
+- Stats and language preference live in `localStorage` on the device.
+
+## Run locally
+
+```bash
+open index.html
+# or
+python3 -m http.server 8080
+```
+
+See [AGENTS.md](AGENTS.md) for the engineering handoff.
