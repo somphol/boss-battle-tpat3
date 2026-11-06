@@ -13,6 +13,7 @@ Answer correctly to damage the boss, chain combos, spend three tactical skills, 
 - **3 skills**: Shield (blocks one hit), Time Freeze (+10 s), 50/50 (removes two wrong options) — limited uses plus cooldowns.
 - **Rage phase** below 50% boss HP: red aura, faster clock.
 - **Bilingual UI — Thai by default**, English toggle in the top-left. Question content stays in the language it is taught in (Thai for TPAT3 subjects, English for the English set) and is labelled `TH` / `EN` on the card.
+- **Diagnostic report** at the end: rank badge, accuracy bars by topic, strongest/weakest analysis, and a tap-to-reveal review of every missed question.
 - Combo multiplier, crits, screen shake, canvas particles, synthesised Web Audio SFX and a procedural synthwave BGM loop (toggleable in Settings).
 - **Boss forms change with difficulty** (core / mixed / hard) and again in the rage phase.
 

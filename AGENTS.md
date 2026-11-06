@@ -79,6 +79,10 @@ Question schema (must stay stable):
 - **Audio is fully synthesised.** `SFX` handles one-shots; `MUS` is a 100 BPM synthwave loop scheduled
   with a 25 ms lookahead (kick, snare, hat, bass, pad, arp). It starts only after a user gesture and
   obeys the separate `store.music` toggle plus the global mute. Keep node counts per step low.
+- **End screen is a diagnostic report.** `S.history` records every answered question (`{q, ok}`) and
+  is reset in `startBattle()`. `paintReport()` groups by `RTOPICS` (per-subject keyword rules, using
+  `q.q + q.w` only) and renders accuracy bars + strongest/weakest. Review cards are interactive
+  (tap to reveal). Do not cap the review list; it is scrollable.
 - **Boss forms:** each `SUB` has `forms:{mix,core,hard,rage}`; `formFor()` picks by `TIER` and
   `checkRage()` swaps to the rage form. Add forms when adding a subject.
 - **Navigation is tab-based**: bottom bar (Play / Stats / Settings), subject carousel on Play, boss dossier sheet with tier chips, and a one-tap 🏠 in battle. Do not reintroduce the old chip row or a separate back button on Stats — the tab bar is the home affordance.

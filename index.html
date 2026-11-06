@@ -330,6 +330,34 @@ button{font-family:inherit}
 .rv .rq{font-weight:700;margin-bottom:4px}
 .rv .ra{color:var(--lime);font-weight:700}
 .rv .rw{color:var(--dim);margin-top:3px}
+
+/* diagnostic report */
+.rank{display:none;align-items:center;gap:8px;justify-self:center;font:800 11px/1 ui-monospace,monospace;letter-spacing:.18em;padding:7px 14px;border-radius:999px;border:2px solid var(--amb);color:var(--amb);box-shadow:0 0 18px rgba(255,182,43,.3)}
+.rank.on{display:inline-flex}
+.rank b{font-family:var(--disp);font-size:20px;color:#fff;letter-spacing:.04em;text-shadow:0 0 14px currentColor}
+.rank.rS{border-color:var(--mag);color:var(--mag);box-shadow:0 0 24px rgba(255,43,214,.5)}
+.rank.rA{border-color:var(--lime);color:var(--lime);box-shadow:0 0 20px rgba(198,255,61,.4)}
+.rank.rB{border-color:var(--cya);color:var(--cya)}
+.rank.rC{border-color:var(--amb);color:var(--amb)}
+.rank.rD{border-color:var(--red);color:var(--red)}
+.report{display:grid;gap:8px;width:100%}
+.report h3{font-size:14.5px;color:var(--cya);letter-spacing:.02em;margin-bottom:2px}
+.barRow{display:grid;gap:4px}
+.barTop{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--text)}
+.barTop b{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--dim);white-space:nowrap}
+.barTrack{height:8px;border-radius:99px;background:#24104a;overflow:hidden;border:1px solid #3b2f6b}
+.barTrack i{display:block;height:100%;width:0;border-radius:99px;transition:width .7s cubic-bezier(.2,.9,.2,1)}
+.analysis{display:grid;gap:4px;font-size:13px;line-height:1.5;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.04);border-left:3px solid var(--cya)}
+.analysis .good{color:var(--lime);font-weight:700}
+.analysis .bad{color:var(--red);font-weight:700}
+.reviewHint{font-size:11.5px;color:var(--dim);margin:-2px 0 2px}
+.rvc{padding:10px 12px;border-radius:0 10px 10px 0;border-left:4px solid var(--red);background:rgba(255,255,255,.045);font-size:13.5px;line-height:1.5;cursor:pointer}
+.rvc .rq{font-weight:700;display:flex;gap:8px;justify-content:space-between;align-items:flex-start}
+.rvc .tog{flex:none;font:800 10px/1.4 ui-monospace,monospace;color:var(--dim);letter-spacing:.06em}
+.rvc .rbody{display:none;margin-top:6px}
+.rvc.open .rbody{display:block}
+.rvc .ra{color:var(--lime);font-weight:700}
+.rvc .rw{color:var(--dim);margin-top:3px}
 .endBtns{display:grid;gap:9px}
 .bigBtn{
   cursor:pointer;color:#fff;font-weight:800;font-size:15.5px;padding:13px;border-radius:13px;
@@ -679,7 +707,9 @@ body.tabbarOn{padding-bottom:100px}
     <div class="endCard">
       <h2 class="endTitle" id="endTitle">VICTORY</h2>
       <p class="endSub" id="endSub"></p>
+      <div class="rank" id="rank"></div>
       <div class="stats" id="endStats"></div>
+      <div class="report" id="report"></div>
       <div class="review" id="review"></div>
       <div class="endBtns">
         <button class="bigBtn" id="againBtn" type="button">🔁 สู้ใหม่อีกครั้ง</button>
@@ -1069,6 +1099,14 @@ const M = {
     statCombo:'คอมโบสูงสุด',
     statDmg:'ดาเมจรวม',
     reviewHead:(n)=>'ทบทวนจุดที่พลาด (' + n + ' ข้อ)',
+    reportTitle:'รายงานวิเคราะห์สมรรถนะ',
+    rankLabel:'RANK',
+    strongest:'จุดแข็ง',
+    weakest:'จุดอ่อน',
+    noWeak:'ยังไม่มีจุดอ่อนชัดเจน — ลุยต่อ!',
+    reviewHint:'แตะการ์ดเพื่อดูเฉลย',
+    yourAnswer:'คุณตอบ',
+    timeoutAns:'หมดเวลา',
     answerLabel:(a)=>'เฉลย: ' + a,
     more:(n)=>'และอีก ' + n + ' ข้อ — กด “ซ้อมจุดอ่อน” เพื่อเล่นเฉพาะข้อที่พลาด',
     perfect:'PERFECT RUN — ไม่พลาดสักข้อ!',
@@ -1167,6 +1205,14 @@ const M = {
     statCombo:'Max combo',
     statDmg:'Total damage',
     reviewHead:(n)=>'Review your misses (' + n + ')',
+    reportTitle:'Performance report',
+    rankLabel:'RANK',
+    strongest:'Strongest',
+    weakest:'Weakest',
+    noWeak:'No clear weak spot — keep going!',
+    reviewHint:'Tap a card to reveal the answer',
+    yourAnswer:'Your answer',
+    timeoutAns:'Time out',
     answerLabel:(a)=>'Answer: ' + a,
     more:(n)=>'and ' + n + ' more — hit “Weak points” to replay only what you missed',
     perfect:'PERFECT RUN — no mistakes!',
@@ -1800,7 +1846,7 @@ const el = {
   skShield:$('#skShield'), skFreeze:$('#skFreeze'), skHalf:$('#skHalf'),
   ctShield:$('#ctShield'), ctFreeze:$('#ctFreeze'), ctHalf:$('#ctHalf'),
   cdShield:$('#cdShield'), cdFreeze:$('#cdFreeze'), cdHalf:$('#cdHalf'),
-  endTitle:$('#endTitle'), endSub:$('#endSub'), endStats:$('#endStats'),
+  endTitle:$('#endTitle'), endSub:$('#endSub'), endStats:$('#endStats'), rank:$('#rank'), report:$('#report'),
   review:$('#review'), againBtn:$('#againBtn'), weakBtn:$('#weakBtn'), menuBtn:$('#menuBtn'),
   statsTop:$('#statsTop'), statsBody:$('#statsBody'),
   ov:$('#ov'), ovPick:$('#ovPick'), ovTitle:$('#ovTitle'), ovSub:$('#ovSub'), ovStats:$('#ovStats'),
@@ -1906,7 +1952,7 @@ const S = {
   key:'physics', sub:SUB.physics, rush:false,
   questions:[], qi:0, cur:null,
   maxHp:900, hp:900, plHp:5, plMax:5,
-  combo:0, maxCombo:0, score:0, correct:0, wrong:0, dmg:0,
+  combo:0, maxCombo:0, score:0, correct:0, wrong:0, dmg:0, history:[],
   uses:{shield:2,freeze:2,half:3}, cd:{shield:0,freeze:0,half:0},
   shieldOn:false, rage:false, answered:false, running:false, over:false,
   timeMax:32, time:32, last:0, raf:0, nextT:0, uiLast:0,
@@ -2110,7 +2156,7 @@ function startBattle(key, opts){
   S.combo = 0; S.maxCombo = 0; S.score = 0; S.correct = 0; S.wrong = 0; S.dmg = 0;
   S.shieldOn = false; S.rage = false; S.answered = false; S.over = false; S.done = false;
   S.weak = !!opts.weak;
-  S.timeMax = 32; S.time = 32; S.qStart = performance.now(); S.log = []; S.startTime = performance.now();
+  S.timeMax = 32; S.time = 32; S.qStart = performance.now(); S.log = []; S.history = []; S.startTime = performance.now();
 
   el.arena.classList.remove('rage');
   el.arena.style.setProperty('--c', S.sub.c);
@@ -2223,6 +2269,7 @@ function answer(i){
   cancelAnimationFrame(S.raf);
   const q = S.cur;
   const ok = (i === q.a);
+  S.history.push({ q: q, ok: ok });
   lockOptions(i);
   const picked = ok ? q.o[q.a] : (i >= 0 ? q.o[i] : 'timeout');
 
@@ -2350,6 +2397,7 @@ function onTimeout(){
   S.running = false;
   cancelAnimationFrame(S.raf);
   lockOptions(-1);
+  S.history.push({ q: S.cur, ok: false });
   onWrong(S.cur, 'timeout', 'timeout');
   el.exp.classList.add('on');
   S.fb = { ok: false, timeout: true, ans: S.cur.o[S.cur.a] };
@@ -2491,6 +2539,120 @@ function finish(win){
   setTimeout(function(){ setView('end'); }, win ? 700 : 500);
 }
 
+const RTOPICS = {
+  physics: [
+    { key:'modern', th:'ฟิสิกส์แผนใหม่', en:'Modern physics', kws:['นิวเคลียร์','กัมมันตรังสี','ครึ่งชีวิต','ฟิชชัน'] },
+    { key:'fluids', th:'ของไหล', en:'Fluids', kws:['ความดัน','ลอยตัว','ของไหล','แบร์นูลี','ความลึก'] },
+    { key:'heat', th:'ความร้อน', en:'Heat', kws:['ความร้อน','อุณหภูมิ','ความจุความร้อน','ความร้อนแฝง','แก๊ส'] },
+    { key:'waves', th:'คลื่นและแสง', en:'Waves & light', kws:['คลื่น','เสียง','แสง','เลนส์','กระจก','หักเห','ความถี่','สะท้อน'] },
+    { key:'electricity', th:'ไฟฟ้า', en:'Electricity', kws:['ไฟฟ้า','กระแส','ความต้านทาน','วงจร','ประจุ','โวลต์','โอห์ม','หม้อแปลง'] },
+    { key:'mechanics', th:'กลศาสตร์', en:'Mechanics', kws:['ความเร็ว','ความเร่ง','แรง','มวล','โมเมนตัม','งาน','พลังงาน','การเคลื่อนที่','ตก','เสียดทาน','สปริง'] }
+  ],
+  engineering: [
+    { key:'electrical', th:'ไฟฟ้า/อิเล็กทรอนิกส์', en:'Electrical', kws:['ไฟฟ้า','วงจร','ฟิวส์','หม้อแปลง','ไดโอด','รีเลย์','PLC','แบตเตอรี่'] },
+    { key:'machines', th:'กลไกและเครื่องจักร', en:'Machines', kws:['เฟือง','รอก','คาน','สกรู','โมเมนต์','แรงบิด','ตลับลูกปืน','สายพาน','คลัตช์','มอเตอร์'] },
+    { key:'materials', th:'วัสดุและความแข็งแรง', en:'Materials', kws:['วัสดุ','เหล็ก','คอนกรีต','อะลูมิเนียม','ความเค้น','ความเครียด','มอดุลัส','สนิม','เปราะ'] },
+    { key:'fluids', th:'ของไหลและไฮดรอลิก', en:'Fluids', kws:['ของไหล','ไฮดรอลิก','ปั๊ม','วาล์ว','พาสคาล','ความดัน'] },
+    { key:'thermo', th:'อุณหพลศาสตร์', en:'Thermodynamics', kws:['ความร้อน','ประสิทธิภาพ','คาร์โนต์','พลังงาน'] },
+    { key:'structures', th:'โครงสร้าง', en:'Structures', kws:['สะพาน','เขื่อน','โครงถัก','โครงสร้าง'] }
+  ],
+  logic: [
+    { key:'series', th:'อนุกรมและลำดับ', en:'Series', kws:['อนุกรม','ลำดับ','ตัวอักษร','ถัดไป'] },
+    { key:'truth', th:'ตรรกศาสตร์และความจริง', en:'Logic & truth', kws:['จริง','เท็จ','ประพจน์','สมมูล','นิเสธ','สัจนิรันดร์'] },
+    { key:'syllogism', th:'การให้เหตุผล', en:'Reasoning', kws:['ทุก','บาง','ไม่มี','สรุป','เหตุผล','ตรรกะ'] },
+    { key:'puzzle', th:'การจัดเรียงและเงื่อนไข', en:'Puzzles', kws:['เรียง','สูงกว่า','อายุ','นั่ง','เงื่อนไข','แก่กว่า'] }
+  ],
+  math: [
+    { key:'probability', th:'ความน่าจะเป็น', en:'Probability', kws:['ความน่าจะเป็น','ทอย','โยน','หยิบ','ไพ่'] },
+    { key:'stats', th:'สถิติ', en:'Statistics', kws:['ค่าเฉลี่ย','มัธยฐาน','ฐานนิยม','พิสัย','ข้อมูล'] },
+    { key:'geometry', th:'เรขาคณิต', en:'Geometry', kws:['สามเหลี่ยม','วงกลม','พื้นที่','ปริมาตร','เส้นรอบ','มุม'] },
+    { key:'number', th:'จำนวนและอัตราส่วน', en:'Numbers', kws:['เศษส่วน','ค.ร.น.','ห.ร.ม.','อัตราส่วน','log','จำนวนเฉพาะ'] },
+    { key:'algebra', th:'พีชคณิต', en:'Algebra', kws:['สมการ','x','แยกตัวประกอบ','กำลังสอง','ร้อยละ'] }
+  ],
+  english: [
+    { key:'vocab', th:'คำศัพท์', en:'Vocabulary', kws:['word','meaning','synonym','antonym','closest','phrasal'] },
+    { key:'reading', th:'การอ่าน', en:'Reading', kws:['passage','inferred','main idea','according'] },
+    { key:'writing', th:'การเขียน', en:'Writing', kws:['collocation','sentence','write'] },
+    { key:'grammar', th:'ไวยากรณ์', en:'Grammar', kws:['___','verb','tense','preposition','relative','conditional','passive','neither','subjunctive'] }
+  ]
+};
+
+function reportTopic(q){
+  const rules = RTOPICS[q.s] || [];
+  const text = (q.q + ' ' + q.w).toLowerCase();
+  for (let i = 0; i < rules.length; i++) {
+    const r = rules[i];
+    for (let j = 0; j < r.kws.length; j++) {
+      if (text.indexOf(r.kws[j].toLowerCase()) !== -1) return r;
+    }
+  }
+  return { key:'other', th:'อื่น ๆ', en:'Other' };
+}
+
+function paintReport(){
+  el.report.innerHTML = '';
+  const hist = S.history || [];
+  if (!hist.length) return;
+
+  const agg = {};
+  hist.forEach(function(h){
+    const r = reportTopic(h.q);
+    const key = h.q.s + ':' + r.key;
+    if (!agg[key]) {
+      let label = (LANG === 'en') ? r.en : r.th;
+      if (S.rush) label = ((LANG === 'en') ? SUB[h.q.s].en : SUB[h.q.s].th) + ' · ' + label;
+      agg[key] = { c:0, n:0, label: label };
+    }
+    agg[key].n++;
+    if (h.ok) agg[key].c++;
+  });
+
+  const rows = Object.keys(agg).map(function(k){
+    const a = agg[k];
+    return { label: a.label, c: a.c, n: a.n, pct: Math.round(a.c / a.n * 100) };
+  }).sort(function(a, b){ return a.pct - b.pct; });
+
+  const head = document.createElement('h3');
+  head.textContent = t('reportTitle');
+  el.report.appendChild(head);
+
+  rows.forEach(function(row){
+    const color = row.pct >= 75 ? 'var(--lime)' : row.pct >= 50 ? 'var(--amb)' : 'var(--red)';
+    const wrap = document.createElement('div'); wrap.className = 'barRow';
+    const top = document.createElement('div'); top.className = 'barTop';
+    const name = document.createElement('span'); name.textContent = row.label;
+    const val = document.createElement('b'); val.textContent = row.pct + '% · ' + row.c + '/' + row.n;
+    top.appendChild(name); top.appendChild(val);
+    const track = document.createElement('div'); track.className = 'barTrack';
+    const fill = document.createElement('i');
+    fill.style.background = color;
+    fill.style.boxShadow = '0 0 8px ' + color;
+    track.appendChild(fill);
+    wrap.appendChild(top); wrap.appendChild(track);
+    el.report.appendChild(wrap);
+    setTimeout(function(){ fill.style.width = row.pct + '%'; }, 60);
+  });
+
+  const eligible = rows.filter(function(r){ return r.n >= 2; });
+  if (eligible.length >= 1) {
+    const weak = eligible[0], strong = eligible[eligible.length - 1];
+    const box = document.createElement('div'); box.className = 'analysis';
+    const l1 = document.createElement('div');
+    l1.innerHTML = '<span class="good">' + t('strongest') + '</span> ' + strong.label + ' · ' + strong.c + '/' + strong.n + ' (' + strong.pct + '%)';
+    box.appendChild(l1);
+    if (eligible.length >= 2) {
+      const l2 = document.createElement('div');
+      if (weak.pct >= 75) {
+        l2.innerHTML = '<span class="good">' + t('noWeak') + '</span>';
+      } else {
+        l2.innerHTML = '<span class="bad">' + t('weakest') + '</span> ' + weak.label + ' · ' + weak.c + '/' + weak.n + ' (' + weak.pct + '%)';
+      }
+      box.appendChild(l2);
+    }
+    el.report.appendChild(box);
+  }
+}
+
 function paintEnd(){
   if (!S.result) return;
   const win = S.result.win;
@@ -2505,6 +2667,10 @@ function paintEnd(){
     : (S.plHp <= 0
         ? t('loseHp', Math.ceil(S.hp))
         : (unanswered > 0 ? t('loseAmmo', Math.ceil(S.hp)) : t('loseClose')));
+
+  const rank = (acc >= 90 && S.maxCombo >= 5) ? 'S' : acc >= 80 ? 'A' : acc >= 65 ? 'B' : acc >= 50 ? 'C' : 'D';
+  el.rank.className = 'rank on r' + rank;
+  el.rank.innerHTML = '<b>' + rank + '</b> ' + t('rankLabel');
 
   const st = [
     [t('statScore'), S.score, 'var(--amb)'],
@@ -2523,26 +2689,50 @@ function paintEnd(){
     el.endStats.appendChild(d);
   });
 
+  paintReport();
+
   el.review.innerHTML = '';
   if (S.log.length) {
     const h = document.createElement('h3');
     h.textContent = t('reviewHead', S.log.length);
     el.review.appendChild(h);
-    S.log.slice(0, 8).forEach(function(item){
+    const hint = document.createElement('div');
+    hint.className = 'reviewHint';
+    hint.textContent = t('reviewHint');
+    el.review.appendChild(hint);
+
+    S.log.forEach(function(item){
       const d = document.createElement('div');
-      d.className = 'rv';
-      const rq = document.createElement('div'); rq.className = 'rq'; rq.textContent = item.q.q;
-      const ra = document.createElement('div'); ra.className = 'ra'; ra.textContent = t('answerLabel', item.q.o[item.q.a]);
-      const rw = document.createElement('div'); rw.className = 'rw'; rw.textContent = item.q.w;
-      d.appendChild(rq); d.appendChild(ra); d.appendChild(rw);
+      d.className = 'rvc';
+      const rq = document.createElement('div');
+      rq.className = 'rq';
+      const qs = document.createElement('span');
+      qs.textContent = item.q.q;
+      const tog = document.createElement('span');
+      tog.className = 'tog';
+      tog.textContent = '＋';
+      rq.appendChild(qs); rq.appendChild(tog);
+
+      const body = document.createElement('div');
+      body.className = 'rbody';
+      const yours = document.createElement('div');
+      yours.className = 'rw';
+      yours.textContent = t('yourAnswer') + ': ' + (item.picked === 'timeout' ? t('timeoutAns') : item.picked);
+      const ra = document.createElement('div');
+      ra.className = 'ra';
+      ra.textContent = t('answerLabel', item.q.o[item.q.a]);
+      const rw = document.createElement('div');
+      rw.className = 'rw';
+      rw.textContent = item.q.w;
+      body.appendChild(yours); body.appendChild(ra); body.appendChild(rw);
+
+      d.appendChild(rq); d.appendChild(body);
+      d.addEventListener('click', function(){
+        const open = d.classList.toggle('open');
+        tog.textContent = open ? '−' : '＋';
+      });
       el.review.appendChild(d);
     });
-    if (S.log.length > 8) {
-      const more = document.createElement('div');
-      more.className = 'rw';
-      more.textContent = t('more', S.log.length - 8);
-      el.review.appendChild(more);
-    }
   } else if (win) {
     const d = document.createElement('div');
     d.className = 'rv';
